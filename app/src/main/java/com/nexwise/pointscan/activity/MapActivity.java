@@ -482,6 +482,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 //                    }
 //                });
                 isImagesSelect = true;
+
             }
         });
         pointDetailPop.findViewById(R.id.fileSelect).setOnClickListener(new View.OnClickListener() {
