@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">PointScan</string>
+    <string name="error_code_9999">系统错误</string>
+    <string name="error_code_1001">参数错误</string>
+    <string name="error_code_4004">用户未登录</string>
+    <string name="net_err">网络错误</string>
+    <string name="code_0000">操作成功</string>
+    <string name="check_wifi_tips">检查WiFi网络</string>
+    <string name="user_not_exist">用户不存在</string>
+    <string name="user_psw_error">用户名或密码错误</string>
+    <string name="verify_code_error">验证码错误</string>
+    <string name="exit_tv">再按一次退出程序</string>
+    <string name="login_tv">登录</string>
+    <string name="user_name">用户名</string>
+    <string name="password_tv">密码</string>
+    <string name="select_sure">确定</string>
+    <string name="cancel">取消</string>
+
+    <string name="infowindow_navigation">导航</string>
+    <string name="infowindow_call">电话</string>
+    <string name="agent_addr">地址：%1$s</string>
+
+</resources>

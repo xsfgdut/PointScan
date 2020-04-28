@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MapActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.amap.api.maps.TextureMapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.amap.api.maps.TextureMapView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/startBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:text="新增堪点"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                >
+
+            </Button>
+
+            <Button
+                android:id="@+id/showBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:text="查询堪点"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                >
+            </Button>
+            <Button
+                android:id="@+id/modifyPsw"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:text="密码修改"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                >
+            </Button>
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>
