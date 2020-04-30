@@ -3,7 +3,6 @@ package com.nexwise.pointscan.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -28,9 +27,11 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -62,8 +63,8 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.nexwise.pointscan.R;
+import com.nexwise.pointscan.UserManageActivity;
 import com.nexwise.pointscan.adapter.DeviceListAdapter;
-import com.nexwise.pointscan.adapter.HorizontalListAdapter;
 import com.nexwise.pointscan.adapter.ImagesListAdapter;
 import com.nexwise.pointscan.adapter.InfoWinAdapter;
 import com.nexwise.pointscan.base.BaseAct;
@@ -73,16 +74,17 @@ import com.nexwise.pointscan.bean.Device;
 import com.nexwise.pointscan.bean.Image;
 import com.nexwise.pointscan.bean.JsonBean;
 import com.nexwise.pointscan.bean.Point;
+import com.nexwise.pointscan.bean.ProvinceCodeModel;
 import com.nexwise.pointscan.cloudNet.NetRequest;
-import com.nexwise.pointscan.cloudNet.NetUtil;
 import com.nexwise.pointscan.constant.CloudConstant;
 import com.nexwise.pointscan.utils.FileChooseUtil;
+import com.nexwise.pointscan.utils.FileHelper;
 import com.nexwise.pointscan.utils.GCJ2WGS;
 import com.nexwise.pointscan.utils.GetJsonDataUtil;
 import com.nexwise.pointscan.utils.HorizontalItemDecoration;
 import com.nexwise.pointscan.view.AddDeviceDialog;
 import com.nexwise.pointscan.view.AddDialog;
-import com.nexwise.pointscan.view.HorizontalScrollListView;
+import com.nexwise.pointscan.view.IPEditText;
 import com.nexwise.pointscan.view.MarkerPop;
 import com.nexwise.pointscan.view.ModifyPswDialog;
 import com.nexwise.pointscan.view.PointDetailPop;
@@ -136,6 +138,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private InfoWinAdapter adapter;
 
     private MarkerPop markerPop;
+    private String ipAddress;
+    private String[] ipSource;
 
     private double latitude;
     private double longitude;
@@ -147,13 +151,17 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private Button startBtn;
     private Button showBtn;
     private Button modifyPsw;
+    private Button userManage;
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private Thread thread;
+    private Thread threadCode;
     private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
+    private static final int MSG_LOAD_CODE_DATA = 0x0004;
+    private ArrayList<ProvinceCodeModel> provinceCodeModels = new ArrayList<>();
 
     private ShowTimeDialog showTimeDialog;
     private static boolean isLoaded = false;
@@ -167,11 +175,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private String oldPsw;
     private String newPsw;
     private String verifyCode;
-    private int id;
+    private String id;
     private String province;
     private String city;
     private String district;
+    private String provinceName;
+    private String cityName;
+    private String districtName;
+    private String addressText;
     private String name;
+    private String inputName;
     private int state;
     private String person;
     private String timeStr;
@@ -184,9 +197,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private Button fileSelect;
     private RecyclerView deviceList;
     private RecyclerView fileList;
-    private HorizontalScrollListView fileListHorizontal;
     private ImagesListAdapter imagesListAdapter;
-    private HorizontalListAdapter horizontalListAdapter;
     private DeviceListAdapter deviceListAdapter;
     private double lng;
     private double lat;
@@ -204,9 +215,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private static final int REQUEST_PERMISSION_CODE = 267;
     private static final int TAKE_PHOTO = 189;
     private static final int CHOOSE_PHOTO = 385;
-    private static final String FILE_PROVIDER_AUTHORITY = "cn.fonxnickel.officialcamerademo.fileprovider";
+    private static final int CHOOSE_FILE = 285;
+    private static final int CITY_SELECT = 286;
+    private static final String FILE_PROVIDER_AUTHORITY = "com.nexwise.pointscan.fileprovider";
     private Uri mImageUri, mImageUriFromFile;
     private File imageFile;
+
+    private TextView addressSelect;
+    private ImageView clearImageView;
+    private EditText addressInput;
+    private ImageView searchImageView;
 
     private ReceiveBroadCast receiveBroadCast;
     private LocationListener locationListener = new LocationListener() {
@@ -269,10 +287,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     };
 
     private void initData() {
-       // mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        province = "120000";
-        city = "120000";
-        district = "120104";
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        mHandler.sendEmptyMessage(MSG_LOAD_CODE_DATA);
     }
 
     /**
@@ -289,7 +305,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     public boolean onMarkerClick(Marker marker) {
         Log.d("xsf", "mark click");
         for (int i = 0; i < points.size(); i++) {
-            if (Integer.parseInt(marker.getSnippet()) == points.get(i).getId()) {
+            if ((marker.getSnippet()).equals(points.get(i).getId())) {
                 point_l = points.get(i);
                 markerClickPop(point_l);
             }
@@ -303,15 +319,18 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         clickLatLng = latLng;
         addDialog = new AddDialog(this);
         addDialog.setCancelable(false);
-       // LatLonPoint latLonPoint = new LatLonPoint(clickLatLng.latitude, clickLatLng.longitude);
-      //  getAddress(latLonPoint);
+        // LatLonPoint latLonPoint = new LatLonPoint(clickLatLng.latitude, clickLatLng.longitude);
+        //  getAddress(latLonPoint);
         lng = latLng.longitude;
         lat = latLng.latitude;
         addDialog.setlnglatValue(lng, lat);
         addDialog.findViewById(R.id.addr_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  showPickerView();
+                Intent intent = new Intent();
+                intent.setClass(MapActivity.this, DialogActivity.class);
+                startActivityForResult(intent, CITY_SELECT);
+                //              showPickerView();
             }
         });
 
@@ -324,12 +343,13 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     showToat("检查非空项值");
                     return;
                 }
-                id = Integer.parseInt(((EditText) addDialog.findViewById(R.id.point_number)).getText().toString());
+                id = ((EditText) addDialog.findViewById(R.id.point_number)).getText().toString();
                 name = ((EditText) addDialog.findViewById(R.id.point_name)).getText().toString();
                 lng = new Double(((EditText) addDialog.findViewById(R.id.lng_value)).getText().toString());
                 lat = new Double(((EditText) addDialog.findViewById(R.id.lat_value)).getText().toString());
                 state = addDialog.getState();
                 doAddPointRequest();
+                showProgressDialog("", "正在请求服务器", true);
                 addDialog.dismiss();
                 isPointAdd = false;
             }
@@ -356,6 +376,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void onClick(View view) {
                 doQueryPointDetailInfoRequest(point);
+                showProgressDialog("", "正在请求服务器", true);
                 pointDetailShow(point);
                 markerPop.dismiss();
 
@@ -376,7 +397,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         LinearLayoutManager ms = new LinearLayoutManager(this);
         ms.setOrientation(LinearLayoutManager.HORIZONTAL);
         fileList.setLayoutManager(ms);
-        fileList.addItemDecoration(new HorizontalItemDecoration(20,this));//10表示10dp
+        fileList.addItemDecoration(new HorizontalItemDecoration(5, this));//10表示10dp
 //        if (imagesListAdapter == null) {
 //            imagesListAdapter = new ImagesListAdapter(point_l.getImages());
 //            fileList.setAdapter(imagesListAdapter);
@@ -400,7 +421,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         LinearLayoutManager ms = new LinearLayoutManager(this);
         ms.setOrientation(LinearLayoutManager.HORIZONTAL);
         deviceList.setLayoutManager(ms);
-        deviceList.addItemDecoration(new HorizontalItemDecoration(20,this));//10表示10dp
+        deviceList.addItemDecoration(new HorizontalItemDecoration(20, this));//10表示10dp
 //        if (deviceListAdapter == null) {
 //            deviceListAdapter = new DeviceListAdapter(point_l.getDevices());
 //            deviceList.setAdapter(deviceListAdapter);
@@ -420,8 +441,32 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     }
 
+    private void setHeight() {
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        final WindowManager.LayoutParams params = pointDetailPop.getWindow().getAttributes();
+        params.width = width;
+        params.height = height;
+        pointDetailPop.getWindow().setAttributes(params);
+    }
+
     private void pointDetailShow(final Point point) {
+        if (images.size() > 0) {
+            images.clear();
+        }
+        if (imagesFile.size() > 0) {
+            imagesFile.clear();
+        }
+        if (cellsFile.size() > 0) {
+            cellsFile.clear();
+        }
+        getName(point.getProvince(), point.getCity(), point.getDistrict());
+        point.setAddress(provinceName + cityName + districtName);
         pointDetailPop = new PointDetailPop(MapActivity.this, point);
+
+        setHeight();
+
         pointDetailPop.setOnClickCommitListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -454,33 +499,37 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 detail.setCity(point.getCity());
                 detail.setDistrict(point.getDistrict());
                 detail.setDevices(devices);
+                for (int i = 0; i < images.size(); i++) {
+                    images.get(i).setUrl(FileHelper.getFileNameWithSuffix(images.get(i).getUrl()));
+                }
                 detail.setImages(images);
                 detail.setCells(cells);
                 Gson gson = new Gson();
                 detailJsonStr = gson.toJson(detail);
-                Log.d("xsf",detailJsonStr + "=detailJsonStr");
+                Log.d("xsf", detailJsonStr + "=detailJsonStr");
                 doUpdatePointRequest();
+                showProgressDialog("", "正在请求服务器", true);
                 pointDetailPop.dismiss();
             }
         });
         pointDetailPop.findViewById(R.id.picSelect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFileSelector();
-//                String[] items = {"拍照","从相册选择"};
-//                showItemDialog("图片选择", items, new ItemDialogLSN() {
-//                    @Override
-//                    public void onItemDialogClick(int which) {
-//                        switch (which) {
-//                            case 0:
-//                                takePhoto();
-//                                break;
-//                            case 1:
-//                                openAlbum();
-//                                break;
-//                        }
-//                    }
-//                });
+                //    openFileSelector();
+                String[] items = {"拍照", "从相册选择"};
+                showItemDialog("图片选择", items, new ItemDialogLSN() {
+                    @Override
+                    public void onItemDialogClick(int which) {
+                        switch (which) {
+                            case 0:
+                                takePhoto();
+                                break;
+                            case 1:
+                                openAlbum();
+                                break;
+                        }
+                    }
+                });
                 isImagesSelect = true;
 
             }
@@ -506,6 +555,22 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         });
         pointDetailPop.show();
     }
+
+    private void getIpString() {
+        ipSource = addDeviceDialog.getIpSource();
+        if (ipSource == null) {
+            showToat("IP错误");
+            return;
+        }
+        if (ipSource.length != 4) {
+            showToat("IP错误");
+            return;
+        }
+        ipAddress = ipSource[0] + "." + ipSource[1] + "." + ipSource[2] + "." + ipSource[3];
+
+        Log.d("xsf", ipAddress + "=ipAddress");
+    }
+
     private void showAddDeviceDialog() {
         addDeviceDialog = new AddDeviceDialog(MapActivity.this);
         addDeviceDialog.setOnClickCommitListener(new View.OnClickListener() {
@@ -513,12 +578,20 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void onClick(View view) {
                 EditText editText_id = addDeviceDialog.findViewById(R.id.device_number);
                 EditText editText_name = addDeviceDialog.findViewById(R.id.device_name);
-                EditText editText_ip = addDeviceDialog.findViewById(R.id.ip_value);
+                IPEditText editText_ip = addDeviceDialog.findViewById(R.id.ip_value);
                 EditText editText_description = addDeviceDialog.findViewById(R.id.antea_description);
+
+                getIpString();
+                if (TextUtils.isEmpty(ipAddress) || TextUtils.isEmpty(editText_id.getText().toString())
+                        || TextUtils.isEmpty(editText_name.getText().toString()) || addDeviceDialog.getAntenaType() == 0
+                        || addDeviceDialog.getNewType() == 0 || addDeviceDialog.getNetWorkType() == 0) {
+                    showToat("检查非空项值");
+                    return;
+                }
                 Device device = new Device();
                 device.setId(editText_id.getText().toString());
                 device.setDevType(editText_name.getText().toString());
-                device.setIp(editText_ip.getText().toString());
+                device.setIp(ipAddress);
                 device.setAntennaInfo(editText_description.getText().toString());
                 device.setAntennaType(addDeviceDialog.getAntenaType());
                 device.setInstallType(addDeviceDialog.getNewType());
@@ -541,12 +614,12 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private void openFileSelector() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         //intent.setType("image/*");//选择图片
-       // intent.setType("audio/*"); //选择音频
+        // intent.setType("audio/*"); //选择音频
         //intent.setType("video/*"); //选择视频 （mp4 3gp 是android支持的视频格式）
         //intent.setType("video/*;image/*");//同时选择视频和图片
         intent.setType("*/*");//无类型限制
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, CHOOSE_FILE);
     }
 
 
@@ -634,16 +707,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         markerOptions.draggable(false);//设置Marker可拖动
         switch (point.getState()) {
             case -1:
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.scan));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon1));
                 break;
             case 1:
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.aim));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon2));
                 break;
             case 2:
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.monitor));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon4));
                 break;
             case 3:
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.scan));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon3));
                 break;
         }
         markerOptions.title(point.getName());
@@ -681,6 +754,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showToat("请点击地图上任意点进行经纬度获取增加堪点");
                 isPointAdd = true;
             }
         });
@@ -689,18 +763,50 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void onClick(View view) {
                 doQueryPointListRequest();
-
-//                if (isLoaded) {
-//                    showPickerView();
-//                } else {
-//                    Toast.makeText(MapActivity.this, "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
-//                }
+                showProgressDialog("", "正在请求服务器", true);
             }
         });
         modifyPsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               showModifyPsw();
+                showModifyPsw();
+            }
+        });
+        addressSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearImageView.setVisibility(View.GONE);
+                if (isLoaded) {
+                    showPickerView();
+                } else {
+                    Toast.makeText(MapActivity.this, "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        clearImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addressSelect.setText("请选择查询地址");
+                clearImageView.setVisibility(View.GONE);
+                province = "";
+                city = "";
+                district = "";
+            }
+        });
+        searchImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputName = addressInput.getText().toString();
+                doQueryPointListRequest();
+                showProgressDialog("", "正在请求服务器", true);
+            }
+        });
+        userManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MapActivity.this, UserManageActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -710,14 +816,15 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         modifyPswDialog.setOnClickCommitListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                oldPsw = ((EditText)modifyPswDialog.findViewById(R.id.old_psw)).getText().toString();
-                newPsw = ((EditText)modifyPswDialog.findViewById(R.id.new_psw)).getText().toString();
-                verifyCode = ((EditText)modifyPswDialog.findViewById(R.id.verfy_code)).getText().toString();
+                oldPsw = ((EditText) modifyPswDialog.findViewById(R.id.old_psw)).getText().toString();
+                newPsw = ((EditText) modifyPswDialog.findViewById(R.id.new_psw)).getText().toString();
+                verifyCode = ((EditText) modifyPswDialog.findViewById(R.id.verfy_code)).getText().toString();
                 if (TextUtils.isEmpty(oldPsw) || TextUtils.isEmpty(newPsw)) {
                     showToat("新旧密码为空");
                     return;
                 }
                 doModifyPswRequest();
+                showProgressDialog("", "正在请求服务器", true);
                 modifyPswDialog.dismiss();
             }
         });
@@ -733,7 +840,12 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private void initview() {
         startBtn = findViewById(R.id.startBtn);
         showBtn = findViewById(R.id.showBtn);
+        addressSelect = findViewById(R.id.address_select);
+        addressInput = findViewById(R.id.address_input);
+        clearImageView = findViewById(R.id.clear);
+        searchImageView = findViewById(R.id.search);
         modifyPsw = findViewById(R.id.modifyPsw);
+        userManage = findViewById(R.id.user_manage);
         if (aMap == null) {
             aMap = mapView.getMap();
         }
@@ -941,6 +1053,20 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         thread.start();
                     }
                     break;
+                case MSG_LOAD_CODE_DATA:
+                    if (threadCode == null) {//如果已创建就不再重新创建子线程了
+
+                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
+                        threadCode = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 子线程中解析省市区数据
+                                initJsonCodeData();
+                            }
+                        });
+                        threadCode.start();
+                    }
+                    break;
 
                 case MSG_LOAD_SUCCESS:
                     Toast.makeText(MapActivity.this, "Parse Succeed", Toast.LENGTH_SHORT).show();
@@ -954,6 +1080,34 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         }
     };
 
+    private void initJsonCodeData() {//解析带code数据
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = new GetJsonDataUtil().getJson(this, "country.json");//获取assets目录下的json文件数据
+
+        provinceCodeModels = parseCodeData(JsonData);//用Gson 转成实体
+        Log.d("xsf", "init json code");
+    }
+
+    public ArrayList<ProvinceCodeModel> parseCodeData(String result) {//Gson 解析
+        ArrayList<ProvinceCodeModel> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                ProvinceCodeModel provinceCodeModel = gson.fromJson(data.getString(i), ProvinceCodeModel.class);
+                detail.add(provinceCodeModel);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
+        return detail;
+    }
+
     private void initJsonData() {//解析数据
 
         /**
@@ -961,7 +1115,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
          * 关键逻辑在于循环体
          *
          * */
-        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+        String JsonData = new GetJsonDataUtil().getJson(this, "country2020.json");//获取assets目录下的json文件数据
 
         ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
 
@@ -1044,10 +1198,13 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         options3Items.get(options1).get(options2).get(options3) : "";
 
                 String tx = opt1tx + opt2tx + opt3tx;
-                province = opt1tx;
-                city = opt2tx;
-                district = opt3tx;
-                addDialog.setAddress(tx);
+                addressText = tx;
+                getCode(opt1tx, opt2tx, opt3tx);
+//                province = opt1tx;
+//                city = opt2tx;
+//                district = opt3tx;
+                addressSelect.setText(tx);
+                clearImageView.setVisibility(View.VISIBLE);
                 Toast.makeText(MapActivity.this, tx, Toast.LENGTH_SHORT).show();
             }
         })
@@ -1055,7 +1212,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 .setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(14)
+                .setContentTextSize(16)
                 .build();
 
         /*pvOptions.setPicker(options1Items);//一级选择器
@@ -1064,42 +1221,50 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         pvOptions.show();
     }
 
-    private void uploadMore() {
-        //TODO 上传
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                Map<String, Object> map = new HashMap<>();
-                map.put("params", "value");
-                List<Image> images = new ArrayList<>();
-
-                File[] files = new File[images.size()];
-                for (int i = 0; i < images.size(); i++) {
-                    files[i] = new File(images.get(i).getUrl());
-                    map.put("file" + i, files[i]);
-                }
-                NetUtil.uploadMoreFile(map).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        Gson gson = new Gson();
-                        Detail detail = gson.fromJson(response.body().string(), Detail.class);
-                        if (String.valueOf(detail.getId()).equals("0")) {
-                            Log.d("TAG", "onResponse: " + "成功");
-                        } else {
-                            Log.d("TAG", "onResponse: " + detail.getId());
-                        }
-
-                    }
-                });
+    private void getCode(String provinceName, String cityName, String areaName) {
+        for (int i = 0; i < provinceCodeModels.size(); i++) {
+            if (provinceName.equals(provinceCodeModels.get(i).getName())) {
+                province = provinceCodeModels.get(i).getCode();
             }
-        }.start();
+            for (int j = 0; j < provinceCodeModels.get(i).getCity().size(); j++) {
+                if (cityName.equals(provinceCodeModels.get(i).getCity().get(j).getName())) {
+                    city = provinceCodeModels.get(i).getCity().get(j).getCode();
+                }
+                for (int k = 0; k < provinceCodeModels.get(i).getCity().get(j).getArea().size(); k++) {
+                    if (areaName.equals(provinceCodeModels.get(i).getCity().get(j).getArea().get(k).getName())) {
+                        district = provinceCodeModels.get(i).getCity().get(j).getArea().get(k).getCode();
+                    }
+                }
+            }
+
+        }
+        Log.d("xsf", province + "=province");
+        Log.d("xsf", city + "=city");
+        Log.d("xsf", district + "=district");
     }
+
+    private void getName(String provinceCode, String cityCode, String areaCode) {
+        for (int i = 0; i < provinceCodeModels.size(); i++) {
+            if (provinceCode.equals(provinceCodeModels.get(i).getCode())) {
+                provinceName = provinceCodeModels.get(i).getName();
+            }
+            for (int j = 0; j < provinceCodeModels.get(i).getCity().size(); j++) {
+                if (cityCode.equals(provinceCodeModels.get(i).getCity().get(j).getCode())) {
+                    cityName = provinceCodeModels.get(i).getCity().get(j).getName();
+                }
+                for (int k = 0; k < provinceCodeModels.get(i).getCity().get(j).getArea().size(); k++) {
+                    if (areaCode.equals(provinceCodeModels.get(i).getCity().get(j).getArea().get(k).getCode())) {
+                        districtName = provinceCodeModels.get(i).getCity().get(j).getArea().get(k).getName();
+                    }
+                }
+            }
+
+        }
+        Log.d("xsf", provinceName + "=province");
+        Log.d("xsf", cityName + "=city");
+        Log.d("xsf", districtName + "=district");
+    }
+
 
     private void doAddPointRequest() {
         Map<String, String> map = new HashMap<>();
@@ -1117,6 +1282,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.ADD_POINT, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                disMissProgressDialog();
                 Log.d("xsf", "Add success====" + result);
                 JSONObject dataJson = new JSONObject(result);
                 JSONObject response = dataJson.getJSONObject("result");
@@ -1146,19 +1312,29 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     private void doQueryPointListRequest() {
         Map<String, String> map = new HashMap<>();
-        province = "120000";
-        city = "120000";
-        district = "120104";
-//        map.put(CloudConstant.ParameterKey.PROVINCE, province);
-//        map.put(CloudConstant.ParameterKey.CITY, city);
-//        map.put(CloudConstant.ParameterKey.DISTRICT, district);
-//        map.put(CloudConstant.ParameterKey.NAME, name);
+        if (!TextUtils.isEmpty(province) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(district)) {
+            map.put(CloudConstant.ParameterKey.PROVINCE, province);
+            map.put(CloudConstant.ParameterKey.CITY, city);
+            map.put(CloudConstant.ParameterKey.DISTRICT, district);
+        }
+        if (!TextUtils.isEmpty(province) && TextUtils.isEmpty(city) && TextUtils.isEmpty(district)) {
+            map.put(CloudConstant.ParameterKey.PROVINCE, province);
+        }
+        if (!TextUtils.isEmpty(province) && !TextUtils.isEmpty(city) && TextUtils.isEmpty(district)) {
+            map.put(CloudConstant.ParameterKey.PROVINCE, province);
+            map.put(CloudConstant.ParameterKey.CITY, city);
+        }
+        if (!TextUtils.isEmpty(inputName)) {
+            map.put(CloudConstant.ParameterKey.NAME, inputName);
+        }
+
 //        map.put(CloudConstant.ParameterKey.STATE, String.valueOf(state));
         map.put(CloudConstant.ParameterKey.PAGE, String.valueOf(1));
-        map.put(CloudConstant.ParameterKey.COUNT, String.valueOf(10));
+        map.put(CloudConstant.ParameterKey.COUNT, String.valueOf(2000));
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.POINT_LIST, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                disMissProgressDialog();
                 if (points.size() > 0) {
                     points.clear();
                 }
@@ -1196,9 +1372,14 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         district = "120104";
         map.put(CloudConstant.ParameterKey.DETAIL, detailJsonStr);
         String url = CloudConstant.Source.SERVER + "/point/detail/update";
+        Log.d("xsf", imagesFile.size() + "files size");
+        for (int i = 0; i < imagesFile.size(); i++) {
+            Log.d("xsf", imagesFile.get(i).length() + "files length");
+        }
         NetRequest.imageFileRequest(this, url, map, "images", imagesFile, "cells", cellsFile, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                disMissProgressDialog();
                 Log.d("xsf", "update success====" + result);
                 doQueryPointListRequest();
             }
@@ -1217,6 +1398,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.DETAIL_INFO, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                disMissProgressDialog();
                 Log.d("xsf", "query detail info success====" + result);
                 JSONObject dataJson = new JSONObject(result);
                 JSONObject response = dataJson.getJSONObject("result");
@@ -1259,7 +1441,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         Cell cell = gson.fromJson(jsonArray2.getString(i), Cell.class);
                         cellList.add(cell);
                     }
-                    point_l.setId(Integer.parseInt(id));
+                    point_l.setId(id);
                     point_l.setName(name);
                     point_l.setState(state);
                     point_l.setProvince(province);
@@ -1297,6 +1479,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.PWD, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                disMissProgressDialog();
                 Log.d("xsf", "modify psw success====" + result);
             }
 
@@ -1361,6 +1544,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     /**
      * 4.4版本以下对返回的图片Uri的处理：
      * 就是从返回的Intent中取出图片Uri，直接显示就好
+     *
      * @param data 调用系统相册之后返回的Uri
      */
     private void handleImageBeforeKitKat(Intent data) {
@@ -1372,6 +1556,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     /**
      * 4.4版本以上对返回的图片Uri的处理：
      * 返回的Uri是经过封装的，要进行处理才能得到真实路径
+     *
      * @param data 调用系统相册之后返回的Uri
      */
     @TargetApi(19)
@@ -1413,7 +1598,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     /**
      * 将Uri转化为路径
-     * @param uri 要转化的Uri
+     *
+     * @param uri       要转化的Uri
      * @param selection 4.4之后需要解析Uri，因此需要该参数
      * @return 转化之后的路径
      */
@@ -1444,74 +1630,107 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            filePath = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
-            if (isImagesSelect) {
-                File file = new File(filePath);
-                Log.d("xsf",file.getName() + "=file name");
-                Log.d("xsf",file.length() + "=file ");
-                Image image = new Image();
-                image.setType(1);
-                image.setUrl(file.getName());
-                images.add(image);
-                imagesFile.add(file);
-            } else {
+//        if (resultCode == Activity.RESULT_OK) {
+//            Uri uri = data.getData();
+//            filePath = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
+//            if (isImagesSelect) {
+//                File file = new File(filePath);
+//                Log.d("xsf",file.getName() + "=file name");
+//                Log.d("xsf",file.length() + "=file ");
+//                Image image = new Image();
+//                image.setType(1);
+//                image.setUrl(file.getName());
+//                images.add(image);
+//                imagesFile.add(file);
+//            } else {
+//                File file = new File(filePath);
+//                cellsFile.add(file);
+//                Cell cell = new Cell();
+//                cell.setType(1);
+//                cell.setUrl(file.getName());
+//                cells.add(cell);
+//            }
+//            isImagesSelect = false;
+//            Log.d("xsf", "选择文件返回：" + filePath);
+//        }
+
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        /*如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap*/
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
+                        Log.i("xsf", "onActivityResult: imageUri " + mImageUri);
+                        galleryAddPic(mImageUriFromFile);
+//                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
+//                        File file = new File(filePath);
+                        Log.d("xsf", imageFile.getName() + "=file name");
+                        Log.d("xsf", imageFile.length() + "=file ");
+                        Image image = new Image();
+                        image.setType(1);
+                        String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(mImageUri);
+                        Log.d("xsf", path + "=path ");
+                        image.setUrl(path);
+                        images.add(image);
+                        File file = new File(path);
+                        imagesFile.add(file);
+                        point_l.getImages().add(image);
+                        setImageAdapter();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (data == null) {//如果没有拍照或没有选取照片，则直接返回
+                    return;
+                }
+                Log.i("xsf", "onActivityResult: ImageUriFromAlbum: " + data.getData());
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
+                    File file = new File(path);
+                    Log.d("xsf", file.getName() + "=file name");
+                    Log.d("xsf", file.length() + "=file ");
+                    Image image = new Image();
+                    image.setType(1);
+                    image.setUrl(path);
+                    images.add(image);
+                    imagesFile.add(file);
+                    point_l.getImages().add(image);
+                    setImageAdapter();
+
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                        handleImageOnKitKat(data);//4.4之后图片解析
+//                    } else {
+//                        handleImageBeforeKitKat(data);//4.4之前图片解析
+//                    }
+                }
+                break;
+            case CHOOSE_FILE:
+                Uri uri = data.getData();
+                filePath = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
                 File file = new File(filePath);
                 cellsFile.add(file);
                 Cell cell = new Cell();
                 cell.setType(1);
                 cell.setUrl(file.getName());
                 cells.add(cell);
-            }
-            isImagesSelect = false;
-            Log.d("xsf", "选择文件返回：" + filePath);
+                Log.d("xsf", "选择文件返回：" + filePath);
+                break;
+            case CITY_SELECT:
+                if (data == null) {//如果没有拍照或没有选取照片，则直接返回
+                    return;
+                }
+                String provinceName = data.getStringExtra("province");
+                String cityName = data.getStringExtra("city");
+                String districtName = data.getStringExtra("district");
+                getCode(provinceName, cityName, districtName);
+                ((TextView) addDialog.findViewById(R.id.addr_select)).setText(provinceName + cityName + districtName);
+                break;
+            default:
+                break;
         }
-
-//        switch (requestCode) {
-//            case TAKE_PHOTO:
-//                if (resultCode == RESULT_OK) {
-//                    try {
-//                        /*如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap*/
-//                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
-//                        Log.i("xsf", "onActivityResult: imageUri " + mImageUri);
-//                        galleryAddPic(mImageUriFromFile);
-////                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
-////                        File file = new File(filePath);
-//                        Log.d("xsf",imageFile.getName() + "=file name");
-//                        Log.d("xsf",imageFile.length() + "=file ");
-//                        Image image = new Image();
-//                        image.setType(1);
-//                        image.setLocal(true);
-//                        String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(mImageUri);
-//                        Log.d("xsf",path + "=path ");
-//                        image.setUrl(path);
-//                        images.add(image);
-//                        File file = new File(path);
-//                        imagesFile.add(file);
-//                        point_l.getImages().add(image);
-//                        setImageAdapter();
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                break;
-//            case CHOOSE_PHOTO:
-//                if (data == null) {//如果没有拍照或没有选取照片，则直接返回
-//                    return;
-//                }
-//                Log.i("xsf", "onActivityResult: ImageUriFromAlbum: " + data.getData());
-//                if (resultCode == RESULT_OK) {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                        handleImageOnKitKat(data);//4.4之后图片解析
-//                    } else {
-//                        handleImageBeforeKitKat(data);//4.4之前图片解析
-//                    }
-//                }
-//                break;
-//            default:
-//                break;
-//        }
 
     }
 

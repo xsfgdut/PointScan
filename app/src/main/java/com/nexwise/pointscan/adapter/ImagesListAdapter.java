@@ -56,13 +56,14 @@ public class ImagesListAdapter extends RecyclerView .Adapter<ImagesListAdapter.V
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         //建立起ViewHolder中视图与数据的关联
         Image image = imageList.get(position);
-        if (image.isLocal()) {
+        if (image.getUrl().contains("storage")) {
             Bitmap bitmap = BitmapFactory.decodeFile(image.getUrl());
             Bitmap newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 180,
                     180);
             holder.imageView.setImageBitmap (newBitmap);
         } else {
-            Bitmap bitmap = ImageDownload.CacheHelper.sLruCache.get ("ChatRecyclerAdapter" + position);
+            Bitmap bitmap = null;
+         //   Bitmap bitmap = ImageDownload.CacheHelper.sLruCache.get ("ChatRecyclerAdapter" + position);
             if (bitmap == null) {
                 new ImageDownload.ImageTask(new ImageDownload.ImageTask.Listener () {
                     @Override

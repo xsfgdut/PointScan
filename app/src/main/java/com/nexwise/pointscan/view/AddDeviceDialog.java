@@ -19,11 +19,14 @@ import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
 
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
 
 public class AddDeviceDialog extends Dialog {
     private EditText device_number;
     private EditText device_name;
-    private EditText device_ip;
+    private IPEditText device_ip;
     private EditText antena_discription;
     private LinearLayout linearLayout_1;
     private LinearLayout linearLayout_2;
@@ -37,6 +40,7 @@ public class AddDeviceDialog extends Dialog {
     private int new_type = 0;
     private int network_type = 0;
     private int antena_type = 0;
+    private String[] ipSource;
 
     public AddDeviceDialog(Context context) {
         super(context, R.style.noTitleDialog);
@@ -58,6 +62,16 @@ public class AddDeviceDialog extends Dialog {
         btn_commit = view.findViewById(R.id.btn_commit);
         btn_cancel = view.findViewById(R.id.btn_cancel);
         super.setContentView(view);
+
+        device_ip.setSuperTextWatcher(new IPEditText.SuperTextWatcher() {
+            @Override
+            public void afterTextChanged(String[] s) {
+                ipSource = new String[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    ipSource[i] = s[i];
+                }
+            }
+        });
 
         radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -133,7 +147,9 @@ public class AddDeviceDialog extends Dialog {
     public int getAntenaType() {
         return antena_type;
     }
-
+    public String[] getIpSource() {
+        return ipSource;
+    }
 
 
 }

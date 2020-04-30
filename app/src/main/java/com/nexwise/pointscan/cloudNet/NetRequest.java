@@ -195,6 +195,7 @@ public class NetRequest {
     private void inner_postJsonAsync(final Context context, String url, Map<String, String> params, final DataCallBack callBack) {
         // 将map转换成json,需要引入Gson包
         String mapToJson = new Gson().toJson(params);
+        Log.d("xsf",mapToJson + "== mapToJson");
         final Request request = buildJsonPostRequest(url, mapToJson);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Point implements Serializable {
-    int id;//站点编号
+    String id;//站点编号
     String province;//省
     String city;//市
     String district;//区县
@@ -29,7 +29,7 @@ public class Point implements Serializable {
     public Point() {
 
     }
-    public Point(int id,String province,String city,String district,String address,String name,int state,double lng,double lat,Marker marker,
+    public Point(String id,String province,String city,String district,String address,String name,int state,double lng,double lat,Marker marker,
                  int geoType,String operator,long time,String location,String env,List<Device> devices,List<Image> images,List<Cell> cells) {
       this.id = id;
       this.province = province;
@@ -51,11 +51,11 @@ public class Point implements Serializable {
       this.cells = cells;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

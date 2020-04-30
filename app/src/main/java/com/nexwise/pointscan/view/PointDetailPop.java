@@ -130,7 +130,7 @@ public class PointDetailPop extends Dialog {
             @Override
             public void onClick(View view) {
 //点击组件的点击事件
-                showTimeDialog(context);
+               // showTimeDialog(context);
 
             }
         });
@@ -168,9 +168,15 @@ public class PointDetailPop extends Dialog {
         lat_value.setText(String.valueOf(point.getLat()));
         addressTextView.setText(point.getAddress());
         personTextView.setText(point.getOperator());
-        timeTextView.setText(DateUtils.ms2Date(point.getTime()));
+        timeTextView.setText(DateUtils.ms2Date(System.currentTimeMillis()));
+       // timeTextView.setText(DateUtils.ms2Date(point.getTime()));
         locationTextView.setText(point.getLocation());
         envTextView.setText(point.getEnv());
+        try {
+            getLongTimeVlaue(timeTextView.getText().toString());
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         switch (point.getState()) {
             case -1:
                 state = -1;

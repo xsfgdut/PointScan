@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="增加设备"
+        android:text="新增用户"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -38,14 +38,14 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="设备编号"
+            android:text="用户名"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/device_number"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_edittext"
@@ -77,14 +77,14 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="设备型号"
+            android:text="密码"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/device_name"
+            android:id="@+id/psw"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="45dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_edittext"
@@ -103,27 +103,17 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="设备IP"
+            android:text="姓名"
             android:textSize="16sp" />
 
-        <com.nexwise.pointscan.view.IPEditText
-            android:id="@+id/ip_value"
+        <EditText
+            android:id="@+id/name_value"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_edittext"
@@ -133,202 +123,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="安装类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:id="@+id/radiogroup1"
-            android:layout_marginLeft="30dp"
-            >
-            <RadioButton
-                android:id="@+id/radio1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="新装"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-            <RadioButton
-                android:id="@+id/radio2"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:text="替换"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear_61"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="网络类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:id="@+id/radiogroup2"
-            android:layout_marginLeft="30dp"
-            >
-            <RadioButton
-                android:id="@+id/radio3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="公网无线回传"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-            <RadioButton
-                android:id="@+id/radio4"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:text="专网"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear_62"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="天线类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:id="@+id/radiogroup3"
-            android:layout_marginLeft="30dp"
-            >
-            <RadioButton
-                android:id="@+id/radio5"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="全向"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-            <RadioButton
-                android:id="@+id/radio6"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:text="定向"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
-                android:button = "@drawable/radiobutton"
-                android:layout_marginLeft="5dp"
-                >
-            </RadioButton>
-
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear_31"
+        android:id="@+id/linear_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -337,17 +132,76 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="天线朝向说明"
+            android:text="联系号码"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/antea_description"
+            android:id="@+id/number_value"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_edittext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linear_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="地址"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/address_value"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_edittext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_51"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="备注"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/remark_value"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_edittext"

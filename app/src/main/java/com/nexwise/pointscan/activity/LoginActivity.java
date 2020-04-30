@@ -53,6 +53,8 @@ public class LoginActivity extends BaseAct {
     public void onResume() {
         user_name.setText("test");
         password.setText("123456");
+        user_name.setSelection(user_name.getText().length());
+        password.setSelection(password.getText().length());
         super.onResume();
     }
 
@@ -64,7 +66,7 @@ public class LoginActivity extends BaseAct {
                     showToat("用户名或者密码为空");
                     return;
                 }
-                //startIntent();
+                startIntent();
                 doRequest();
             }
         });
@@ -96,7 +98,7 @@ public class LoginActivity extends BaseAct {
         NetRequest.postJsonRequest(this, "login", map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
-                Log.d("xsf", "success====" + result);
+                Log.d("xsf", "login success====" + result);
                 JSONObject  dataJson=new JSONObject(result);
                 JSONObject  response=dataJson.getJSONObject("result");
                 String code = response.getString("code");

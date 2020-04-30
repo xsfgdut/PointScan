@@ -36,7 +36,7 @@ public class ImageDownload {
         @Override
         protected Bitmap doInBackground(String... strings) {
             Bitmap bitmap = getBitmap (strings[0]);
-            CacheHelper.sLruCache.put (strings[1], bitmap);
+          //  CacheHelper.sLruCache.put (strings[1], bitmap);
             return bitmap;
         }
 
