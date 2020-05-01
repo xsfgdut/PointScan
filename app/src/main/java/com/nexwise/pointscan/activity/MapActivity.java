@@ -834,7 +834,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private void mapSetting() {
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类
         aMap.setMyLocationStyle(myLocationStyle);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+        aMap.getUiSettings().setMyLocationButtonEnabled(true);//false的话可以把地图右上角定位icon隐藏
         aMap.setLocationSource(this);
         aMap.setMyLocationEnabled(true);
         aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
