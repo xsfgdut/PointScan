@@ -1,6 +1,5 @@
 package com.nexwise.pointscan.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
@@ -65,7 +64,6 @@ import com.google.gson.Gson;
 import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.adapter.DeviceListAdapter;
 import com.nexwise.pointscan.adapter.ImagesListAdapter;
-import com.nexwise.pointscan.adapter.InfoWinAdapter;
 import com.nexwise.pointscan.base.BaseAct;
 import com.nexwise.pointscan.bean.Cell;
 import com.nexwise.pointscan.bean.Detail;
@@ -82,14 +80,12 @@ import com.nexwise.pointscan.utils.GCJ2WGS;
 import com.nexwise.pointscan.utils.GetJsonDataUtil;
 import com.nexwise.pointscan.utils.HorizontalItemDecoration;
 import com.nexwise.pointscan.view.AddDeviceDialog;
-import com.nexwise.pointscan.view.AddDialog;
+import com.nexwise.pointscan.view.AddPointDialog;
 import com.nexwise.pointscan.view.IPEditText;
 import com.nexwise.pointscan.view.MarkerPop;
 import com.nexwise.pointscan.view.ModifyPswDialog;
 import com.nexwise.pointscan.view.PointDetailPop;
-import com.nexwise.pointscan.view.ShowTimeDialog;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -103,14 +99,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import static com.nexwise.pointscan.utils.StringUtil.md5Decode32;
 
@@ -163,7 +152,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private PointDetailPop pointDetailPop;
     private AddDeviceDialog addDeviceDialog;
     private LatLng clickLatLng;
-    private AddDialog addDialog;
+    private AddPointDialog addPointDialog;
     private boolean isPointAdd = false;
     private String oldPsw;
     private String newPsw;
@@ -300,16 +289,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     }
 
 
-    private void showAddDialog(LatLng latLng) {
+    private void showAddPointDialog(LatLng latLng) {
         clickLatLng = latLng;
-        addDialog = new AddDialog(this);
-        addDialog.setCancelable(false);
+        addPointDialog = new AddPointDialog(this);
+        addPointDialog.setCancelable(false);
         // LatLonPoint latLonPoint = new LatLonPoint(clickLatLng.latitude, clickLatLng.longitude);
         //  getAddress(latLonPoint);
         lng = latLng.longitude;
         lat = latLng.latitude;
-        addDialog.setlnglatValue(lng, lat);
-        addDialog.findViewById(R.id.addr_select).setOnClickListener(new View.OnClickListener() {
+        addPointDialog.setlnglatValue(lng, lat);
+        addPointDialog.findViewById(R.id.addr_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -319,40 +308,40 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             }
         });
 
-        addDialog.setOnClickCommitListener(new View.OnClickListener() {
+        addPointDialog.setOnClickCommitListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(((EditText) addDialog.findViewById(R.id.point_number)).getText().toString())
-                        || TextUtils.isEmpty(((EditText) addDialog.findViewById(R.id.point_name)).getText().toString())
-                        || TextUtils.isEmpty(String.valueOf(addDialog.getState()))) {
+                if (TextUtils.isEmpty(((EditText) addPointDialog.findViewById(R.id.point_number)).getText().toString())
+                        || TextUtils.isEmpty(((EditText) addPointDialog.findViewById(R.id.point_name)).getText().toString())
+                        || TextUtils.isEmpty(String.valueOf(addPointDialog.getState()))) {
                     showToat("检查非空项值");
                     return;
                 }
-                id = ((EditText) addDialog.findViewById(R.id.point_number)).getText().toString();
-                name = ((EditText) addDialog.findViewById(R.id.point_name)).getText().toString();
-                lng = new Double(((EditText) addDialog.findViewById(R.id.lng_value)).getText().toString());
-                lat = new Double(((EditText) addDialog.findViewById(R.id.lat_value)).getText().toString());
-                state = addDialog.getState();
+                id = ((EditText) addPointDialog.findViewById(R.id.point_number)).getText().toString();
+                name = ((EditText) addPointDialog.findViewById(R.id.point_name)).getText().toString();
+                lng = new Double(((EditText) addPointDialog.findViewById(R.id.lng_value)).getText().toString());
+                lat = new Double(((EditText) addPointDialog.findViewById(R.id.lat_value)).getText().toString());
+                state = addPointDialog.getState();
                 doAddPointRequest();
                 showProgressDialog("", "正在请求服务器", true);
-                addDialog.dismiss();
+                addPointDialog.dismiss();
                 isPointAdd = false;
             }
         });
-        addDialog.setOnClickCancelListener(new View.OnClickListener() {
+        addPointDialog.setOnClickCancelListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addDialog.dismiss();
+                addPointDialog.dismiss();
                 isPointAdd = false;
             }
         });
-        addDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        addPointDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                addDialog.dismiss();
+                addPointDialog.dismiss();
             }
         });
-        addDialog.show();
+        addPointDialog.show();
     }
 
     private void markerClickPop(final Point point) {
@@ -718,7 +707,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void onMapClick(LatLng latLng) {
                 if (isPointAdd) {
                     Log.d("xsf", "click");
-                    showAddDialog(latLng);
+                    showAddPointDialog(latLng);
                 }
             }
 
@@ -964,7 +953,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(clickLatLng.latitude, clickLatLng.longitude)));
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(14));//设置地图的放缩 16
                 showToat(addressName);
-                addDialog.setAddress(addressName);
+                addPointDialog.setAddress(addressName);
             } else {
                 showToat("没有结果");
             }
@@ -1675,7 +1664,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 String cityName = data.getStringExtra("city");
                 String districtName = data.getStringExtra("district");
                 getCode(provinceName, cityName, districtName);
-                ((TextView) addDialog.findViewById(R.id.addr_select)).setText(provinceName + cityName + districtName);
+                ((TextView) addPointDialog.findViewById(R.id.addr_select)).setText(provinceName + cityName + districtName);
                 break;
             default:
                 break;
