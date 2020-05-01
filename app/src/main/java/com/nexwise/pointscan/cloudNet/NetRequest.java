@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nexwise.pointscan.base.BaseApplication;
@@ -138,6 +139,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
+                    deliverNetWorkError("",callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -185,6 +187,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
+                    deliverNetWorkError("",callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -224,6 +227,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
+                    deliverNetWorkError("",callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -260,6 +264,19 @@ public class NetRequest {
         });
     }
 
+    //分发失败的时候调用
+    private void deliverNetWorkError(final String result, final DataCallBack callBack) {
+        //在这里使用异步处理
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (callBack != null) {
+                    callBack.requestNetWorkError();
+                }
+            }
+        });
+    }
+
     //分发成功的时候调用
     private void deliverDataSuccess(final String result, final DataCallBack callBack) {
         //在这里使用异步线程处理
@@ -281,6 +298,7 @@ public class NetRequest {
     public interface DataCallBack {
         void requestSuccess(String result) throws Exception;
         void requestFailure(Request request, IOException e);
+        void requestNetWorkError();
     }
 
     //拼接url和请求参数
@@ -331,7 +349,7 @@ public class NetRequest {
         getInstance().imageFileAsync(context, reqUrl, params, pic_key, files,cell_key,cellsFile, callBack);
     }
 
-    private void imageFileAsync(Context context, String reqUrl, Map<String, String> params, String pic_key, List<File> files, String cell_key,List<File> cellsFile,final DataCallBack callBack) {
+    private void imageFileAsync(Context context, String reqUrl, Map<String, String> params, String pic_key, List<File> files, String cell_key, List<File> cellsFile, final DataCallBack callBack) {
         MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
         multipartBodyBuilder.setType(MultipartBody.FORM);
         //遍历map中所有参数到builder
@@ -373,6 +391,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
+                    deliverNetWorkError("",callBack);
                     throw new IOException(response + "");
                 }
             }

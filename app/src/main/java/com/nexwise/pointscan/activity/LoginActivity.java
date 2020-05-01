@@ -66,7 +66,7 @@ public class LoginActivity extends BaseAct {
                     showToat("用户名或者密码为空");
                     return;
                 }
-                startIntent();
+//                startIntent();
                 doLoginRequest();
             }
         });
@@ -95,7 +95,7 @@ public class LoginActivity extends BaseAct {
         map.put(CloudConstant.ParameterKey.USER_NAME, userName);
         map.put(CloudConstant.ParameterKey.PWD, passwordString);
         map.put(CloudConstant.ParameterKey.CAPTCHA, "4567");
-        NetRequest.postJsonRequest(this, "login", map, new NetRequest.DataCallBack() {
+        NetRequest.postJsonRequest(this, CloudConstant.CmdValue.LOGIN, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 Log.d("xsf", "login success====" + result);
@@ -117,6 +117,10 @@ public class LoginActivity extends BaseAct {
             @Override
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
+            }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
             }
         });
     }

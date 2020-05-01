@@ -1248,6 +1248,11 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
+            }
         });
     }
 
@@ -1303,6 +1308,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
+            }
         });
     }
 
@@ -1329,6 +1338,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void requestFailure(Request request, IOException e) {
 
+            }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
             }
         });
 
@@ -1410,6 +1423,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
+            }
         });
     }
 
@@ -1435,6 +1452,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
 
             }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
+            }
         });
 
     }
@@ -1457,6 +1478,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void requestFailure(Request request, IOException e) {
 
+            }
+            @Override
+            public void requestNetWorkError() {
+                showToat("网络错误");
             }
         });
 
