@@ -109,7 +109,7 @@ public class LoginActivity extends BaseAct {
                     showToat("用户不存在");
                 } else if (code.equals("1011")) {
                     showToat("用户名或密码错误");
-                } else if (code.equals("1010")) {
+                } else if (code.equals("1012")) {
                     showToat("验证码错误");
                 }
             }
