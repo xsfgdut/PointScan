@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserManageActivity">
+    tools:context=".activity.UserManageActivity">
 
     <TextView
         android:layout_width="80dp"
@@ -66,12 +66,12 @@
             />
     </LinearLayout>
 
-    <ListView
+    <com.nexwise.pointscan.refreshSwipe.RefreshSwipeMenuListView
         android:id="@+id/user_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        >
 
-    </ListView>
+    </com.nexwise.pointscan.refreshSwipe.RefreshSwipeMenuListView>
 
 </LinearLayout>

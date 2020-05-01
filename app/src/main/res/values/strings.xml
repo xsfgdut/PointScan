@@ -16,6 +16,13 @@
     <string name="select_sure">确定</string>
     <string name="cancel">取消</string>
 
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">点击加载更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
     <string name="infowindow_navigation">导航</string>
     <string name="infowindow_call">电话</string>
     <string name="agent_addr">地址：%1$s</string>

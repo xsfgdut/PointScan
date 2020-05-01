@@ -10,6 +10,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
@@ -26,10 +27,10 @@ public class AddUserDialog extends Dialog {
 
     private TextView btn_commit;
     private TextView btn_cancel;
+    private LinearLayout linearLayout;
 
 
-
-    public AddUserDialog(Context context) {
+    public AddUserDialog(Context context,boolean isAdd) {
         super(context, R.style.noTitleDialog);
         View view = LayoutInflater.from(getContext())
                 .inflate(R.layout.add_user, null);
@@ -39,7 +40,12 @@ public class AddUserDialog extends Dialog {
         phone = view.findViewById(R.id.number_value);
         address = view.findViewById(R.id.address_value);
         remark = view.findViewById(R.id.remark_value);
-
+        linearLayout = view.findViewById(R.id.linear_2);
+        if(isAdd) {
+            linearLayout.setVisibility(View.VISIBLE);
+        } else {
+            linearLayout.setVisibility(View.GONE);
+        }
 
         btn_commit = view.findViewById(R.id.btn_commit);
         btn_cancel = view.findViewById(R.id.btn_cancel);
@@ -54,6 +60,14 @@ public class AddUserDialog extends Dialog {
 
     public void setOnClickCancelListener(View.OnClickListener listener) {
         btn_cancel.setOnClickListener(listener);
+    }
+
+    public void setValue(String userNameStr,String nameStr,String telStr,String addressStr,String remarkStr) {
+        userName.setText(userNameStr);
+        name.setText(nameStr);
+        phone.setText(telStr);
+        address.setText(addressStr);
+        remark.setText(remarkStr);
     }
 
 

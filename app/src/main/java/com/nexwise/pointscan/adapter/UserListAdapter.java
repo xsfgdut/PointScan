@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
@@ -51,7 +50,7 @@ public class UserListAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_user, null);
             viewHolder.userName = convertView.findViewById(R.id.user_name);
-            viewHolder.userName1 = convertView.findViewById(R.id.user_name1);
+            viewHolder.name = convertView.findViewById(R.id.user_name1);
             viewHolder.userPhone = convertView.findViewById(R.id.user_number);
             viewHolder.userAddress = convertView.findViewById(R.id.user_address);
             viewHolder.userMark = convertView.findViewById(R.id.user_mark);
@@ -59,8 +58,8 @@ public class UserListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.userName.setText(userList.get(position).getName());
-        viewHolder.userName1.setText(userList.get(position).getUserName());
+        viewHolder.userName.setText(userList.get(position).getUserName());
+        viewHolder.name.setText(userList.get(position).getName());
         viewHolder.userPhone.setText(userList.get(position).getTel());
         viewHolder.userAddress.setText(userList.get(position).getAddress());
         viewHolder.userMark.setText(userList.get(position).getRemark());
@@ -71,7 +70,7 @@ public class UserListAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView userName;
-        TextView userName1;
+        TextView name;
         TextView userPhone;
         TextView userAddress;
         TextView userMark;

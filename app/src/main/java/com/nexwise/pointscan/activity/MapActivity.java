@@ -63,7 +63,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.nexwise.pointscan.R;
-import com.nexwise.pointscan.UserManageActivity;
 import com.nexwise.pointscan.adapter.DeviceListAdapter;
 import com.nexwise.pointscan.adapter.ImagesListAdapter;
 import com.nexwise.pointscan.adapter.InfoWinAdapter;
@@ -152,6 +151,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private Button showBtn;
     private Button modifyPsw;
     private Button userManage;
+    private Button logout;
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
@@ -809,6 +809,12 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 startActivity(intent);
             }
         });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doLogoutRequest();
+            }
+        });
     }
 
     private void showModifyPsw() {
@@ -846,6 +852,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         searchImageView = findViewById(R.id.search);
         modifyPsw = findViewById(R.id.modifyPsw);
         userManage = findViewById(R.id.user_manage);
+        logout = findViewById(R.id.logout);
         if (aMap == null) {
             aMap = mapView.getMap();
         }
@@ -1479,8 +1486,37 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.PWD, map, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                JSONObject dataJson = new JSONObject(result);
+                JSONObject response = dataJson.getJSONObject("result");
+                String code = response.getString("code");
+                if (code.equals("0000")) {
+                    showToat("修改密码成功");
+                }
                 disMissProgressDialog();
                 Log.d("xsf", "modify psw success====" + result);
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+
+            }
+        });
+
+    }
+    private void doLogoutRequest() {
+        Map<String, String> map = new HashMap<>();
+        NetRequest.postJsonRequest(this, CloudConstant.CmdValue.LOGOUT, map, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                JSONObject dataJson = new JSONObject(result);
+                JSONObject response = dataJson.getJSONObject("result");
+                String code = response.getString("code");
+                if (code.equals("0000")) {
+                    showToat("登出成功");
+                    finish();
+                }
+                disMissProgressDialog();
+                Log.d("xsf", "log out success====" + result);
             }
 
             @Override
@@ -1630,29 +1666,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK) {
-//            Uri uri = data.getData();
-//            filePath = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
-//            if (isImagesSelect) {
-//                File file = new File(filePath);
-//                Log.d("xsf",file.getName() + "=file name");
-//                Log.d("xsf",file.length() + "=file ");
-//                Image image = new Image();
-//                image.setType(1);
-//                image.setUrl(file.getName());
-//                images.add(image);
-//                imagesFile.add(file);
-//            } else {
-//                File file = new File(filePath);
-//                cellsFile.add(file);
-//                Cell cell = new Cell();
-//                cell.setType(1);
-//                cell.setUrl(file.getName());
-//                cells.add(cell);
-//            }
-//            isImagesSelect = false;
-//            Log.d("xsf", "选择文件返回：" + filePath);
-//        }
 
         switch (requestCode) {
             case TAKE_PHOTO:
