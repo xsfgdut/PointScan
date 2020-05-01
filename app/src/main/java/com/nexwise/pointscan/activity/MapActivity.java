@@ -726,8 +726,18 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showToat("请点击地图上任意点进行经纬度获取增加堪点");
-                isPointAdd = true;
+                showSimpleDialog(1, "", "请在地图上需要增加堪点位置点击获取经纬度坐标", "确定", "", new SimpleDialogLSN() {
+                    @Override
+                    public void pOnClick() {
+                        isPointAdd = true;
+                    }
+
+                    @Override
+                    public void nOnClick() {
+
+                    }
+                });
+              //  showToat("请点击地图上任意点进行经纬度获取增加堪点");
             }
         });
 
