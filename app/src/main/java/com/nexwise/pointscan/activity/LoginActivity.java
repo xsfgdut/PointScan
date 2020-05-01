@@ -67,7 +67,7 @@ public class LoginActivity extends BaseAct {
                     return;
                 }
                 startIntent();
-                doRequest();
+                doLoginRequest();
             }
         });
     }
@@ -88,7 +88,7 @@ public class LoginActivity extends BaseAct {
     }
 
 
-    private void doRequest() {
+    private void doLoginRequest() {
         userName = user_name.getText().toString();
         passwordString = md5Decode32(password.getText().toString());
         Map<String, String> map = new HashMap<>();
