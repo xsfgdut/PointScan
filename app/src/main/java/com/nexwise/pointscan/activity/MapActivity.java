@@ -116,7 +116,6 @@ import static com.nexwise.pointscan.utils.StringUtil.md5Decode32;
 
 
 public class MapActivity extends BaseAct implements LocationSource, AMapLocationListener, AMap.OnMarkerClickListener, AMap.OnCameraChangeListener, GeocodeSearch.OnGeocodeSearchListener {
-    private final int SETTING_CODE = 1000;
     LocationManager locationManager;
     Location location;
     private TextureMapView mapView;
@@ -130,23 +129,18 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private LatLng gpsLatLng;
     //标识，用于判断是否只显示一次定位信息和用户重新定位
     private boolean isFirstLoc = true;
-    private Handler handler = new Handler();
     private Marker marker;
     private List<Marker> markerList = new ArrayList<>();
     private MarkerOptions markerOptions;
-    private InfoWinAdapter adapter;
 
     private MarkerPop markerPop;
     private String ipAddress;
     private String[] ipSource;
 
-    private double latitude;
-    private double longitude;
     private double gpsLatitude;
     private double gpsLongitude;
     private List<LatLng> gpsLatLngList = new ArrayList<>();
     private HashMap<String, Double> hm;
-    private int index = 0;
     private Button startBtn;
     private Button showBtn;
     private Button modifyPsw;
@@ -163,7 +157,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private static final int MSG_LOAD_CODE_DATA = 0x0004;
     private ArrayList<ProvinceCodeModel> provinceCodeModels = new ArrayList<>();
 
-    private ShowTimeDialog showTimeDialog;
     private static boolean isLoaded = false;
     private Point point_l;
     private ModifyPswDialog modifyPswDialog;
@@ -182,19 +175,14 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private String provinceName;
     private String cityName;
     private String districtName;
-    private String addressText;
     private String name;
     private String inputName;
     private int state;
     private String person;
-    private String timeStr;
     private int geoType;
     private String locationStr;
     private String envStr;
     private String detailJsonStr;
-    private Button addDevice;
-    private Button picSelect;
-    private Button fileSelect;
     private RecyclerView deviceList;
     private RecyclerView fileList;
     private ImagesListAdapter imagesListAdapter;
@@ -209,10 +197,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private List<Image> images = new ArrayList<>();
     private List<Cell> cells = new ArrayList<>();
     private List<Device> devices = new ArrayList<>();
-    private boolean isImagesSelect;
 
-    private static final String PERMISSION_WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    private static final int REQUEST_PERMISSION_CODE = 267;
     private static final int TAKE_PHOTO = 189;
     private static final int CHOOSE_PHOTO = 385;
     private static final int CHOOSE_FILE = 285;
@@ -530,7 +515,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         }
                     }
                 });
-                isImagesSelect = true;
 
             }
         });
@@ -538,7 +522,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void onClick(View view) {
                 openFileSelector();
-                isImagesSelect = false;
             }
         });
         pointDetailPop.findViewById(R.id.add_device).setOnClickListener(new View.OnClickListener() {
@@ -1009,39 +992,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     }
 
-    private void uploadMultiFile() {
-        String imageType = "multipart/form-data";
-        String imgUrl = "";
-        String url = "";
-        File file = new File(imgUrl);//imgUrl为图片位置
-        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "head_image", fileBody)
-                .addFormDataPart("imagetype", imageType)
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .post(requestBody)
-                .build();
-        final okhttp3.OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-        OkHttpClient okHttpClient = httpBuilder
-                .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String htmlStr = response.body().string();
-                Log.i("result", htmlStr);
-            }
-
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
-
-        });
-    }
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -1049,7 +999,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 case MSG_LOAD_DATA:
                     if (thread == null) {//如果已创建就不再重新创建子线程了
 
-                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -1063,7 +1013,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 case MSG_LOAD_CODE_DATA:
                     if (threadCode == null) {//如果已创建就不再重新创建子线程了
 
-                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
                         threadCode = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -1076,7 +1026,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     break;
 
                 case MSG_LOAD_SUCCESS:
-                    Toast.makeText(MapActivity.this, "Parse Succeed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapActivity.this, "Parse Succeed", Toast.LENGTH_SHORT).show();
                     isLoaded = true;
                     break;
 
@@ -1205,11 +1155,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         options3Items.get(options1).get(options2).get(options3) : "";
 
                 String tx = opt1tx + opt2tx + opt3tx;
-                addressText = tx;
                 getCode(opt1tx, opt2tx, opt3tx);
-//                province = opt1tx;
-//                city = opt2tx;
-//                district = opt3tx;
                 addressSelect.setText(tx);
                 clearImageView.setVisibility(View.VISIBLE);
                 Toast.makeText(MapActivity.this, tx, Toast.LENGTH_SHORT).show();
@@ -1275,9 +1221,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     private void doAddPointRequest() {
         Map<String, String> map = new HashMap<>();
-        province = "120000";
-        city = "120000";
-        district = "120104";
         map.put(CloudConstant.ParameterKey.ID, String.valueOf(id));
         map.put(CloudConstant.ParameterKey.PROVINCE, province);
         map.put(CloudConstant.ParameterKey.CITY, city);
@@ -1296,17 +1239,9 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 String code = response.getString("code");
                 if (code.equals("0000")) {
                     showToat("新增成功");
-                    Point point = new Point();
-                    point.setCity("广州");
-                    point.setDistrict("黄埔区");
-                    point.setProvince("广东");
-                    point.setId(id);
-                    point.setLat(lat);
-                    point.setLng(lng);
-                    point.setState(state);
-                    point.setMarker(marker);
-                    points.add(point);
-                    addMarker(point);
+                    doQueryPointListRequest();
+                } else if (code.equals("3001")) {
+                    showToat("站点已存在");
                 }
             }
 
@@ -1374,14 +1309,15 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     private void doUpdatePointRequest() {
         Map<String, String> map = new HashMap<>();
-        province = "120000";
-        city = "120000";
-        district = "120104";
         map.put(CloudConstant.ParameterKey.DETAIL, detailJsonStr);
         String url = CloudConstant.Source.SERVER + "/point/detail/update";
         Log.d("xsf", imagesFile.size() + "files size");
         for (int i = 0; i < imagesFile.size(); i++) {
             Log.d("xsf", imagesFile.get(i).length() + "files length");
+            if (imagesFile.get(i).length() == 0) {
+                showToat("文件大小为0，请检查");
+                return;
+            }
         }
         NetRequest.imageFileRequest(this, url, map, "images", imagesFile, "cells", cellsFile, new NetRequest.DataCallBack() {
             @Override

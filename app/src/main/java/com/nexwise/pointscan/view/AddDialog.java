@@ -27,7 +27,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.nexwise.pointscan.R;
-import com.nexwise.pointscan.activity.DialogActivity;
 import com.nexwise.pointscan.bean.JsonBean;
 import com.nexwise.pointscan.utils.GetJsonDataUtil;
 

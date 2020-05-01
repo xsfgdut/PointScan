@@ -205,6 +205,7 @@ public class DialogActivity extends BaseAct {
                 finish();
             }
         });
+        pvOptions.setKeyBackCancelable(false);//解决按back键后，dialog消失activity还在盖了一层阴影
     }
 
 //    @Override
