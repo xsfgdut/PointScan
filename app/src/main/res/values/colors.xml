@@ -12,4 +12,5 @@
     <color name="line_color">#e5e5e5</color>
     <color name="main_text_color">#333333</color>
     <color name="transparent">#0000</color>
+    <color name="body_color">#f4f4f4</color>
 </resources>

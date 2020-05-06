@@ -95,7 +95,7 @@ public class IPEditText extends LinearLayout implements TextWatcher {
     private void init(Context context) {
         for (int i = 0; i < editNumber; i++) {
             EditText edit = new EditText(context);
-            //edit.setBackground(null);//redmi Note7不会调用OnDraw去画线和点，所以去掉设置背景为空操作
+            edit.setBackground(null);//redmi Note7不会调用OnDraw去画线和点，所以去掉设置背景为空操作
             edit.setFilters(new InputFilter[]{new InputFilterMinMax("0", "255", "3")});
             edit.setTextSize(textSize);
             edit.setTextColor(textColor);
