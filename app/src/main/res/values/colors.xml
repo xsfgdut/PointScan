@@ -13,4 +13,6 @@
     <color name="main_text_color">#333333</color>
     <color name="transparent">#0000</color>
     <color name="body_color">#f4f4f4</color>
+    <color name="button_color">#336799</color>
+    <color name="button_gray_color">#999999</color>
 </resources>

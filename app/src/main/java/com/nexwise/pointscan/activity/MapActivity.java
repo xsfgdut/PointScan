@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -198,7 +199,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private TextView addressSelect;
     private ImageView clearImageView;
     private EditText addressInput;
-    private ImageView searchImageView;
+    private Button searchImageView;
+    private ImageView addPoint;
+    private RelativeLayout user_rel;
+    private RelativeLayout psw_rel;
 
     private ReceiveBroadCast receiveBroadCast;
     private LocationListener locationListener = new LocationListener() {
@@ -797,6 +801,36 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 doLogoutRequest();
             }
         });
+        addPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSimpleDialog(1, "", "请在地图上需要增加堪点位置点击获取经纬度坐标", "确定", "", new SimpleDialogLSN() {
+                    @Override
+                    public void pOnClick() {
+                        isPointAdd = true;
+                    }
+
+                    @Override
+                    public void nOnClick() {
+
+                    }
+                });
+            }
+        });
+        user_rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MapActivity.this, UserManageActivity.class);
+                startActivity(intent);
+            }
+        });
+        psw_rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showModifyPsw();
+            }
+        });
     }
 
     private void showModifyPsw() {
@@ -835,6 +869,9 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         modifyPsw = findViewById(R.id.modifyPsw);
         userManage = findViewById(R.id.user_manage);
         logout = findViewById(R.id.logout);
+        addPoint = findViewById(R.id.add_point);
+        user_rel = findViewById(R.id.user_rel);
+        psw_rel = findViewById(R.id.psw_rel);
         if (aMap == null) {
             aMap = mapView.getMap();
         }

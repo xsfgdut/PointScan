@@ -173,8 +173,6 @@
                 android:text="新装"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -188,8 +186,6 @@
                 android:text="替换"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -238,8 +234,6 @@
                 android:text="公网无线回传"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -253,8 +247,6 @@
                 android:text="专网"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -303,8 +295,6 @@
                 android:text="全向"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -318,8 +308,6 @@
                 android:text="定向"
                 android:textColor="@color/red_color"
                 android:textSize="12sp"
-                android:layoutDirection="rtl"
-                android:textDirection="ltr"
                 android:button = "@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 >
@@ -369,7 +357,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/blue"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         >
@@ -382,10 +369,12 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:background="@color/button_gray_color"
             android:textSize="16sp" />
 
         <View
-            android:layout_width="5dp"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/line_color"
              />
@@ -399,6 +388,8 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="@string/select_sure"
+            android:textColor="@color/white"
+            android:background="@color/button_color"
             android:textSize="16sp" />
     </LinearLayout>
 

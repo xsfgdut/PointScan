@@ -1,47 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.MapActivity">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.amap.api.maps.TextureMapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.amap.api.maps.TextureMapView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/top_rel"
+        android:layout_marginTop="5dp"
+        >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/address_select"
-                android:text="请选择查询地址"
+                android:text="请点击选择查询地址"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 >
             </TextView>
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/clear"
                 android:src="@drawable/clear_button"
-                android:scaleType="center"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
                 android:visibility="gone"
                 >
@@ -52,10 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             >
             <EditText
-                android:layout_width="150dp"
+                android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:id="@+id/address_input"
                 android:background="@drawable/bg_edittext"
@@ -63,30 +52,61 @@
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textSize="16sp"
+                android:hint="输入堪点名称"
                 >
 
             </EditText>
-            <ImageView
-                android:layout_width="40dp"
+            <Button
+                android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:id="@+id/search"
-                android:src="@drawable/search"
-                android:scaleType="center"
+                android:text="搜索"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:background="@color/button_color"
                 android:layout_gravity="center_vertical"
                 >
 
-            </ImageView>
+            </Button>
 
         </LinearLayout>
 
-        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_rel"
+        android:layout_below="@+id/top_rel"
+        >
+
+        <com.amap.api.maps.TextureMapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.amap.api.maps.TextureMapView>
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@color/button_gray_color"
+            android:text="退出"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            >
+        </Button>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="100dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
 
             <Button
                 android:id="@+id/startBtn"
@@ -131,20 +151,84 @@
             android:layout_marginLeft="10dp"
             >
         </Button>
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/blue"
-                android:text="退出"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                >
-            </Button>
+
         </LinearLayout>
 
-
     </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom_rel"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/user_rel"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:id="@+id/user1"
+                android:src="@drawable/user_manage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户管理"
+                android:textSize="18sp"
+                android:layout_below="@+id/user1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                >
 
+            </TextView>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/add_point"
+            android:id="@+id/add_point"
+            
+            >
+        </ImageView>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/psw_rel"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/psw1"
+                android:src="@drawable/psw_modify"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerInside"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="密码修改"
+                android:textSize="18sp"
+                android:layout_below="@+id/psw1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                >
 
-</LinearLayout>
+            </TextView>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
