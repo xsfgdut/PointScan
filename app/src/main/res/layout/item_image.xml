@@ -4,19 +4,18 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:orientation="vertical">
+
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-    </ImageView>
+        android:layout_height="wrap_content"></ImageView>
 
     <TextView
         android:id="@+id/type_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="102365" />
+        android:text="102365"
+        android:visibility="gone" />
 
 
 </LinearLayout>

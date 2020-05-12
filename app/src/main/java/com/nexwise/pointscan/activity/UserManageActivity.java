@@ -12,7 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +41,7 @@ import java.util.Map;
 
 import okhttp3.Request;
 
-public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListView.OnRefreshListener{
+public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListView.OnRefreshListener {
     private TextView addUser;
     private RefreshSwipeMenuListView userList;
     private List<User> users = new ArrayList<>();
@@ -54,6 +54,13 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
     private String tel;
     private String address;
     private String remark;
+    private ImageView finish;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            userList.complete();
+        }
+    };
 
     @Override
     protected void findView(Bundle savedInstanceState) {
@@ -64,6 +71,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
     }
 
     private void initView() {
+        finish = findViewById(R.id.finish);
         addUser = findViewById(R.id.new_user);
         userList = findViewById(R.id.user_list);
         userList.setListViewMode(RefreshSwipeMenuListView.BOTH);
@@ -114,7 +122,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                 User item = users.get(position);
                 switch (index) {
                     case 0:
-                        showAddUserDialog(false,position);
+                        showAddUserDialog(false, position);
                         break;
                     case 1:
                         showModifyPsw(position);
@@ -129,6 +137,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             @Override
             public void onSwipeStart(int position) {
                 // swipe start
+                doQueryUserRequest();
             }
 
             @Override
@@ -149,6 +158,12 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                 return false;
             }
         });
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private int dp2px(int dp) {
@@ -159,7 +174,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAddUserDialog(true,0);
+                showAddUserDialog(true, 0);
             }
         });
     }
@@ -181,7 +196,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             public void onClick(View view) {
                 User user = users.get(index);
                 userName = user.getUserName();
-                password = ((EditText)modifyUserPswDialog.findViewById(R.id.new_psw)).getText().toString();
+                password = ((EditText) modifyUserPswDialog.findViewById(R.id.new_psw)).getText().toString();
                 if (TextUtils.isEmpty(password)) {
                     showToat("请检查非空项");
                     return;
@@ -199,21 +214,21 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
         modifyUserPswDialog.show();
     }
 
-    private void showAddUserDialog(final boolean isAdd,int index) {
-        addUserDialog = new AddUserDialog(this,isAdd);
+    private void showAddUserDialog(final boolean isAdd, int index) {
+        addUserDialog = new AddUserDialog(this, isAdd);
         if (!isAdd) {
             User user = users.get(index);
-            addUserDialog.setValue(user.getUserName(),user.getName(),user.getTel(),user.getAddress(),user.getRemark());
+            addUserDialog.setValue(user.getUserName(), user.getName(), user.getTel(), user.getAddress(), user.getRemark());
         }
         addUserDialog.setOnClickCommitListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userName = ((EditText)addUserDialog.findViewById(R.id.user_name)).getText().toString();
-                password = ((EditText)addUserDialog.findViewById(R.id.psw)).getText().toString();
-                name = ((EditText)addUserDialog.findViewById(R.id.name_value)).getText().toString();
-                tel = ((EditText)addUserDialog.findViewById(R.id.number_value)).getText().toString();
-                address = ((EditText)addUserDialog.findViewById(R.id.address_value)).getText().toString();
-                remark = ((EditText)addUserDialog.findViewById(R.id.remark_value)).getText().toString();
+                userName = ((EditText) addUserDialog.findViewById(R.id.user_name)).getText().toString();
+                password = ((EditText) addUserDialog.findViewById(R.id.psw)).getText().toString();
+                name = ((EditText) addUserDialog.findViewById(R.id.name_value)).getText().toString();
+                tel = ((EditText) addUserDialog.findViewById(R.id.number_value)).getText().toString();
+                address = ((EditText) addUserDialog.findViewById(R.id.address_value)).getText().toString();
+                remark = ((EditText) addUserDialog.findViewById(R.id.remark_value)).getText().toString();
 
                 if (isAdd) {
                     if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)) {
@@ -273,6 +288,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -305,6 +321,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -336,6 +353,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -364,19 +382,13 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
             }
         });
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            userList.complete();
-        }
-    };
 
     @Override
     public void onRefresh() {

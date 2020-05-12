@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -13,124 +12,138 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="修改密码"
+        android:textColor="@color/text_color"
         android:textSize="18sp" />
 
     <LinearLayout
-        android:id="@+id/linear_l"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_l"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/psw_deep"></ImageView>
+
+            <EditText
+                android:id="@+id/old_psw"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="旧密码"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="旧密码"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/old_psw"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:inputType="textPassword"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
             android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_2"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/psw_deep"></ImageView>
+
+            <EditText
+                android:id="@+id/new_psw"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="新密码"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="新密码"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/new_psw"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:inputType="textPassword"
             android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_3"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/verify_code"></ImageView>
+
+            <EditText
+                android:id="@+id/verfy_code"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="验证码"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="验证码"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/verfy_code"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -145,11 +158,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        >
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/btn_cancel"
@@ -157,17 +169,17 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_gray_corner"
             android:gravity="center"
             android:text="@string/cancel"
             android:textColor="@color/white"
-            android:background="@color/button_gray_color"
             android:textSize="16sp" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/line_color"
-             />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/btn_commit"
@@ -176,10 +188,10 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_corner"
             android:gravity="center"
             android:text="@string/select_sure"
             android:textColor="@color/white"
-            android:background="@color/button_color"
             android:textSize="16sp" />
     </LinearLayout>
 

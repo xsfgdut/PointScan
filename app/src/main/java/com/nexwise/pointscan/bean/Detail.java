@@ -20,12 +20,14 @@ public class Detail implements Serializable {
     List<Device> devices;
     List<Image> images;
     List<Cell> cells;
+
     public Detail() {
 
     }
-    public Detail(String id, String province,String city,String district,String name,int state,
-                  double lng,double lat,int geoType,String operator,long time,String location,
-                  String env,List<Device> devices,List<Image> images,List<Cell> cells) {
+
+    public Detail(String id, String province, String city, String district, String name, int state,
+                  double lng, double lat, int geoType, String operator, long time, String location,
+                  String env, List<Device> devices, List<Image> images, List<Cell> cells) {
         this.id = id;
         this.province = province;
         this.city = city;

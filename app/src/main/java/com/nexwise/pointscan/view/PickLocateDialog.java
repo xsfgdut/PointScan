@@ -20,15 +20,6 @@ import java.util.Map;
 
 public class PickLocateDialog {
     private static String TAG = "PickLocateDialog";
-
-    Activity mContext;
-    NumberPicker mProvicePicker;
-    NumberPicker mCityPicker;
-    NumberPicker mDistrictPicker;
-    List<ProvinceModel> mProvinceList;
-
-    private AlertDialog ad;
-
     /**
      * 所有省集合
      */
@@ -38,9 +29,7 @@ public class PickLocateDialog {
      * key - 省 value - 市
      */
     protected Map<String, Object> mCitisDatasMap = new HashMap<>();
-
     protected Map<String, Object> mDistrictMap = new HashMap<>();
-//    protected List<Map<String, Object>> cityList = new ArrayList<>();
     /**
      * 当前省的名称
      */
@@ -49,8 +38,20 @@ public class PickLocateDialog {
      * 当前市的名称
      */
     protected String mCurrentCityName;
-
+    Activity mContext;
+    NumberPicker mProvicePicker;
+    NumberPicker mCityPicker;
+    NumberPicker mDistrictPicker;
+//    protected List<Map<String, Object>> cityList = new ArrayList<>();
+    List<ProvinceModel> mProvinceList;
     AddressPickedListener mListener;
+    private AlertDialog ad;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            locatePickDialog();
+        }
+    };
 
     public PickLocateDialog(Activity mContext, AddressPickedListener listener) {
         this.mContext = mContext;
@@ -168,7 +169,7 @@ public class PickLocateDialog {
                         mCurrentCityName = cityList.get(0).getName();
                     }
                 }
-                Log.d("wnw", list.size()+"");
+                Log.d("wnw", list.size() + "");
                 mProvinceDatas = new String[mProvinceList.size()];
                 for (int i = 0; i < mProvinceList.size(); i++) {
                     // 遍历所有省的数据
@@ -198,13 +199,6 @@ public class PickLocateDialog {
         });
 
     }
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            locatePickDialog();
-        }
-    };
 
     public interface AddressPickedListener {
         abstract void onAddressPicked(ProvinceModel province, CityModel city, DistrictModel district);

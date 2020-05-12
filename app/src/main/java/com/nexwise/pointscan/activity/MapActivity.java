@@ -106,6 +106,16 @@ import static com.nexwise.pointscan.utils.StringUtil.md5Decode32;
 
 
 public class MapActivity extends BaseAct implements LocationSource, AMapLocationListener, AMap.OnMarkerClickListener, AMap.OnCameraChangeListener, GeocodeSearch.OnGeocodeSearchListener {
+    private static final int MSG_LOAD_DATA = 0x0001;
+    private static final int MSG_LOAD_SUCCESS = 0x0002;
+    private static final int MSG_LOAD_FAILED = 0x0003;
+    private static final int MSG_LOAD_CODE_DATA = 0x0004;
+    private static final int TAKE_PHOTO = 189;
+    private static final int CHOOSE_PHOTO = 385;
+    private static final int CHOOSE_FILE = 285;
+    private static final int CITY_SELECT = 286;
+    private static final String FILE_PROVIDER_AUTHORITY = "com.nexwise.pointscan.fileprovider";
+    private static boolean isLoaded = false;
     LocationManager locationManager;
     Location location;
     private TextureMapView mapView;
@@ -122,11 +132,9 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private Marker marker;
     private List<Marker> markerList = new ArrayList<>();
     private MarkerOptions markerOptions;
-
     private MarkerPop markerPop;
     private String ipAddress;
     private String[] ipSource;
-
     private double gpsLatitude;
     private double gpsLongitude;
     private List<LatLng> gpsLatLngList = new ArrayList<>();
@@ -141,13 +149,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private Thread thread;
     private Thread threadCode;
-    private static final int MSG_LOAD_DATA = 0x0001;
-    private static final int MSG_LOAD_SUCCESS = 0x0002;
-    private static final int MSG_LOAD_FAILED = 0x0003;
-    private static final int MSG_LOAD_CODE_DATA = 0x0004;
     private ArrayList<ProvinceCodeModel> provinceCodeModels = new ArrayList<>();
-
-    private static boolean isLoaded = false;
     private Point point_l;
     private ModifyPswDialog modifyPswDialog;
     private PointDetailPop pointDetailPop;
@@ -187,12 +189,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private List<Image> images = new ArrayList<>();
     private List<Cell> cells = new ArrayList<>();
     private List<Device> devices = new ArrayList<>();
-
-    private static final int TAKE_PHOTO = 189;
-    private static final int CHOOSE_PHOTO = 385;
-    private static final int CHOOSE_FILE = 285;
-    private static final int CITY_SELECT = 286;
-    private static final String FILE_PROVIDER_AUTHORITY = "com.nexwise.pointscan.fileprovider";
     private Uri mImageUri, mImageUriFromFile;
     private File imageFile;
 
@@ -263,6 +259,50 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             }
         }
     };
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_LOAD_DATA:
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
+
+//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 子线程中解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+                    break;
+                case MSG_LOAD_CODE_DATA:
+                    if (threadCode == null) {//如果已创建就不再重新创建子线程了
+
+//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
+                        threadCode = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 子线程中解析省市区数据
+                                initJsonCodeData();
+                            }
+                        });
+                        threadCode.start();
+                    }
+                    break;
+
+                case MSG_LOAD_SUCCESS:
+//                    Toast.makeText(MapActivity.this, "Parse Succeed", Toast.LENGTH_SHORT).show();
+                    isLoaded = true;
+                    break;
+
+                case MSG_LOAD_FAILED:
+                    Toast.makeText(MapActivity.this, "Parse Failed", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     private void initData() {
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
@@ -278,7 +318,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         geocoderSearch.getFromLocationAsyn(query);// 设置异步逆地理编码请求
     }
 
-
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.d("xsf", "mark click");
@@ -292,10 +331,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         return true;//高德自带默认的弹窗将不会弹出
     }
 
-
     private void showAddPointDialog(LatLng latLng) {
         clickLatLng = latLng;
         addPointDialog = new AddPointDialog(this);
+        setAddDialogSize();
         addPointDialog.setCancelable(false);
         // LatLonPoint latLonPoint = new LatLonPoint(clickLatLng.latitude, clickLatLng.longitude);
         //  getAddress(latLonPoint);
@@ -419,7 +458,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     }
 
-    private void setHeight() {
+    private void setDetailSize() {
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
@@ -427,6 +466,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         params.width = width;
         params.height = height;
         pointDetailPop.getWindow().setAttributes(params);
+    }
+
+    private void setAddDialogSize() {
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        final WindowManager.LayoutParams params = addPointDialog.getWindow().getAttributes();
+        params.width = width - 80;
+        // params.height = height;
+        addPointDialog.getWindow().setAttributes(params);
     }
 
     private void pointDetailShow(final Point point) {
@@ -443,7 +492,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         point.setAddress(provinceName + cityName + districtName);
         pointDetailPop = new PointDetailPop(MapActivity.this, point);
 
-        setHeight();
+        setDetailSize();
 
         pointDetailPop.setOnClickCommitListener(new View.OnClickListener() {
             @Override
@@ -598,7 +647,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         startActivityForResult(intent, CHOOSE_FILE);
     }
 
-
     @Override
     protected void findView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_map);
@@ -741,7 +789,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
                     }
                 });
-              //  showToat("请点击地图上任意点进行经纬度获取增加堪点");
+                //  showToat("请点击地图上任意点进行经纬度获取增加堪点");
             }
         });
 
@@ -1015,64 +1063,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 
     }
 
-    class ReceiveBroadCast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("xsf", "MapActivity");
-            switch (intent.getAction()) {
-
-                default:
-                    break;
-            }
-        }
-
-    }
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-
-//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 子线程中解析省市区数据
-                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
-                case MSG_LOAD_CODE_DATA:
-                    if (threadCode == null) {//如果已创建就不再重新创建子线程了
-
-//                        Toast.makeText(MapActivity.this, "Begin Parse Data", Toast.LENGTH_SHORT).show();
-                        threadCode = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 子线程中解析省市区数据
-                                initJsonCodeData();
-                            }
-                        });
-                        threadCode.start();
-                    }
-                    break;
-
-                case MSG_LOAD_SUCCESS:
-//                    Toast.makeText(MapActivity.this, "Parse Succeed", Toast.LENGTH_SHORT).show();
-                    isLoaded = true;
-                    break;
-
-                case MSG_LOAD_FAILED:
-                    Toast.makeText(MapActivity.this, "Parse Failed", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-
     private void initJsonCodeData() {//解析带code数据
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
@@ -1154,7 +1144,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
 
     }
-
 
     public ArrayList<JsonBean> parseData(String result) {//Gson 解析
         ArrayList<JsonBean> detail = new ArrayList<>();
@@ -1254,7 +1243,6 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         Log.d("xsf", districtName + "=district");
     }
 
-
     private void doAddPointRequest() {
         Map<String, String> map = new HashMap<>();
         map.put(CloudConstant.ParameterKey.ID, String.valueOf(id));
@@ -1345,6 +1333,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -1376,6 +1365,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
 
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -1460,6 +1450,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -1489,6 +1480,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
 
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -1496,6 +1488,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         });
 
     }
+
     private void doLogoutRequest() {
         Map<String, String> map = new HashMap<>();
         NetRequest.postJsonRequest(this, CloudConstant.CmdValue.LOGOUT, map, new NetRequest.DataCallBack() {
@@ -1516,6 +1509,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             public void requestFailure(Request request, IOException e) {
 
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -1740,6 +1734,19 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 break;
             default:
                 break;
+        }
+
+    }
+
+    class ReceiveBroadCast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("xsf", "MapActivity");
+            switch (intent.getAction()) {
+
+                default:
+                    break;
+            }
         }
 
     }

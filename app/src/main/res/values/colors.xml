@@ -7,6 +7,7 @@
     <color name="black_text2">#666666</color>
     <color name="blue">#1DA1F2</color>
     <color name="white">#ffffff</color>
+    <color name="item_color">#f5f5f5</color>
     <color name="red_color">#ff0000</color>
     <color name="edit_frame_color">#b7b7b7</color>
     <color name="line_color">#e5e5e5</color>
@@ -15,4 +16,6 @@
     <color name="body_color">#f4f4f4</color>
     <color name="button_color">#336799</color>
     <color name="button_gray_color">#999999</color>
+    <color name="text_color">#615547</color>
+    <color name="status_color">#b6b6b6</color>
 </resources>

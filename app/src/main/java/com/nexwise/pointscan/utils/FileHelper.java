@@ -425,40 +425,6 @@ public class FileHelper {
         }
     }
 
-    //删除指定txt文件   通过路径
-    public void deleteFile(String filePath, String fileName) {
-        File f = new File(filePath + fileName);  // 输入要删除的文件位置
-        if (f.exists()) {
-            f.delete();
-        }
-
-    }
-
-    //读取指定目录下的所有TXT文件的文件名
-    private String getFileName(File[] files) {
-        String str = "";
-        if (files != null) { // 先判断目录是否为空，否则会报空指针
-            for (File file : files) {
-                if (file.isDirectory()) {//检查此路径名的文件是否是一个目录(文件夹)
-                    Log.i("zeng", "若是文件目录。继续读1"
-                            + file.getName() + file.getPath());
-                    getFileName(file.listFiles());
-                    Log.i("zeng", "若是文件目录。继续读2"
-                            + file.getName() + file.getPath());
-                } else {
-                    String fileName = file.getName();
-                    if (fileName.endsWith(".txt")) {
-                        String s = fileName.substring(0, fileName.lastIndexOf("."));
-                        Log.i("zeng", "文件名txt：：   " + s);
-                        str += fileName.substring(0, fileName.lastIndexOf(".")) + "\n";
-                    }
-                }
-            }
-
-        }
-        return str;
-    }
-
     // 获取当前目录下所有的txt文件名
     public static String getStrFileName(String fileAbsolutePath) {
         List<String> fileNameList = new ArrayList<>();
@@ -495,12 +461,12 @@ public class FileHelper {
         return fileString;
     }
 
-    public static Bitmap getBitmap(String path) throws IOException{
+    public static Bitmap getBitmap(String path) throws IOException {
         URL url = new URL(path);
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(5000);
         conn.setRequestMethod("GET");
-        if(conn.getResponseCode() == 200){
+        if (conn.getResponseCode() == 200) {
             InputStream inputStream = conn.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
@@ -516,14 +482,14 @@ public class FileHelper {
         int end = pathandname.lastIndexOf(".");
         if (start != -1 && end != -1) {
             return pathandname.substring(start + 1, end);
-        }
-        else {
+        } else {
             return null;
         }
     }
+
     /**
      * * 保留文件名及后缀
-     * */
+     */
     public static String getFileNameWithSuffix(String pathandname) {
         int start = pathandname.lastIndexOf("/");
         if (start != -1) {
@@ -531,6 +497,40 @@ public class FileHelper {
         } else {
             return null;
         }
+    }
+
+    //删除指定txt文件   通过路径
+    public void deleteFile(String filePath, String fileName) {
+        File f = new File(filePath + fileName);  // 输入要删除的文件位置
+        if (f.exists()) {
+            f.delete();
+        }
+
+    }
+
+    //读取指定目录下的所有TXT文件的文件名
+    private String getFileName(File[] files) {
+        String str = "";
+        if (files != null) { // 先判断目录是否为空，否则会报空指针
+            for (File file : files) {
+                if (file.isDirectory()) {//检查此路径名的文件是否是一个目录(文件夹)
+                    Log.i("zeng", "若是文件目录。继续读1"
+                            + file.getName() + file.getPath());
+                    getFileName(file.listFiles());
+                    Log.i("zeng", "若是文件目录。继续读2"
+                            + file.getName() + file.getPath());
+                } else {
+                    String fileName = file.getName();
+                    if (fileName.endsWith(".txt")) {
+                        String s = fileName.substring(0, fileName.lastIndexOf("."));
+                        Log.i("zeng", "文件名txt：：   " + s);
+                        str += fileName.substring(0, fileName.lastIndexOf(".")) + "\n";
+                    }
+                }
+            }
+
+        }
+        return str;
     }
 
 

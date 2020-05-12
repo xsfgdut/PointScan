@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -556,7 +555,7 @@
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="20dp"
-                        android:background="@color/button_color"
+                        android:background="@drawable/shape_button_corner"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="增加设备"
@@ -595,7 +594,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:background="@color/button_color"
+                        android:background="@drawable/shape_button_corner"
                         android:gravity="center"
                         android:text="图片选择"
                         android:textColor="@color/white"
@@ -608,7 +607,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:background="@color/button_color"
+                        android:background="@drawable/shape_button_corner"
                         android:gravity="center"
                         android:text="文件选择"
                         android:textColor="@color/white"
@@ -633,8 +632,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        >
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/btn_cancel"
@@ -642,16 +640,17 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_gray_corner"
             android:gravity="center"
             android:text="@string/cancel"
             android:textColor="@color/white"
-            android:background="@color/button_gray_color"
             android:textSize="16sp" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/btn_commit"
@@ -660,10 +659,10 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_corner"
             android:gravity="center"
             android:text="@string/select_sure"
             android:textColor="@color/white"
-            android:background="@color/button_color"
             android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -3,7 +3,6 @@ package com.nexwise.pointscan.adapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,26 +16,22 @@ import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.bean.Image;
 import com.nexwise.pointscan.constant.CloudConstant;
 import com.nexwise.pointscan.utils.ImageDownload;
+
 import java.util.List;
 
 /**
  * Created by shifan_xiao on 2019/7/22.
  */
-public class ImagesListAdapter extends RecyclerView .Adapter<ImagesListAdapter.ViewHolder>{
+public class ImagesListAdapter extends RecyclerView.Adapter<ImagesListAdapter.ViewHolder> {
+    public OnItemClickListener itemClickListener;
     private List<Image> imageList;
 
-    public OnItemClickListener itemClickListener;
-
-    public interface  OnItemClickListener{
-        void onItemClick(View view,int position);
+    public ImagesListAdapter(List<Image> images) {
+        imageList = images;
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
-    }
-
-    public ImagesListAdapter(List<Image> images){
-        imageList = images;
     }
 
     public void setImageList(List<Image> images) {
@@ -48,7 +43,7 @@ public class ImagesListAdapter extends RecyclerView .Adapter<ImagesListAdapter.V
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //将布局转化为View并传递给RecycleView封装好的ViewHolder
-        View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
         return new ViewHolder(v);
     }
 
@@ -60,19 +55,19 @@ public class ImagesListAdapter extends RecyclerView .Adapter<ImagesListAdapter.V
             Bitmap bitmap = BitmapFactory.decodeFile(image.getUrl());
             Bitmap newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 180,
                     180);
-            holder.imageView.setImageBitmap (newBitmap);
+            holder.imageView.setImageBitmap(newBitmap);
         } else {
             Bitmap bitmap = null;
-         //   Bitmap bitmap = ImageDownload.CacheHelper.sLruCache.get ("ChatRecyclerAdapter" + position);
+            //   Bitmap bitmap = ImageDownload.CacheHelper.sLruCache.get ("ChatRecyclerAdapter" + position);
             if (bitmap == null) {
-                new ImageDownload.ImageTask(new ImageDownload.ImageTask.Listener () {
+                new ImageDownload.ImageTask(new ImageDownload.ImageTask.Listener() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {
-                        holder.imageView.setImageBitmap (bitmap);
+                        holder.imageView.setImageBitmap(bitmap);
                     }
-                }).execute (CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
-            }else {
-                holder.imageView.setImageBitmap (bitmap);
+                }).execute(CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
+            } else {
+                holder.imageView.setImageBitmap(bitmap);
             }
         }
 
@@ -92,20 +87,25 @@ public class ImagesListAdapter extends RecyclerView .Adapter<ImagesListAdapter.V
         return imageList.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textView;
         public ImageView imageView;
-        public ViewHolder(View itemView){
+
+        public ViewHolder(View itemView) {
             super(itemView);
-            textView= itemView.findViewById(R.id.type_name);
+            textView = itemView.findViewById(R.id.type_name);
             imageView = itemView.findViewById(R.id.imageview);
             imageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener!=null){
-                itemClickListener.onItemClick(view,getPosition());
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(view, getPosition());
             }
 
         }

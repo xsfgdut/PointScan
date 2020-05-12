@@ -4,11 +4,8 @@ import android.util.Log;
 
 import com.nexwise.pointscan.constant.CloudConstant;
 
-import org.reactivestreams.Subscriber;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -35,48 +32,8 @@ public class NetUtil {
      * @param action  请求的命令
      */
     public static void doCloudEven(HttpRespond respond, String action) {
-        HttpRequst.getHttpRequst().requestN(respond,action);
+        HttpRequst.getHttpRequst().requestN(respond, action);
     }
-
-    protected void post_file(final String url, final Map<String, Object> map, File file) {
-        OkHttpClient client = new OkHttpClient();
-        // form 表单形式上传
-        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        if(file != null){
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-            String filename = file.getName();
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            requestBody.addFormDataPart("headImage", file.getName(), body);
-        }
-        if (map != null) {
-            // map 里面是请求中所需要的 key 和 value
-            for (Map.Entry entry : map.entrySet()) {
-                requestBody.addFormDataPart(valueOf(entry.getKey()), valueOf(entry.getValue()));
-            }
-        }
-        Request request = new Request.Builder().url("请求地址").post(requestBody.build()).tag("").build();
-        // readTimeout("请求超时时间" , 时间单位);
-        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("lfq" ,"onFailure");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String str = response.body().string();
-                    Log.i("lfq", response.message() + " , body " + str);
-
-                } else {
-                    Log.i("lfq" ,response.message() + " error : body " + response.body().string());
-                }
-            }
-        });
-
-    }
-
 
     /**
      * post方式二：stirng类型参数和上传文件参数
@@ -102,6 +59,44 @@ public class NetUtil {
         return call;
     }
 
+    protected void post_file(final String url, final Map<String, Object> map, File file) {
+        OkHttpClient client = new OkHttpClient();
+        // form 表单形式上传
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if (file != null) {
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
+            String filename = file.getName();
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            requestBody.addFormDataPart("headImage", file.getName(), body);
+        }
+        if (map != null) {
+            // map 里面是请求中所需要的 key 和 value
+            for (Map.Entry entry : map.entrySet()) {
+                requestBody.addFormDataPart(valueOf(entry.getKey()), valueOf(entry.getValue()));
+            }
+        }
+        Request request = new Request.Builder().url("请求地址").post(requestBody.build()).tag("").build();
+        // readTimeout("请求超时时间" , 时间单位);
+        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("lfq", "onFailure");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String str = response.body().string();
+                    Log.i("lfq", response.message() + " , body " + str);
+
+                } else {
+                    Log.i("lfq", response.message() + " error : body " + response.body().string());
+                }
+            }
+        });
+
+    }
 
 
 }

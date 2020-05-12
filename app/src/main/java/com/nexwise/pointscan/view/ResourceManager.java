@@ -25,12 +25,19 @@ public class ResourceManager {
     List<ProvinceModel> list = new ArrayList<ProvinceModel>();
     Callable callable;
 
-    public ResourceManager(Callable callable){
+    public ResourceManager(Callable callable) {
         this.callable = callable;
         getData();
     }
 
-    public void getData(){
+    public static <T> T formJsonToArray(String json, Type t) {
+        if (json == null) {
+            return null;
+        }
+        return new Gson().fromJson(json, t);
+    }
+
+    public void getData() {
 
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -41,8 +48,7 @@ public class ResourceManager {
         //new call
         Call call = mOkHttpClient.newCall(request);
         //请求加入调度
-        call.enqueue(new Callback()
-        {
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("wnw", "failure");
@@ -56,9 +62,9 @@ public class ResourceManager {
         });
     }
 
-    private void parseData(String data){
+    private void parseData(String data) {
         try {
-            if (data.isEmpty()){
+            if (data.isEmpty()) {
                 return;
             }
             JSONObject object = new JSONObject(data);
@@ -66,19 +72,12 @@ public class ResourceManager {
             list = formJsonToArray(jsonArray.toString(), new TypeToken<List<ProvinceModel>>() {
             }.getType());
             callable.onCall(list);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static <T> T formJsonToArray(String json, Type t) {
-        if (json == null) {
-            return null;
-        }
-        return new Gson().fromJson(json, t);
-    }
-
-    interface Callable{
+    interface Callable {
         void onCall(List<ProvinceModel> list);
     }
 }

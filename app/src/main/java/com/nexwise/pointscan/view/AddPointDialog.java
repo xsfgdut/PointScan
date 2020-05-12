@@ -5,12 +5,8 @@ package com.nexwise.pointscan.view;
  * Created by shifan_xiao on 2016/11/2.
  */
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,20 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.google.gson.Gson;
 import com.nexwise.pointscan.R;
-import com.nexwise.pointscan.bean.JsonBean;
-import com.nexwise.pointscan.utils.GetJsonDataUtil;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class AddPointDialog extends Dialog {
@@ -69,10 +53,10 @@ public class AddPointDialog extends Dialog {
         addressTextView = view.findViewById(R.id.addr_select);
         radioGroup = view.findViewById(R.id.radiogroup);
 
-        linearLayout_1 = view.findViewById(R.id.linear_l);
-        linearLayout_2 = view.findViewById(R.id.linear_2);
-        linearLayout_3 = view.findViewById(R.id.linear_3);
-        linearLayout_4 = view.findViewById(R.id.linear_4);
+//        linearLayout_1 = view.findViewById(R.id.linear_l);
+//        linearLayout_2 = view.findViewById(R.id.linear_2);
+//        linearLayout_3 = view.findViewById(R.id.linear_3);
+//        linearLayout_4 = view.findViewById(R.id.linear_4);
         btn_commit = view.findViewById(R.id.btn_commit);
         btn_cancel = view.findViewById(R.id.btn_cancel);
         super.setContentView(view);

@@ -14,7 +14,7 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
     private int space;//定义2个Item之间的距离
 
     public HorizontalItemDecoration(int space, Context mContext) {
-        this.space = dip2px(space,mContext);
+        this.space = dip2px(space, mContext);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    public int dip2px(float dpValue,Context context) {
+    public int dip2px(float dpValue, Context context) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }

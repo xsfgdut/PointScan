@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
@@ -54,6 +55,7 @@ public class UserListAdapter extends BaseAdapter {
             viewHolder.userPhone = convertView.findViewById(R.id.user_number);
             viewHolder.userAddress = convertView.findViewById(R.id.user_address);
             viewHolder.userMark = convertView.findViewById(R.id.user_mark);
+            viewHolder.linearLayout = convertView.findViewById(R.id.linear);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -63,6 +65,11 @@ public class UserListAdapter extends BaseAdapter {
         viewHolder.userPhone.setText(userList.get(position).getTel());
         viewHolder.userAddress.setText(userList.get(position).getAddress());
         viewHolder.userMark.setText(userList.get(position).getRemark());
+        if (position % 2 == 0) {
+            viewHolder.linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        } else {
+            viewHolder.linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.item_color));
+        }
 
         return convertView;
     }
@@ -74,6 +81,7 @@ public class UserListAdapter extends BaseAdapter {
         TextView userPhone;
         TextView userAddress;
         TextView userMark;
+        LinearLayout linearLayout;
     }
 
 

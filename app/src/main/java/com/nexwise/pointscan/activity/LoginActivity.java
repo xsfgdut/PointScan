@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat;
 
 import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.base.BaseAct;
-
 import com.nexwise.pointscan.cloudNet.NetRequest;
 import com.nexwise.pointscan.constant.CloudConstant;
 
@@ -99,8 +98,8 @@ public class LoginActivity extends BaseAct {
             @Override
             public void requestSuccess(String result) throws Exception {
                 Log.d("xsf", "login success====" + result);
-                JSONObject  dataJson=new JSONObject(result);
-                JSONObject  response=dataJson.getJSONObject("result");
+                JSONObject dataJson = new JSONObject(result);
+                JSONObject response = dataJson.getJSONObject("result");
                 String code = response.getString("code");
 
                 if (code.equals("0000")) {
@@ -118,6 +117,7 @@ public class LoginActivity extends BaseAct {
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
             }
+
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
@@ -153,7 +153,7 @@ public class LoginActivity extends BaseAct {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE
-                };
+        };
         List<String> permissionDeniedList = new ArrayList<>();
         for (String permission : permissions) {
             int permissionCheck = ContextCompat.checkSelfPermission(this, permission);

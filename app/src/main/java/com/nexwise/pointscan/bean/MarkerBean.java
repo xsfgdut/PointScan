@@ -3,14 +3,16 @@ package com.nexwise.pointscan.bean;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 
-public class MarkerBean{
+public class MarkerBean {
     Marker marker;
     LatLng latLng;
     String title;
     int state;
-    public  MarkerBean() {
+
+    public MarkerBean() {
     }
-    public MarkerBean(Marker marker,LatLng latLng,String title,int state) {
+
+    public MarkerBean(Marker marker, LatLng latLng, String title, int state) {
         this.marker = marker;
         this.latLng = latLng;
         this.title = title;

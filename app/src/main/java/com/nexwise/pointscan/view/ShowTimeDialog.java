@@ -11,46 +11,46 @@ import android.widget.TimePicker;
 
 import com.nexwise.pointscan.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ShowTimeDialog extends Dialog{
+public class ShowTimeDialog extends Dialog {
 
-    String data,time = "" ;
-    public ShowTimeDialog(Context c, final ShowTimeIn s){
+    String data, time = "";
+
+    public ShowTimeDialog(Context c, final ShowTimeIn s) {
         super(c, R.style.noTitleDialog);
         View view = LayoutInflater.from(c).inflate(R.layout.timescheh, null);
 
         final DatePicker da = (DatePicker) view.findViewById(R.id.time_data);
-        Calendar calendar=Calendar.getInstance();
-        int year=calendar.get(Calendar.YEAR);
-        int monthOfYear=calendar.get(Calendar.MONTH);
-        int dayOfMonth=calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int monthOfYear = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         data = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-        da.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener(){
+        da.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener() {
             public void onDateChanged(DatePicker view, int year,
                                       int monthOfYear, int dayOfMonth) {
                 //dateEt.setText("您选择的日期是："+year+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日。");
-                data = "" ;
+                data = "";
 
-                data += year ;
-                data += "-" ;
-                if ((monthOfYear+1) < 10) {
-                    data += "0" ;
-                    data += (monthOfYear+1) ;
-                }else {
-                    data += (monthOfYear+1) ;
+                data += year;
+                data += "-";
+                if ((monthOfYear + 1) < 10) {
+                    data += "0";
+                    data += (monthOfYear + 1);
+                } else {
+                    data += (monthOfYear + 1);
                 }
-                data += "-" ;
+                data += "-";
                 if (dayOfMonth < 10) {
-                    data += "0" ;
-                    data += dayOfMonth ;
-                }else {
-                    data += dayOfMonth ;
+                    data += "0";
+                    data += dayOfMonth;
+                } else {
+                    data += dayOfMonth;
                 }
             }
         });
@@ -60,51 +60,51 @@ public class ShowTimeDialog extends Dialog{
         final int ss = calendar.get(Calendar.SECOND);
         ti.setCurrentHour(hour);
         //ti.setIs24HourView(true);
-        if (hour < 10){
-            time += "0" ;
-            time += hour ;
-        }else {
-            time += hour ;
+        if (hour < 10) {
+            time += "0";
+            time += hour;
+        } else {
+            time += hour;
         }
-        time += ":" ;
-        if (m < 10){
-            time += "0" ;
-            time += m ;
-        }else {
-            time += m ;
+        time += ":";
+        if (m < 10) {
+            time += "0";
+            time += m;
+        } else {
+            time += m;
         }
-        time += ":" ;
-        if (ss < 10){
-            time += "0" ;
-            time += ss ;
-        }else {
-            time += ss ;
+        time += ":";
+        if (ss < 10) {
+            time += "0";
+            time += ss;
+        } else {
+            time += ss;
         }
 
         ti.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 // TODO Auto-generated method stub
-                time = "" ;
+                time = "";
 
-                if (hourOfDay < 10){
-                    time += "0" ;
-                    time += hourOfDay ;
-                }else {
-                    time += hourOfDay ;
+                if (hourOfDay < 10) {
+                    time += "0";
+                    time += hourOfDay;
+                } else {
+                    time += hourOfDay;
                 }
-                time += ":" ;
-                if (minute < 10){
-                    time += "0" ;
-                    time += minute ;
-                }else {
-                    time += minute ;
+                time += ":";
+                if (minute < 10) {
+                    time += "0";
+                    time += minute;
+                } else {
+                    time += minute;
                 }
-                time += ":" ;
-                if (ss < 10){
-                    time += "0" ;
-                    time += ss ;
-                }else {
-                    time += ss ;
+                time += ":";
+                if (ss < 10) {
+                    time += "0";
+                    time += ss;
+                } else {
+                    time += ss;
                 }
             }
         });
@@ -132,7 +132,7 @@ public class ShowTimeDialog extends Dialog{
 
     // 这里写了一个回调函数的接口
     public interface ShowTimeIn {
-        void GetData(String data ,String time);
+        void GetData(String data, String time);
 
     }
 }

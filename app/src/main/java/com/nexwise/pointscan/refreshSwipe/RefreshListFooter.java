@@ -46,17 +46,17 @@ public class RefreshListFooter extends LinearLayout {
         }
     }
 
+    public int getBottomMargin() {
+        LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
+        return lp.bottomMargin;
+    }
+
     public void setBottomMargin(int height) {
         if (height < 0)
             return;
         LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
         lp.bottomMargin = height;
         mContentView.setLayoutParams(lp);
-    }
-
-    public int getBottomMargin() {
-        LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
-        return lp.bottomMargin;
     }
 
     /**
@@ -68,7 +68,7 @@ public class RefreshListFooter extends LinearLayout {
     }
 
     /**
-     * loading status 
+     * loading status
      */
     public void loading() {
         mHintView.setVisibility(View.GONE);

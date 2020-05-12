@@ -1,98 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="127dp"
     android:background="#0000"
-    >
+    android:orientation="horizontal">
+
     <LinearLayout
         android:layout_width="209dp"
         android:layout_height="127dp"
-        android:orientation="vertical"
-        android:background="@drawable/inforwindow_bg">
+        android:background="@drawable/inforwindow_bg"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="11dp"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/black_text"/>
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="14dp"
+            android:textColor="@color/black_text"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/addr1"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:textSize="12sp"
-            android:lines="2"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="14dp"
             android:ellipsize="end"
-            android:textColor="@color/black_text2"/>
+            android:lines="2"
+            android:textColor="@color/black_text2"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/addr2"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:textSize="12sp"
-            android:lines="2"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="14dp"
             android:ellipsize="end"
-            android:textColor="@color/black_text2"/>
+            android:lines="2"
+            android:textColor="@color/black_text2"
+            android:textSize="12sp" />
 
         <View
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="6dp"
             android:layout_marginTop="9dp"
-            android:background="#DFDFDF"/>
+            android:layout_marginRight="6dp"
+            android:background="#DFDFDF" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:gravity="right"
-            >
+            android:gravity="right">
+
             <TextView
                 android:id="@+id/detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看详情"
-                android:textSize="14sp"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/blue"/>
+                android:layout_marginRight="10dp"
+                android:text="查看详情"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
+
             <LinearLayout
-                android:layout_marginTop="9dp"
                 android:id="@+id/navigation_LL"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginTop="9dp"
+                android:layout_weight="1">
+
                 <ImageView
-                    android:layout_marginLeft="27dp"
                     android:layout_width="17dp"
                     android:layout_height="18dp"
+                    android:layout_marginLeft="27dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/inforwindow_navigation"/>
+                    android:src="@drawable/inforwindow_navigation" />
+
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/infowindow_navigation"
-                    android:textSize="14sp"
-                    android:textColor="@color/black_text"/>
+                    android:textColor="@color/black_text"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
@@ -100,36 +103,36 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="13dp"
-                android:background="#DFDFDF"/>
+                android:background="#DFDFDF" />
 
             <LinearLayout
-                android:layout_marginTop="9dp"
                 android:id="@+id/call_LL"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginTop="9dp"
+                android:layout_weight="1">
 
                 <ImageView
-                    android:layout_marginLeft="23dp"
                     android:layout_width="19dp"
                     android:layout_height="18dp"
+                    android:layout_marginLeft="23dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/inforwindow_call"/>
+                    android:src="@drawable/inforwindow_call" />
+
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/infowindow_call"
-                    android:textSize="14sp"
-                    android:textColor="@color/black_text"/>
+                    android:textColor="@color/black_text"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-     <!--用来偏移inforwindow的位置-->
+    <!--用来偏移inforwindow的位置-->
     <TextView
         android:layout_width="38dp"
         android:layout_height="match_parent" />

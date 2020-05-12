@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,35 +76,29 @@ public class HorizontalListAdapter extends BaseAdapter {
                 viewHolder.name.setText("地图截图");
                 break;
         }
-        Bitmap bitmap = CacheHelper.sLruCache.get ("ChatRecyclerAdapter" + position);
+        Bitmap bitmap = CacheHelper.sLruCache.get("ChatRecyclerAdapter" + position);
         if (bitmap == null) {
-            new ImageTask (new ImageTask.Listener () {
+            new ImageTask(new ImageTask.Listener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
-                    viewHolder.imageView.setImageBitmap (bitmap);
+                    viewHolder.imageView.setImageBitmap(bitmap);
                 }
-            }).execute (CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
-        }else {
-            viewHolder.imageView.setImageBitmap (bitmap);
+            }).execute(CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
+        } else {
+            viewHolder.imageView.setImageBitmap(bitmap);
         }
 
         return convertView;
     }
 
-
-    class ViewHolder {
-        TextView name;
-        ImageView imageView;
-
-    }
-
-    private static final class CacheHelper{
+    private static final class CacheHelper {
         private static LruCache<String, Bitmap> sLruCache;
+
         static {
-            sLruCache = new LruCache<String, Bitmap> ((int)Runtime.getRuntime ().maxMemory ()/4){
+            sLruCache = new LruCache<String, Bitmap>((int) Runtime.getRuntime().maxMemory() / 4) {
                 @Override
                 protected int sizeOf(String key, Bitmap value) {
-                    return value.getByteCount ();
+                    return value.getByteCount();
                 }
             };
         }
@@ -119,51 +112,57 @@ public class HorizontalListAdapter extends BaseAdapter {
             mListener = listener;
         }
 
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bitmap = getBitmap (strings[0]);
-            HorizontalListAdapter.CacheHelper.sLruCache.put (strings[1], bitmap);
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            mListener.onSuccess (bitmap);
-        }
-
-        public interface Listener{
-            void onSuccess(Bitmap bitmap);
-        }
-
-        private static Bitmap getBitmap(String url){
+        private static Bitmap getBitmap(String url) {
             Bitmap bitmap = null;
             Bitmap newBitmap = null;
             BufferedInputStream stream = null;
             URL url1 = null;
             try {
-                url1 = new URL (url);
-                URLConnection connection = url1.openConnection ();
-                stream = new BufferedInputStream(connection.getInputStream ());
-                bitmap = BitmapFactory.decodeStream (stream);
+                url1 = new URL(url);
+                URLConnection connection = url1.openConnection();
+                stream = new BufferedInputStream(connection.getInputStream());
+                bitmap = BitmapFactory.decodeStream(stream);
                 newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 80,
                         80);
                 bitmap.recycle();
 
             } catch (MalformedURLException e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace ();
-            }finally {
+                e.printStackTrace();
+            } finally {
                 if (stream != null) {
                     try {
-                        stream.close ();
+                        stream.close();
                     } catch (IOException e) {
-                        e.printStackTrace ();
+                        e.printStackTrace();
                     }
                 }
             }
             return newBitmap;
         }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bitmap = getBitmap(strings[0]);
+            HorizontalListAdapter.CacheHelper.sLruCache.put(strings[1], bitmap);
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mListener.onSuccess(bitmap);
+        }
+
+        public interface Listener {
+            void onSuccess(Bitmap bitmap);
+        }
+    }
+
+    class ViewHolder {
+        TextView name;
+        ImageView imageView;
+
     }
 
 }

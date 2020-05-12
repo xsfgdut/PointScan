@@ -8,7 +8,6 @@ package com.nexwise.pointscan.okHttp;
 
 public interface HttpSuccessCallBack {
     /**
-     *
      * @param result
      */
     public void onResponse(String result) throws Exception;

@@ -7,9 +7,6 @@ package com.nexwise.pointscan.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -18,9 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
-
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 
 public class AddDeviceDialog extends Dialog {
@@ -139,14 +133,17 @@ public class AddDeviceDialog extends Dialog {
 
 
     public int getNewType() {
-      return new_type;
+        return new_type;
     }
+
     public int getNetWorkType() {
         return network_type;
     }
+
     public int getAntenaType() {
         return antena_type;
     }
+
     public String[] getIpSource() {
         return ipSource;
     }

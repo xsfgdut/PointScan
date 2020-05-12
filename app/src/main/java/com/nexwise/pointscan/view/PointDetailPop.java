@@ -130,7 +130,7 @@ public class PointDetailPop extends Dialog {
             @Override
             public void onClick(View view) {
 //点击组件的点击事件
-               // showTimeDialog(context);
+                // showTimeDialog(context);
 
             }
         });
@@ -138,13 +138,13 @@ public class PointDetailPop extends Dialog {
     }
 
     private void showTimeDialog(Context context) {
-        Log.d("xsf","showTimeDialog");
+        Log.d("xsf", "showTimeDialog");
         showTimeDialog = new ShowTimeDialog(context, new ShowTimeDialog.ShowTimeIn() {
             @Override
-            public void GetData(String data, String time)  {
-                Log.d("xsf","data =" + data);
-                Log.d("xsf","time =" + time);
-                timeTextView.setText(data + "  "+ time);
+            public void GetData(String data, String time) {
+                Log.d("xsf", "data =" + data);
+                Log.d("xsf", "time =" + time);
+                timeTextView.setText(data + "  " + time);
                 String str = data + " " + time;
                 try {
                     getLongTimeVlaue(str);
@@ -156,9 +156,10 @@ public class PointDetailPop extends Dialog {
         });
         showTimeDialog.show();
     }
-    private void getLongTimeVlaue(String str) throws ParseException{
-        timeValue = DateUtils.stringToLong(str,DateUtils.DATE_TO_STRING_DETAIAL_PATTERN);
-        Log.d("xsf","timeValue =" + timeValue);
+
+    private void getLongTimeVlaue(String str) throws ParseException {
+        timeValue = DateUtils.stringToLong(str, DateUtils.DATE_TO_STRING_DETAIAL_PATTERN);
+        Log.d("xsf", "timeValue =" + timeValue);
     }
 
     public void setvalue(Point point) {
@@ -169,12 +170,12 @@ public class PointDetailPop extends Dialog {
         addressTextView.setText(point.getAddress());
         personTextView.setText(point.getOperator());
         timeTextView.setText(DateUtils.ms2Date(System.currentTimeMillis()));
-       // timeTextView.setText(DateUtils.ms2Date(point.getTime()));
+        // timeTextView.setText(DateUtils.ms2Date(point.getTime()));
         locationTextView.setText(point.getLocation());
         envTextView.setText(point.getEnv());
         try {
             getLongTimeVlaue(timeTextView.getText().toString());
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         switch (point.getState()) {
@@ -227,9 +228,11 @@ public class PointDetailPop extends Dialog {
     public int getState() {
         return state;
     }
+
     public int getGeoType() {
         return geoType;
     }
+
     public long getLongTime() {
         return timeValue;
     }

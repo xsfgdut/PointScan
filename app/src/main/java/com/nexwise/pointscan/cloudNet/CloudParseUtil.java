@@ -1,14 +1,10 @@
 package com.nexwise.pointscan.cloudNet;
 
-import com.google.gson.Gson;
 import com.nexwise.pointscan.constant.CloudConstant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 解析返回的

@@ -13,8 +13,8 @@ import android.util.Log;
 
 public class FileChooseUtil {
 
-    private Context context;
     private static FileChooseUtil util = null;
+    private Context context;
 
     private FileChooseUtil(Context context) {
         this.context = context;
@@ -37,15 +37,15 @@ public class FileChooseUtil {
         String chooseFilePath = null;
         if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
             chooseFilePath = uri.getPath();
-            Log.d("xsf",chooseFilePath + "=chooseFilePath");
+            Log.d("xsf", chooseFilePath + "=chooseFilePath");
             return chooseFilePath;
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
             chooseFilePath = getPath(context, uri);
-            Log.d("xsf",chooseFilePath + "=chooseFilePath");
+            Log.d("xsf", chooseFilePath + "=chooseFilePath");
         } else {//4.4以下下系统调用方法
             chooseFilePath = getRealPathFromURI(uri);
-            Log.d("xsf",chooseFilePath + "=chooseFilePath");
+            Log.d("xsf", chooseFilePath + "=chooseFilePath");
         }
         return chooseFilePath;
     }

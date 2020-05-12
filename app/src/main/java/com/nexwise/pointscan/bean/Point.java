@@ -29,26 +29,27 @@ public class Point implements Serializable {
     public Point() {
 
     }
-    public Point(String id,String province,String city,String district,String address,String name,int state,double lng,double lat,Marker marker,
-                 int geoType,String operator,long time,String location,String env,List<Device> devices,List<Image> images,List<Cell> cells) {
-      this.id = id;
-      this.province = province;
-      this.city = city;
-      this.district = district;
-      this.name = name;
-      this.address = address;
-      this.state = state;
-      this.lng = lng;
-      this.lat = lat;
-      this.marker = marker;
-      this.geoType = geoType;
-      this.operator = operator;
-      this.time = time;
-      this.location = location;
-      this.env = env;
-      this.devices = devices;
-      this.images = images;
-      this.cells = cells;
+
+    public Point(String id, String province, String city, String district, String address, String name, int state, double lng, double lat, Marker marker,
+                 int geoType, String operator, long time, String location, String env, List<Device> devices, List<Image> images, List<Cell> cells) {
+        this.id = id;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.name = name;
+        this.address = address;
+        this.state = state;
+        this.lng = lng;
+        this.lat = lat;
+        this.marker = marker;
+        this.geoType = geoType;
+        this.operator = operator;
+        this.time = time;
+        this.location = location;
+        this.env = env;
+        this.devices = devices;
+        this.images = images;
+        this.cells = cells;
     }
 
     public String getId() {

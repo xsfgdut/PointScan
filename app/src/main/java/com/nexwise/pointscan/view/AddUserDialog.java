@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.nexwise.pointscan.R;
 
 
-
 public class AddUserDialog extends Dialog {
     private EditText userName;
     private EditText psw;
@@ -30,7 +29,7 @@ public class AddUserDialog extends Dialog {
     private LinearLayout linearLayout;
 
 
-    public AddUserDialog(Context context,boolean isAdd) {
+    public AddUserDialog(Context context, boolean isAdd) {
         super(context, R.style.noTitleDialog);
         View view = LayoutInflater.from(getContext())
                 .inflate(R.layout.add_user, null);
@@ -41,7 +40,7 @@ public class AddUserDialog extends Dialog {
         address = view.findViewById(R.id.address_value);
         remark = view.findViewById(R.id.remark_value);
         linearLayout = view.findViewById(R.id.linear_2);
-        if(isAdd) {
+        if (isAdd) {
             linearLayout.setVisibility(View.VISIBLE);
         } else {
             linearLayout.setVisibility(View.GONE);
@@ -62,7 +61,7 @@ public class AddUserDialog extends Dialog {
         btn_cancel.setOnClickListener(listener);
     }
 
-    public void setValue(String userNameStr,String nameStr,String telStr,String addressStr,String remarkStr) {
+    public void setValue(String userNameStr, String nameStr, String telStr, String addressStr, String remarkStr) {
         userName.setText(userNameStr);
         name.setText(nameStr);
         phone.setText(telStr);

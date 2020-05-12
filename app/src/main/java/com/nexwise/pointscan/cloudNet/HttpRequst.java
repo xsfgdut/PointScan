@@ -1,7 +1,6 @@
 package com.nexwise.pointscan.cloudNet;
 
 import android.os.Handler;
-import android.util.Base64;
 import android.util.Log;
 
 import com.nexwise.pointscan.constant.CloudConstant;
@@ -10,18 +9,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.cache.HeaderConstants;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -33,15 +29,19 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 public class HttpRequst {
-    private static BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
-    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 20, 20, TimeUnit.SECONDS, queue);
-    private static HttpRequst httpRequst;
-    private String TAG = "HttpRequst";
-    public static String URL = CloudConstant.Source.Common;
     /**
      * 超时时间
      */
     private static final int TIME_OUT = 20000;
+    public static String URL = CloudConstant.Source.Common;
+    private static BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 20, 20, TimeUnit.SECONDS, queue);
+    private static HttpRequst httpRequst;
+    private String TAG = "HttpRequst";
+    private Handler handler = new Handler();
+
+    private HttpRequst() {
+    }
 
     public static HttpRequst getHttpRequst() {
         if (httpRequst == null) {
@@ -52,11 +52,6 @@ public class HttpRequst {
             }
         }
         return httpRequst;
-    }
-
-    private Handler handler = new Handler();
-
-    private HttpRequst() {
     }
 
     public void abort() {

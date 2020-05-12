@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -151,15 +150,15 @@ public class IPEditText extends LinearLayout implements TextWatcher {
         paint.setColor(borderColor);
         paint.setStrokeWidth(borderWidth);
         paint.setStyle(Paint.Style.STROKE);
-        Log.d(TAG,height + "=height");
-        Log.d(TAG,width + "=width");
+        Log.d(TAG, height + "=height");
+        Log.d(TAG, width + "=width");
 //        canvas.drawLine(0, height - 5, width, height - 5, paint);//redmi Note7注释掉
         int y = height - height / 5;
         int x = width / editNumber;
         paint.setStrokeWidth(pointWidth);
         paint.setColor(pointColor);
-        Log.d(TAG,x + "=x");
-        Log.d(TAG,y + "=y");
+        Log.d(TAG, x + "=x");
+        Log.d(TAG, y + "=y");
         for (int i = 1; i < data.size(); i++) {
             canvas.drawPoint(x * i, y - 30, paint);//dot上移30//redmi Note7注释掉
         }

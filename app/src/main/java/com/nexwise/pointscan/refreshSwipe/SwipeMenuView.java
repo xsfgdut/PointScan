@@ -18,14 +18,6 @@ public class SwipeMenuView extends LinearLayout implements OnClickListener {
     private OnSwipeItemClickListener onItemClickListener;
     private int position;
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     public SwipeMenuView(SwipeMenu menu, RefreshSwipeMenuListView listView) {
         super(menu.getContext());
         mListView = listView;
@@ -35,6 +27,14 @@ public class SwipeMenuView extends LinearLayout implements OnClickListener {
         for (SwipeMenuItem item : items) {
             addItem(item, id++);
         }
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     private void addItem(SwipeMenuItem item, int id) {
@@ -71,7 +71,7 @@ public class SwipeMenuView extends LinearLayout implements OnClickListener {
         tv.setTextColor(item.getTitleColor());
         return tv;
     }
-    
+
     @Override
     public void onClick(View v) {
         if (onItemClickListener != null && mLayout.isOpen()) {

@@ -7,12 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="noTitleDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/white</item>
         <!--<item name="android:width">200dp</item>-->
         <!--<item name="android:height">40dp</item>-->
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <declare-styleable name="IPEditText">
         <attr name="textLength" format="integer" />
         <attr name="IPtextSize" format="dimension" />

@@ -43,6 +43,7 @@ public class ModifyUserPswDialog extends Dialog {
     public void setOnClickCancelListener(View.OnClickListener listener) {
         btn_cancel.setOnClickListener(listener);
     }
+
     public void setValue(String name) {
         user_name.setText(name);
     }

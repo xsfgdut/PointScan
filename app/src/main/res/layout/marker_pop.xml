@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -21,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -30,10 +30,11 @@
             android:gravity="center_vertical"
             android:text="经度:"
             android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/lng_value"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:id="@+id/lng_value"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
@@ -41,12 +42,14 @@
             android:textColor="@color/blue"
             android:textSize="16sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linear_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -56,10 +59,11 @@
             android:gravity="center_vertical"
             android:text="纬度:"
             android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/lat_value"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:id="@+id/lat_value"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
@@ -67,12 +71,14 @@
             android:textColor="@color/blue"
             android:textSize="16sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linear_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -82,10 +88,11 @@
             android:gravity="center_vertical"
             android:text="状态:"
             android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/status_value"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:id="@+id/status_value"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
@@ -93,6 +100,7 @@
             android:textColor="@color/blue"
             android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
@@ -104,11 +112,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        >
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/btn_cancel"
@@ -116,17 +123,17 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_gray_corner"
             android:gravity="center"
             android:text="@string/cancel"
             android:textColor="@color/white"
-            android:background="@color/button_gray_color"
             android:textSize="16sp" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/line_color"
-             />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/btn_commit"
@@ -135,10 +142,10 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1.0"
+            android:background="@drawable/shape_button_corner"
             android:gravity="center"
             android:text="查看详情"
             android:textColor="@color/white"
-            android:background="@color/button_color"
             android:textSize="16sp" />
     </LinearLayout>
 

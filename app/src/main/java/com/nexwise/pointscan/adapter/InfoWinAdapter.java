@@ -20,6 +20,7 @@ import com.nexwise.pointscan.base.BaseApplication;
  * 地图上自定义的infowindow的适配器
  */
 public class InfoWinAdapter implements AMap.InfoWindowAdapter, View.OnClickListener {
+    OnDetailClickListener onDetailClickListener;
     private Context mContext = BaseApplication.getIntance().getBaseContext();
     private LatLng latLng;
     private LinearLayout call;
@@ -37,6 +38,7 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter, View.OnClickListe
         View view = initView();
         return view;
     }
+
     @Override
     public View getInfoContents(Marker marker) {
         return null;
@@ -58,18 +60,17 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter, View.OnClickListe
         addrTV2 = (TextView) view.findViewById(R.id.addr2);
 
         nameTV.setText(agentName);
-        addrTV.setText(String.format(mContext.getString(R.string.agent_addr),snippet));
+        addrTV.setText(String.format(mContext.getString(R.string.agent_addr), snippet));
 
         navigation.setOnClickListener(this);
         call.setOnClickListener(this);
         return view;
     }
 
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.navigation_LL:  //点击导航
 //                NavigationUtils.Navigation(latLng);
                 break;
@@ -81,12 +82,12 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter, View.OnClickListe
         }
     }
 
-    public static interface OnDetailClickListener {
-        public void onDetailClick(int position);
-    }
-    OnDetailClickListener onDetailClickListener;
     public void setOnDetailClickListener(OnDetailClickListener onDetailClickListener) {
         this.onDetailClickListener = onDetailClickListener;
+    }
+
+    public static interface OnDetailClickListener {
+        public void onDetailClick(int position);
     }
 
 }

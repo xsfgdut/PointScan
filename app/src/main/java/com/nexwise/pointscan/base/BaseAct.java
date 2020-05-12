@@ -18,10 +18,10 @@ import com.nexwise.pointscan.cloudNet.HttpRequst;
  */
 public abstract class BaseAct extends FragmentActivity {
 
-    private Toast mToast;
-    private ProgressDialog progressDialog;
     public static final int ONE = 1;
     public static final int TWO = 2;
+    private Toast mToast;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,21 +135,6 @@ public abstract class BaseAct extends FragmentActivity {
     }
 
     /**
-     * alert点击事件监听器
-     */
-    public interface SimpleDialogLSN {
-        /**
-         * 确认按钮点击执行
-         */
-        void pOnClick();
-
-        /**
-         * 取消按钮点击执行
-         */
-        void nOnClick();
-    }
-
-    /**
      * 显示一般的alertdialog
      *
      * @param mode            ONE,单个按钮，TWO,两个按钮
@@ -187,10 +172,6 @@ public abstract class BaseAct extends FragmentActivity {
         alert.show();
     }
 
-    public interface ItemDialogLSN {
-        void onItemDialogClick(int which);
-    }
-
     /**
      * 显示Item类型alertdialog
      *
@@ -220,5 +201,24 @@ public abstract class BaseAct extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    /**
+     * alert点击事件监听器
+     */
+    public interface SimpleDialogLSN {
+        /**
+         * 确认按钮点击执行
+         */
+        void pOnClick();
+
+        /**
+         * 取消按钮点击执行
+         */
+        void nOnClick();
+    }
+
+    public interface ItemDialogLSN {
+        void onItemDialogClick(int which);
     }
 }

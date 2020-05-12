@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.nexwise.pointscan.base.BaseApplication;
 import com.nexwise.pointscan.constant.CloudConstant;
 
 import java.io.File;
@@ -21,11 +19,9 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
-import okhttp3.CookieJar;
 import okhttp3.Dispatcher;
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -35,11 +31,14 @@ import okhttp3.Response;
 
 public class NetRequest {
 
+    //图片与参数一起上传
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png; charset=utf-8");//png格式图片
+    private static final MediaType MEDIA_TYPE_TXT = MediaType.parse("text/x-markdown; charset=utf-8");//txt格式文件
     private static NetRequest netRequest;
     private static OkHttpClient okHttpClient; // OKHttp网络请求
+    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
     private Handler mHandler;
 
-    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
     //设置请求超时
     private NetRequest() {
         okHttpClient = new OkHttpClient();
@@ -64,6 +63,8 @@ public class NetRequest {
     public static void getFormRequest(Context context, String url, Map<String, String> params, DataCallBack callBack) {
         getInstance().inner_getFormAsync(context, url, params, callBack);
     }
+
+    //----------对外提供的方法 End ---------------
 
     //建立网络框架，获取网络数据，异步post请求（Form）
     public static void postFormRequest(Context context, String url, Map<String, String> params, DataCallBack callBack) {
@@ -114,7 +115,46 @@ public class NetRequest {
         getInstance().inner_postJsonAsync(context, url, params, callBack);
     }
 
-    //----------对外提供的方法 End ---------------
+    //拼接url和请求参数
+    private static String urlJoint(String url, Map<String, String> params) {
+        StringBuilder endUrl = new StringBuilder(url);
+        boolean isFirst = true;
+        Set<Map.Entry<String, String>> entrySet = params.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            if (isFirst && !url.contains("?")) {
+                isFirst = false;
+                endUrl.append("?");
+            } else {
+                endUrl.append("&");
+            }
+            endUrl.append(entry.getKey());
+            endUrl.append("=");
+            endUrl.append(entry.getValue());
+        }
+        return endUrl.toString();
+    }
+
+    //取消请求 按 TAG 来取消对应的请求
+    public static void cancelRequest(String tag) {
+        Dispatcher dispatcher = okHttpClient.dispatcher();
+        synchronized (dispatcher) {
+            for (Call call : dispatcher.queuedCalls()) {
+                if (tag.equals(call.request().tag())) {
+                    call.cancel();
+                }
+            }
+            for (Call call : dispatcher.runningCalls()) {
+                if (tag.equals(call.request().tag())) {
+                    call.cancel();
+                }
+            }
+        }
+    }
+
+    //建立网络框架，获取网络数据，图片与参数一起上传
+    public static void imageFileRequest(Context context, String reqUrl, Map<String, String> params, String pic_key, List<File> files, String cell_key, List<File> cellsFile, DataCallBack callBack) {
+        getInstance().imageFileAsync(context, reqUrl, params, pic_key, files, cell_key, cellsFile, callBack);
+    }
 
     //异步get请求（Form），内部实现方法
     private void inner_getFormAsync(Context context, String url, Map<String, String> params, final DataCallBack callBack) {
@@ -139,7 +179,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
-                    deliverNetWorkError("",callBack);
+                    deliverNetWorkError("", callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -187,7 +227,7 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
-                    deliverNetWorkError("",callBack);
+                    deliverNetWorkError("", callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -198,7 +238,7 @@ public class NetRequest {
     private void inner_postJsonAsync(final Context context, String url, Map<String, String> params, final DataCallBack callBack) {
         // 将map转换成json,需要引入Gson包
         String mapToJson = new Gson().toJson(params);
-        Log.d("xsf",mapToJson + "== mapToJson");
+        Log.d("xsf", mapToJson + "== mapToJson");
         final Request request = buildJsonPostRequest(url, mapToJson);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -209,25 +249,25 @@ public class NetRequest {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) { // 请求成功, 执行请求成功的操作
-                    Headers headers=response.headers();
-                    List<String> cookies=headers.values("Set-Cookie");
-                    if(cookies.size()>0){
-                        String session=cookies.get(0);
-                        String cookie=session.substring(0,session.indexOf(";"));
+                    Headers headers = response.headers();
+                    List<String> cookies = headers.values("Set-Cookie");
+                    if (cookies.size() > 0) {
+                        String session = cookies.get(0);
+                        String cookie = session.substring(0, session.indexOf(";"));
                         GetParameter.COOKIE = cookie;
-                       Log.d("xsf","cookie=" + cookie);
-                       for (String onecook :cookies) {
-                           if (onecook.contains("JSESSIONID")) {
-                               GetParameter.COOKIE = onecook.split(";")[0];
-                               Log.d("xsf","cookie1=" + cookie);
-                           }
-                       }
+                        Log.d("xsf", "cookie=" + cookie);
+                        for (String onecook : cookies) {
+                            if (onecook.contains("JSESSIONID")) {
+                                GetParameter.COOKIE = onecook.split(";")[0];
+                                Log.d("xsf", "cookie1=" + cookie);
+                            }
+                        }
                     }
 
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
-                    deliverNetWorkError("",callBack);
+                    deliverNetWorkError("", callBack);
                     throw new IOException(response + "");
                 }
             }
@@ -237,14 +277,14 @@ public class NetRequest {
     //Json_POST请求参数
     private Request buildJsonPostRequest(String url, String json) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
-        Log.d("xsf",GetParameter.COOKIE + "=GetParameter.COOKIE");
+        Log.d("xsf", GetParameter.COOKIE + "=GetParameter.COOKIE");
         if (GetParameter.COOKIE != null) {
-            Map<String,String> cookie = new HashMap<>();
-            cookie.put("JSESSIONID",GetParameter.COOKIE.substring(11));
+            Map<String, String> cookie = new HashMap<>();
+            cookie.put("JSESSIONID", GetParameter.COOKIE.substring(11));
             String cookieToJson = new Gson().toJson(cookie);
-            Log.d("xsf",cookieToJson + "=cookieToJson");
-            Log.d("xsf",GetParameter.COOKIE.substring(11) + "=GetParameter.COOKIE11");
-            return new Request.Builder().addHeader("cookie",GetParameter.COOKIE).url(url).post(requestBody).build();
+            Log.d("xsf", cookieToJson + "=cookieToJson");
+            Log.d("xsf", GetParameter.COOKIE.substring(11) + "=GetParameter.COOKIE11");
+            return new Request.Builder().addHeader("cookie", GetParameter.COOKIE).url(url).post(requestBody).build();
         } else {
             return new Request.Builder().url(url).post(requestBody).build();
         }
@@ -294,78 +334,23 @@ public class NetRequest {
         });
     }
 
-    //数据回调接口
-    public interface DataCallBack {
-        void requestSuccess(String result) throws Exception;
-        void requestFailure(Request request, IOException e);
-        void requestNetWorkError();
-    }
-
-    //拼接url和请求参数
-    private static String urlJoint(String url, Map<String, String> params) {
-        StringBuilder endUrl = new StringBuilder(url);
-        boolean isFirst = true;
-        Set<Map.Entry<String, String>> entrySet = params.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            if (isFirst && !url.contains("?")) {
-                isFirst = false;
-                endUrl.append("?");
-            } else {
-                endUrl.append("&");
-            }
-            endUrl.append(entry.getKey());
-            endUrl.append("=");
-            endUrl.append(entry.getValue());
-        }
-        return endUrl.toString();
-    }
-
-    //取消请求 按 TAG 来取消对应的请求
-    public static void cancelRequest(String tag){
-        Dispatcher dispatcher = okHttpClient.dispatcher();
-        synchronized (dispatcher){
-            for (Call call : dispatcher.queuedCalls()) {
-                if (tag.equals(call.request().tag())) {
-                    call.cancel();
-                }
-            }
-            for (Call call : dispatcher.runningCalls()) {
-                if (tag.equals(call.request().tag())) {
-                    call.cancel();
-                }
-            }
-        }
-    }
-
-
-
-
-    //图片与参数一起上传
-    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png; charset=utf-8");//png格式图片
-    private static final MediaType MEDIA_TYPE_TXT = MediaType.parse("text/x-markdown; charset=utf-8");//txt格式文件
-
-    //建立网络框架，获取网络数据，图片与参数一起上传
-    public static void imageFileRequest(Context context, String reqUrl, Map<String, String> params, String pic_key, List<File> files, String cell_key,List<File> cellsFile, DataCallBack callBack) {
-        getInstance().imageFileAsync(context, reqUrl, params, pic_key, files,cell_key,cellsFile, callBack);
-    }
-
     private void imageFileAsync(Context context, String reqUrl, Map<String, String> params, String pic_key, List<File> files, String cell_key, List<File> cellsFile, final DataCallBack callBack) {
         MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
         multipartBodyBuilder.setType(MultipartBody.FORM);
         //遍历map中所有参数到builder
-        if (params != null){
+        if (params != null) {
             for (String key : params.keySet()) {
-                multipartBodyBuilder.addFormDataPart(key, params.get(key),RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.get(key)));
+                multipartBodyBuilder.addFormDataPart(key, params.get(key), RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.get(key)));
 
             }
         }
         //遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
-        if (cellsFile != null){
+        if (cellsFile != null) {
             for (File file : cellsFile) {
                 multipartBodyBuilder.addFormDataPart(cell_key, file.getName(), RequestBody.create(MEDIA_TYPE_TXT, file));
             }
         }
-        if (files != null){
+        if (files != null) {
             for (File file : files) {
                 multipartBodyBuilder.addFormDataPart(pic_key, file.getName(), RequestBody.create(MEDIA_TYPE_PNG, file));
             }
@@ -374,7 +359,7 @@ public class NetRequest {
         RequestBody requestBody = multipartBodyBuilder.build();
 
         Request.Builder RequestBuilder = new Request.Builder();
-        RequestBuilder.addHeader("cookie",GetParameter.COOKIE);
+        RequestBuilder.addHeader("cookie", GetParameter.COOKIE);
         RequestBuilder.url(reqUrl);// 添加URL地址
         RequestBuilder.post(requestBody);
         final Request request = RequestBuilder.build();
@@ -391,11 +376,20 @@ public class NetRequest {
                     String result = response.body().string();
                     deliverDataSuccess(result, callBack);
                 } else {
-                    deliverNetWorkError("",callBack);
+                    deliverNetWorkError("", callBack);
                     throw new IOException(response + "");
                 }
             }
         });
+    }
+
+    //数据回调接口
+    public interface DataCallBack {
+        void requestSuccess(String result) throws Exception;
+
+        void requestFailure(Request request, IOException e);
+
+        void requestNetWorkError();
     }
 
 }

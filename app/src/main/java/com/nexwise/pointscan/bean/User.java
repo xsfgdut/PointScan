@@ -8,10 +8,12 @@ public class User implements Serializable {
     String tel;//联系号码
     String address;//地址
     String remark;//备注
+
     public User() {
 
     }
-    public User(String userName, String name,String tel,String address,String remark) {
+
+    public User(String userName, String name, String tel, String address, String remark) {
         this.userName = userName;
         this.name = name;
         this.tel = tel;

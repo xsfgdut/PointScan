@@ -74,6 +74,7 @@ public class MathUtil {
         }
         return sum;
     }
+
     /**
      * 获取密码
      *

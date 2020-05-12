@@ -71,7 +71,7 @@ public class MarkerPop extends Dialog {
         btn_cancel.setOnClickListener(listener);
     }
 
-    public void setMarkPopValue(String title,double lng,double lat,int state) {
+    public void setMarkPopValue(String title, double lng, double lat, int state) {
         titleTextView.setText(title);
         lngTextView.setText(String.valueOf(lng));
         latTextView.setText(String.valueOf(lat));

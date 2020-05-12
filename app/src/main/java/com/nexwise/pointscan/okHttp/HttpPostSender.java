@@ -5,7 +5,6 @@ import com.nexwise.pointscan.okHttp.utils.OkHttpCallback;
 import com.nexwise.pointscan.okHttp.utils.OkHttpUtil;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 import okhttp3.Request;

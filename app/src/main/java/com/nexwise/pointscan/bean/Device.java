@@ -10,10 +10,12 @@ public class Device implements Serializable {
     String ip;//设备ip地址
     int antennaType;//天线类型：1：全向2：定向
     String antennaInfo;//天线朝向说明
+
     public Device() {
 
     }
-    public Device(String id,String devType,int installType,int netType,String ip,int antennaType,String antennaInfo) {
+
+    public Device(String id, String devType, int installType, int netType, String ip, int antennaType, String antennaInfo) {
         this.id = id;
         this.devType = devType;
         this.installType = installType;

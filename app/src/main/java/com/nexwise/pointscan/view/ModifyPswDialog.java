@@ -10,8 +10,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
@@ -47,7 +45,6 @@ public class ModifyPswDialog extends Dialog {
     public void setOnClickCancelListener(View.OnClickListener listener) {
         btn_cancel.setOnClickListener(listener);
     }
-
 
 
 }

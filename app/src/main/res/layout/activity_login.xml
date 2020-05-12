@@ -3,49 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".activity.LoginActivity">
 
-    <EditText
-        android:id="@+id/user_name"
+    <RelativeLayout
+        android:id="@+id/rel_1"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/bg_edittext"
-        android:hint="@string/user_name"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="10dp">
 
-    <EditText
-        android:id="@+id/password_tv"
-        android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/user"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_corner_left"
+            android:src="@drawable/user">
+
+        </ImageView>
+
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginRight="30dp"
+            android:layout_toRightOf="@+id/user"
+            android:background="@drawable/shape_corner_right"
+            android:hint="@string/user_name"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_2"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_below="@+id/user_name"
+        android:layout_below="@+id/rel_1"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:hint="@string/password_tv"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textSize="16sp"
-        android:background="@drawable/bg_edittext"
-        />
+        android:layout_marginRight="10dp"
+
+        >
+
+        <ImageView
+            android:id="@+id/psw"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:background="@drawable/shape_corner_left"
+            android:src="@drawable/psw_light">
+
+        </ImageView>
+
+        <EditText
+            android:id="@+id/password_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginRight="30dp"
+            android:layout_toRightOf="@+id/psw"
+            android:background="@drawable/shape_corner_right"
+            android:hint="@string/password_tv"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+
+            />
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/password_tv"
+        android:layout_below="@+id/rel_2"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="30dp"
+        android:background="@drawable/shape_button_corner"
         android:text="@string/login_tv"
         android:textColor="@color/white"
-        android:background="@color/button_color"
         android:textSize="18sp" />
 </RelativeLayout>

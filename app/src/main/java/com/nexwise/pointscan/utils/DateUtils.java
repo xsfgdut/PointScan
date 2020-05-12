@@ -17,11 +17,15 @@ import java.util.Random;
 public class DateUtils {
     /** 日志对象 */
 
-    /** 年-月-日 时:分:秒 显示格式 */
+    /**
+     * 年-月-日 时:分:秒 显示格式
+     */
     // 备注:如果使用大写HH标识使用24小时显示格式,如果使用小写hh就表示使用12小时制格式。
     public static String DATE_TO_STRING_DETAIAL_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    /** 年-月-日 显示格式 */
+    /**
+     * 年-月-日 显示格式
+     */
     public static String DATE_TO_STRING_SHORT_PATTERN = "yyyy-MM-dd";
 
     private static SimpleDateFormat simpleDateFormat;
@@ -116,7 +120,9 @@ public class DateUtils {
         return strtodate;
     }
 
-    /**  * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss  *   * @param dateDate  * @return  */
+    /**
+     * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss  *   * @param dateDate  * @return
+     */
     public static String dateToStrLong(java.util.Date dateDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(dateDate);
@@ -213,8 +219,7 @@ public class DateUtils {
     /**
      * 根据用户传入的时间表示格式，返回当前时间的格式 如果是yyyyMMdd，注意字母y不能大写。
      *
-     * @param sformat
-     *            yyyyMMddhhmmss
+     * @param sformat yyyyMMddhhmmss
      * @return
      */
     public static String getUserDate(String sformat) {
@@ -280,7 +285,7 @@ public class DateUtils {
      * 得到一个时间延后或前移几天的时间,nowdate为时间,delay为前移或后延的天数
      */
     public static String getNextDay(String nowdate, String delay) {
-        try{
+        try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String mdate = "";
             Date d = strToDate(nowdate);
@@ -288,7 +293,7 @@ public class DateUtils {
             d.setTime(myTime * 1000);
             mdate = format.format(d);
             return mdate;
-        }catch(Exception e){
+        } catch (Exception e) {
             return "";
         }
     }
@@ -403,8 +408,7 @@ public class DateUtils {
     /**
      * 取得数据库主键 生成格式为yyyymmddhhmmss+k位随机数
      *
-     * @param k
-     *            表示是取几位随机数，可以自己定
+     * @param k 表示是取几位随机数，可以自己定
      */
 
     public static String getNo(int k) {
@@ -429,78 +433,81 @@ public class DateUtils {
         }
         return jj;
     }
-//将毫秒转换为标准日期格式
-    public static String ms2Date(long _ms){
+
+    //将毫秒转换为标准日期格式
+    public static String ms2Date(long _ms) {
         Date date = new Date(_ms);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return format.format(date);
     }
-//标准时间转换为时间戳
-    public static String ms2DateOnlyDay(long _ms){
+
+    //标准时间转换为时间戳
+    public static String ms2DateOnlyDay(long _ms) {
         Date date = new Date(_ms);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return format.format(date);
     }
-//计算时间差
-    public static  String DateDistance(Date startDate,Date endDate){
-        if(startDate == null ||endDate == null){
+
+    //计算时间差
+    public static String DateDistance(Date startDate, Date endDate) {
+        if (startDate == null || endDate == null) {
             return null;
         }
         long timeLong = endDate.getTime() - startDate.getTime();
-        if(timeLong<0){
-            timeLong=0;
+        if (timeLong < 0) {
+            timeLong = 0;
         }
-        if (timeLong<60*1000)
-            return timeLong/1000 + "秒前";
-        else if (timeLong<60*60*1000){
-            timeLong = timeLong/1000 /60;
+        if (timeLong < 60 * 1000)
+            return timeLong / 1000 + "秒前";
+        else if (timeLong < 60 * 60 * 1000) {
+            timeLong = timeLong / 1000 / 60;
             return timeLong + "分钟前";
-        }
-        else if (timeLong<60*60*24*1000){
-            timeLong = timeLong/60/60/1000;
-            return timeLong+"小时前";
-        }
-        else if ((timeLong/1000/60/60/24)<7){
-            timeLong = timeLong/1000/ 60 / 60 / 24;
+        } else if (timeLong < 60 * 60 * 24 * 1000) {
+            timeLong = timeLong / 60 / 60 / 1000;
+            return timeLong + "小时前";
+        } else if ((timeLong / 1000 / 60 / 60 / 24) < 7) {
+            timeLong = timeLong / 1000 / 60 / 60 / 24;
             return timeLong + "天前";
-        }else{
+        } else {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             return formatter.format(startDate);
         }
     }
-//计算与当前的时间差
-    public static  String DateDistance2now(long _ms){
+
+    //计算与当前的时间差
+    public static String DateDistance2now(long _ms) {
         SimpleDateFormat DateF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Long time=new Long(_ms);
+            Long time = new Long(_ms);
             String d = DateF.format(time);
-            Date startDate=DateF.parse(d);
+            Date startDate = DateF.parse(d);
             Date nowDate = Calendar.getInstance().getTime();
             return DateDistance(startDate, nowDate);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return null;
     }
-//将毫秒转换为小时：分钟：秒格式
-    public static String ms2HMS(int _ms){
+
+    //将毫秒转换为小时：分钟：秒格式
+    public static String ms2HMS(int _ms) {
         String HMStime;
-        _ms/=1000;
-        int hour=_ms/3600;
-        int mint=(_ms%3600)/60;
-        int sed=_ms%60;
-        String hourStr=String.valueOf(hour);
-        if(hour<10){
-            hourStr="0"+hourStr;
+        _ms /= 1000;
+        int hour = _ms / 3600;
+        int mint = (_ms % 3600) / 60;
+        int sed = _ms % 60;
+        String hourStr = String.valueOf(hour);
+        if (hour < 10) {
+            hourStr = "0" + hourStr;
         }
-        String mintStr=String.valueOf(mint);
-        if(mint<10){
-            mintStr="0"+mintStr;
+        String mintStr = String.valueOf(mint);
+        if (mint < 10) {
+            mintStr = "0" + mintStr;
         }
-        String sedStr=String.valueOf(sed);
-        if(sed<10){
-            sedStr="0"+sedStr;
+        String sedStr = String.valueOf(sed);
+        if (sed < 10) {
+            sedStr = "0" + sedStr;
         }
-        HMStime=hourStr+":"+mintStr+":"+sedStr;
+        HMStime = hourStr + ":" + mintStr + ":" + sedStr;
         return HMStime;
     }
 
@@ -602,7 +609,6 @@ public class DateUtils {
         return new SimpleDateFormat(formatType).format(data);
 
     }
-
 
 
 }

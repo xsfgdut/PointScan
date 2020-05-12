@@ -13,13 +13,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class ImageDownload {
-    public static final class CacheHelper{
+    public static final class CacheHelper {
         public static LruCache<String, Bitmap> sLruCache;
+
         static {
-            sLruCache = new LruCache<String, Bitmap> ((int)Runtime.getRuntime ().maxMemory ()/4){
+            sLruCache = new LruCache<String, Bitmap>((int) Runtime.getRuntime().maxMemory() / 4) {
                 @Override
                 protected int sizeOf(String key, Bitmap value) {
-                    return value.getByteCount ();
+                    return value.getByteCount();
                 }
             };
         }
@@ -33,50 +34,50 @@ public class ImageDownload {
             mListener = listener;
         }
 
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bitmap = getBitmap (strings[0]);
-          //  CacheHelper.sLruCache.put (strings[1], bitmap);
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            mListener.onSuccess (bitmap);
-        }
-
-        public interface Listener{
-            void onSuccess(Bitmap bitmap);
-        }
-
-        public static Bitmap getBitmap(String url){
+        public static Bitmap getBitmap(String url) {
             Bitmap bitmap = null;
             Bitmap newBitmap = null;
             BufferedInputStream stream = null;
             URL url1 = null;
             try {
-                url1 = new URL (url);
-                URLConnection connection = url1.openConnection ();
-                stream = new BufferedInputStream(connection.getInputStream ());
-                bitmap = BitmapFactory.decodeStream (stream);
+                url1 = new URL(url);
+                URLConnection connection = url1.openConnection();
+                stream = new BufferedInputStream(connection.getInputStream());
+                bitmap = BitmapFactory.decodeStream(stream);
                 newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 180,
                         180);
                 bitmap.recycle();
 
             } catch (MalformedURLException e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace ();
-            }finally {
+                e.printStackTrace();
+            } finally {
                 if (stream != null) {
                     try {
-                        stream.close ();
+                        stream.close();
                     } catch (IOException e) {
-                        e.printStackTrace ();
+                        e.printStackTrace();
                     }
                 }
             }
             return newBitmap;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bitmap = getBitmap(strings[0]);
+            //  CacheHelper.sLruCache.put (strings[1], bitmap);
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mListener.onSuccess(bitmap);
+        }
+
+        public interface Listener {
+            void onSuccess(Bitmap bitmap);
         }
     }
 }

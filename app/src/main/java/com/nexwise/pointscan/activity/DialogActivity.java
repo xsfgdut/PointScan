@@ -24,28 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DialogActivity extends BaseAct {
-    private List<JsonBean> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
-    private Thread thread;
     private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
     private static final int MSG_LOAD_CODE_DATA = 0x0004;
     private static boolean isLoaded = false;
+    private List<JsonBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private Thread thread;
     private String province;
     private String city;
     private String district;
-    @Override
-    protected void findView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_dialog);
-        initData();
-    }
-
-    private void initData() {
-        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        mHandler.sendEmptyMessage(MSG_LOAD_CODE_DATA);
-    }
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -81,6 +71,17 @@ public class DialogActivity extends BaseAct {
             }
         }
     };
+
+    @Override
+    protected void findView(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_dialog);
+        initData();
+    }
+
+    private void initData() {
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        mHandler.sendEmptyMessage(MSG_LOAD_CODE_DATA);
+    }
 
     private void initJsonData() {//解析数据
 
@@ -208,7 +209,7 @@ public class DialogActivity extends BaseAct {
         pvOptions.setKeyBackCancelable(false);//解决按back键后，dialog消失activity还在盖了一层阴影
     }
 
-//    @Override
+    //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        if (keyCode == KeyEvent.KEYCODE_BACK
 //                && event.getAction() == KeyEvent.ACTION_DOWN) {

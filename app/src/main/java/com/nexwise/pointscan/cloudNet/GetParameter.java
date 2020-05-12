@@ -284,7 +284,6 @@ public class GetParameter {
     }
 
 
-
     /**
      * 取登录验证码请求
      *
@@ -389,8 +388,8 @@ public class GetParameter {
      *                 2：已勘
      *                 3：已安装
      *                 -1：已拆除(废除)
-     * @param lng     经度
-     * @param lat     纬度
+     * @param lng      经度
+     * @param lat      纬度
      */
     public static List<NameValuePair> addPoint(int id, String province, String city, String district, String name, int state, double lng, double lat) {
         List<NameValuePair> nvps = new ArrayList<>();
@@ -411,7 +410,7 @@ public class GetParameter {
      *
      * @param detail Json字符串
      * @param images 现场图片文件
-     * @param cells 扫频信息文件
+     * @param cells  扫频信息文件
      */
     public static List<NameValuePair> updatePointInfo(Detail detail, List<File> images, List<File> cells) {
         List<NameValuePair> nvps = new ArrayList<>();
@@ -433,12 +432,12 @@ public class GetParameter {
      *
      * @param userName 用户名
      * @param password 密码
-     * @param name 姓名
-     * @param tel 联系号码
-     * @param address 地址
-     * @param remark 备注
+     * @param name     姓名
+     * @param tel      联系号码
+     * @param address  地址
+     * @param remark   备注
      */
-    public static List<NameValuePair> addUser(String userName,String password,String name,String tel,String address,String remark) {
+    public static List<NameValuePair> addUser(String userName, String password, String name, String tel, String address, String remark) {
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.CMD, CloudConstant.CmdValue.ADD_USER));
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.USER_NAME, userName));
@@ -456,7 +455,7 @@ public class GetParameter {
      * @param userName 用户名
      * @param password 密码
      */
-    public static List<NameValuePair> modifyUserPwd(String userName,String password) {
+    public static List<NameValuePair> modifyUserPwd(String userName, String password) {
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.CMD, CloudConstant.CmdValue.MODIFY_USER_PWD));
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.USER_NAME, userName));
@@ -467,11 +466,11 @@ public class GetParameter {
     /**
      * 查询用户列表
      *
-     * @param key 模糊查询关键字
+     * @param key   模糊查询关键字
      * @param count 每页记录数
-     * @param page 第几页
+     * @param page  第几页
      */
-    public static List<NameValuePair> queryUserList(String key,String count,String page) {
+    public static List<NameValuePair> queryUserList(String key, String count, String page) {
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.CMD, CloudConstant.CmdValue.QUERY_USER));
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.KEY, key));
@@ -482,13 +481,14 @@ public class GetParameter {
 
     /**
      * 修改用户信息
+     *
      * @param userName 用户名
-     * @param name 姓名
-     * @param tel 联系号码
-     * @param address 地址
-     * @param remark 备注
+     * @param name     姓名
+     * @param tel      联系号码
+     * @param address  地址
+     * @param remark   备注
      */
-    public static List<NameValuePair> modifyUserInfo(String userName,String name,String tel,String address,String remark) {
+    public static List<NameValuePair> modifyUserInfo(String userName, String name, String tel, String address, String remark) {
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.CMD, CloudConstant.CmdValue.MODIFY_USER_INFO));
         nvps.add(new BasicNameValuePair(CloudConstant.ParameterKey.USER_NAME, userName));

@@ -16,20 +16,17 @@ import com.nexwise.pointscan.R;
 
 
 public class RefreshListHeader extends LinearLayout {
+    public final static int STATE_NORMAL = 0;
+    public final static int STATE_READY = 1;
+    public final static int STATE_REFRESHING = 2;
+    private final int ROTATE_ANIM_DURATION = 180;
     private LinearLayout mContainer;
     private ImageView mArrowImageView;
     private ProgressBar mProgressBar;
     private TextView mHintTextView;
     private int mState = STATE_NORMAL;
-
     private Animation mRotateUpAnim;
     private Animation mRotateDownAnim;
-
-    private final int ROTATE_ANIM_DURATION = 180;
-
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_READY = 1;
-    public final static int STATE_REFRESHING = 2;
 
     public RefreshListHeader(Context context) {
         super(context);
@@ -79,29 +76,33 @@ public class RefreshListHeader extends LinearLayout {
         }
 
         switch (state) {
-        case STATE_NORMAL:
-            if (mState == STATE_READY) {
-                mArrowImageView.startAnimation(mRotateDownAnim);
-            }
-            if (mState == STATE_REFRESHING) {
-                mArrowImageView.clearAnimation();
-            }
-            mHintTextView.setText(R.string.xlistview_header_hint_normal);
-            break;
-        case STATE_READY:
-            if (mState != STATE_READY) {
-                mArrowImageView.clearAnimation();
-                mArrowImageView.startAnimation(mRotateUpAnim);
-                mHintTextView.setText(R.string.xlistview_header_hint_ready);
-            }
-            break;
-        case STATE_REFRESHING:
-            mHintTextView.setText(R.string.xlistview_header_hint_loading);
-            break;
-        default:
+            case STATE_NORMAL:
+                if (mState == STATE_READY) {
+                    mArrowImageView.startAnimation(mRotateDownAnim);
+                }
+                if (mState == STATE_REFRESHING) {
+                    mArrowImageView.clearAnimation();
+                }
+                mHintTextView.setText(R.string.xlistview_header_hint_normal);
+                break;
+            case STATE_READY:
+                if (mState != STATE_READY) {
+                    mArrowImageView.clearAnimation();
+                    mArrowImageView.startAnimation(mRotateUpAnim);
+                    mHintTextView.setText(R.string.xlistview_header_hint_ready);
+                }
+                break;
+            case STATE_REFRESHING:
+                mHintTextView.setText(R.string.xlistview_header_hint_loading);
+                break;
+            default:
         }
 
         mState = state;
+    }
+
+    public int getVisiableHeight() {
+        return mContainer.getHeight();
     }
 
     public void setVisiableHeight(int height) {
@@ -110,10 +111,6 @@ public class RefreshListHeader extends LinearLayout {
         LayoutParams lp = (LayoutParams) mContainer.getLayoutParams();
         lp.height = height;
         mContainer.setLayoutParams(lp);
-    }
-
-    public int getVisiableHeight() {
-        return mContainer.getHeight();
     }
 
 }

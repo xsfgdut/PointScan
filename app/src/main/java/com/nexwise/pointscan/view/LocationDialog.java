@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.bean.Point;
