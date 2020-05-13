@@ -12,93 +12,104 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="堪点"
+        android:textColor="@color/text_color"
         android:textSize="18sp" />
 
     <LinearLayout
-        android:id="@+id/linear_l"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="经度:"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/linear_l"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lng_value"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/blue"
-            android:textSize="16sp" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/lat"></ImageView>
+
+            <TextView
+                android:id="@+id/lng_value"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="纬度:"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/linear_2"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lat_value"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/blue"
-            android:textSize="16sp" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/lat"></ImageView>
+
+            <TextView
+                android:id="@+id/lat_value"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="状态:"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/linear_3"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/status_value"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/blue"
-            android:textSize="16sp" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/lat"></ImageView>
+
+            <TextView
+                android:id="@+id/status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <View

@@ -25,6 +25,7 @@
                     android:layout_gravity="left"
                     android:layout_marginTop="10dp"
                     android:text="基本信息"
+                    android:textColor="@color/text_color"
                     android:textSize="18sp" />
 
                 <View
@@ -34,276 +35,304 @@
                     android:background="@color/line_color" />
 
                 <LinearLayout
-                    android:id="@+id/linear_l"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="编号"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/point_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                    <LinearLayout
+                        android:id="@+id/linear_l"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:enabled="false"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="名称"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/point_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="经度"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/lng_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:enabled="false"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="纬度"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/lat_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:enabled="false"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical"
-                        android:text="地址"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/addr_select"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="请选择"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical"
-                        android:text="状态"
-                        android:textSize="16sp" />
-
-                    <RadioGroup
-                        android:id="@+id/radiogroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:background="@drawable/shape_corner"
                         android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/radio1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="已拆除"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/number_id"></ImageView>
 
-                        <RadioButton
-                            android:id="@+id/radio2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="未堪"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
+                        <EditText
+                            android:id="@+id/point_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:enabled="false"
+                            android:hint="编号"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-                        <RadioButton
-                            android:id="@+id/radio3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="已堪"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-                        <RadioButton
-                            android:id="@+id/radio4"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_2"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/name"></ImageView>
+
+                        <EditText
+                            android:id="@+id/point_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:hint="名称"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_3"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/lat"></ImageView>
+
+                        <EditText
+                            android:id="@+id/lng_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:enabled="false"
+                            android:hint="经度"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_4"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/lat"></ImageView>
+
+                        <EditText
+                            android:id="@+id/lat_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:enabled="false"
+                            android:hint="纬度"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_5"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/address"></ImageView>
+
+                        <TextView
+                            android:id="@+id/addr_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:text="请选择地址"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_6"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center_vertical"
+                            android:text="状态"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="已安装"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
-                    </RadioGroup>
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="已拆除"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/radio2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="未堪"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/radio3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="已堪"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/radio4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="已安装"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <View
@@ -327,217 +356,224 @@
                     android:background="@color/line_color" />
 
                 <LinearLayout
-                    android:id="@+id/linear_l1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="勘察人员"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/person_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                    <LinearLayout
+                        android:id="@+id/linear_l1"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_21"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
-                        android:text="勘察时间"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/time_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:hint="选择日期时间"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_61"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@color/red_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical"
-                        android:text="地理类型"
-                        android:textSize="16sp" />
-
-                    <RadioGroup
-                        android:id="@+id/radiogroup1"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/shape_corner"
                         android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/radio_gateway"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="卡口"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/name"></ImageView>
 
-                        <RadioButton
-                            android:id="@+id/radio_highway"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="高速公路"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
-
-                        <RadioButton
-                            android:id="@+id/radio_village"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:button="@drawable/radiobutton"
-                            android:gravity="center_vertical"
-                            android:layoutDirection="rtl"
-                            android:text="村庄"
-                            android:textColor="@color/red_color"
-                            android:textSize="12sp"></RadioButton>
-
-                    </RadioGroup>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_l2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/person_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:hint="勘察人员"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:text="位置说明"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/location_discription"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
+                        android:text="*"
+                        android:textColor="@color/red_color"
                         android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_31"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_21"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/name"></ImageView>
+
+                        <TextView
+                            android:id="@+id/time_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:hint="勘察时间"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="15dp"
+                            android:singleLine="true"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:text="环境说明"
+                        android:text="*"
+                        android:textColor="@color/red_color"
                         android:textSize="16sp" />
+                </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/env_discription"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_61"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/bg_edittext"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textSize="14sp" />
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center_vertical"
+                            android:text="地理类型"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup1"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio_gateway"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="卡口"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/radio_highway"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="高速公路"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/radio_village"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:button="@drawable/radiobutton"
+                                android:gravity="center_vertical"
+                                android:layoutDirection="rtl"
+                                android:text="村庄"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"></RadioButton>
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/red_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_l2"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/location_discription"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@null"
+                            android:hint="位置说明"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linear_31"
+                        android:layout_width="280dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_corner"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/env_discription"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@null"
+                            android:hint="环境说明"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView

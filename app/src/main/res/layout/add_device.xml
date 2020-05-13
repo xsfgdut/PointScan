@@ -12,336 +12,360 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="增加设备"
+        android:textColor="@color/text_color"
         android:textSize="18sp" />
 
     <LinearLayout
-        android:id="@+id/linear_l"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="设备编号"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/device_number"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:id="@+id/linear_l"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/linear_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/number_id"></ImageView>
+
+            <EditText
+                android:id="@+id/device_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="设备编号"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
             android:textSize="16sp" />
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="设备型号"
-            android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/device_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:id="@+id/linear_2"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="设备IP"
-            android:textSize="16sp" />
-
-        <com.nexwise.pointscan.view.IPEditText
-            android:id="@+id/ip_value"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="*"
-            android:textColor="@color/red_color"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="安装类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:id="@+id/radiogroup1"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
+            android:background="@drawable/shape_corner"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/radio1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="新装"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/number_id"></ImageView>
 
-            <RadioButton
-                android:id="@+id/radio2"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="替换"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
-
-        </RadioGroup>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_61"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+            <EditText
+                android:id="@+id/device_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="设备型号"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
             android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="网络类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:id="@+id/radiogroup2"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="公网无线回传"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/radio4"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="专网"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
-
-        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_62"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_3"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/number_id"></ImageView>
+
+            <com.nexwise.pointscan.view.IPEditText
+                android:id="@+id/ip_value"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="设备IP"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="*"
             android:textColor="@color/red_color"
             android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="天线类型"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:id="@+id/radiogroup3"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio5"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="全向"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/radio6"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/radiobutton"
-                android:gravity="center_vertical"
-                android:text="定向"
-                android:textColor="@color/red_color"
-                android:textSize="12sp"></RadioButton>
-
-        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_31"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_6"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="安装类型"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="新装"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/radio2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="替换"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+            </RadioGroup>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="天线朝向说明"
+            android:text="*"
+            android:textColor="@color/red_color"
             android:textSize="16sp" />
+    </LinearLayout>
 
-        <EditText
-            android:id="@+id/antea_description"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edittext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_61"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="网络类型"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="公网无线回传"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/radio4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="专网"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="*"
+            android:textColor="@color/red_color"
             android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_62"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="天线类型"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="全向"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/radio6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:button="@drawable/radiobutton"
+                    android:gravity="center_vertical"
+                    android:text="定向"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"></RadioButton>
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="*"
+            android:textColor="@color/red_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_31"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_corner"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/antea_description"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="天线朝向说明"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <View

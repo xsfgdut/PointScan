@@ -62,7 +62,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -106,7 +105,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -150,7 +148,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -197,7 +194,6 @@
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
         android:background="@drawable/shape_corner"
         android:orientation="horizontal">
 
@@ -224,7 +220,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -250,7 +245,7 @@
                     android:button="@drawable/radiobutton"
                     android:gravity="center_vertical"
                     android:text="已拆除"
-                    android:textColor="@color/status_color"
+                    android:textColor="@color/black"
                     android:textSize="14sp">
                     <!--                android:layoutDirection="rtl"-->
                     <!--                android:textDirection="ltr"-->
@@ -265,7 +260,7 @@
                     android:button="@drawable/radiobutton"
                     android:gravity="center_vertical"
                     android:text="未堪"
-                    android:textColor="@color/status_color"
+                    android:textColor="@color/black"
                     android:textSize="14sp">
 
                 </RadioButton>
@@ -277,7 +272,7 @@
                     android:button="@drawable/radiobutton"
                     android:gravity="center_vertical"
                     android:text="已堪"
-                    android:textColor="@color/status_color"
+                    android:textColor="@color/black"
                     android:textSize="14sp">
 
                 </RadioButton>
@@ -290,7 +285,7 @@
                     android:button="@drawable/radiobutton"
                     android:gravity="center_vertical"
                     android:text="已安装"
-                    android:textColor="@color/status_color"
+                    android:textColor="@color/black"
                     android:textSize="14sp">
 
                 </RadioButton>
