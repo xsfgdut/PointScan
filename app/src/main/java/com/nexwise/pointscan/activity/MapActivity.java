@@ -3,11 +3,14 @@ package com.nexwise.pointscan.activity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +18,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,12 +84,14 @@ import com.nexwise.pointscan.utils.FileHelper;
 import com.nexwise.pointscan.utils.GCJ2WGS;
 import com.nexwise.pointscan.utils.GetJsonDataUtil;
 import com.nexwise.pointscan.utils.HorizontalItemDecoration;
+import com.nexwise.pointscan.utils.SingleMediaScanner;
 import com.nexwise.pointscan.view.AddDeviceDialog;
 import com.nexwise.pointscan.view.AddPointDialog;
 import com.nexwise.pointscan.view.IPEditText;
 import com.nexwise.pointscan.view.MarkerPop;
 import com.nexwise.pointscan.view.ModifyPswDialog;
 import com.nexwise.pointscan.view.PointDetailPop;
+import com.zhihu.matisse.Matisse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -182,8 +188,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private double lng;
     private double lat;
     private long time;
-    private List<Point> points = new ArrayList<>();
     private String filePath;
+    private List<Point> points = new ArrayList<>();
     private List<File> imagesFile = new ArrayList<>();
     private List<File> cellsFile = new ArrayList<>();
     private List<Image> images = new ArrayList<>();
@@ -199,6 +205,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private ImageView addPoint;
     private RelativeLayout user_rel;
     private RelativeLayout psw_rel;
+    private Handler handler = new Handler();
 
     private ReceiveBroadCast receiveBroadCast;
     private LocationListener locationListener = new LocationListener() {
@@ -534,6 +541,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 Gson gson = new Gson();
                 detailJsonStr = gson.toJson(detail);
                 Log.d("xsf", detailJsonStr + "=detailJsonStr");
+
+                Log.d("xsf", imagesFile.size() + "files size");
                 doUpdatePointRequest();
                 showProgressDialog("", "正在请求服务器", true);
                 pointDetailPop.dismiss();
@@ -624,6 +633,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 devices.add(device);
                 point_l.setDevices(devices);
                 setDeviceAdapter();
+                addDeviceDialog.dismiss();
             }
         });
         addDeviceDialog.setOnClickCancelListener(new View.OnClickListener() {
@@ -1345,14 +1355,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         Map<String, String> map = new HashMap<>();
         map.put(CloudConstant.ParameterKey.DETAIL, detailJsonStr);
         String url = CloudConstant.Source.SERVER + "/point/detail/update";
-        Log.d("xsf", imagesFile.size() + "files size");
-        for (int i = 0; i < imagesFile.size(); i++) {
-            Log.d("xsf", imagesFile.get(i).length() + "files length");
-            if (imagesFile.get(i).length() == 0) {
-                showToat("文件大小为0，请检查");
-                return;
-            }
-        }
+
         NetRequest.imageFileRequest(this, url, map, "images", imagesFile, "cells", cellsFile, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
@@ -1652,6 +1655,18 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         mediaScanIntent.setData(uri);
         sendBroadcast(mediaScanIntent);
     }
+    public void scanFileAsync(String filePath) {
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(Uri.fromFile(new File(filePath)));
+        sendBroadcast(scanIntent);
+        MediaScannerConnection.scanFile(getApplicationContext(), new String[]{filePath.toString()}, null, null);
+    }
+    public static final String ACTION_MEDIA_SCANNER_SCAN_DIR = "android.intent.action.MEDIA_SCANNER_SCAN_DIR";
+    public void scanDirAsync(String dir) {
+        Intent scanIntent = new Intent(ACTION_MEDIA_SCANNER_SCAN_DIR);
+        scanIntent.setData(Uri.fromFile(new File(dir)));
+        sendBroadcast(scanIntent);
+    }
 
     @Override
 
@@ -1661,28 +1676,40 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    try {
-                        /*如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap*/
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
-                        Log.i("xsf", "onActivityResult: imageUri " + mImageUri);
-                        galleryAddPic(mImageUriFromFile);
-//                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
-//                        File file = new File(filePath);
-                        Log.d("xsf", imageFile.getName() + "=file name");
-                        Log.d("xsf", imageFile.length() + "=file ");
+                  //  Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
+                    Log.i("xsf", "onActivityResult: imageUri " + mImageUri);
+
+                    galleryAddPic(mImageUriFromFile);
+                    Log.d("xsf", imageFile.getName() + "=file name");
+                    Log.d("xsf", imageFile.length() + "=file ");
+//                    List<String> a = Matisse.obtainPathResult(data);
+//                    Log.d("xsf", a.size() + "=a ");
+                    String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(mImageUri);
+                    FileHelper.updateGallery(getApplicationContext(),path);
+                    scanFileAsync(path);
+                    scanDirAsync(path);
+                    Log.d("xsf", path + "=path ");
+                    if (imageFile.length() == 0) {
+                        openAlbum();
+                    } else {
                         Image image = new Image();
                         image.setType(1);
-                        String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(mImageUri);
-                        Log.d("xsf", path + "=path ");
                         image.setUrl(path);
                         images.add(image);
-                        File file = new File(path);
-                        imagesFile.add(file);
-                        point_l.getImages().add(image);
                         setImageAdapter();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        File file = new File(path);
+                        Log.d("xsf", file.getName() + "=file1 name");
+                        Log.d("xsf", file.length() + "=file1 ");
+                        imagesFile.add(file);
+                        if (point_l.getImages() == null) {
+                            List<Image> imageList = new ArrayList<>();
+                            imageList.add(image);
+                            point_l.setImages(imageList);
+                        } else {
+                            point_l.getImages().add(image);
+                        }
                     }
+
                 }
                 break;
             case CHOOSE_PHOTO:
@@ -1696,13 +1723,24 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     File file = new File(path);
                     Log.d("xsf", file.getName() + "=file name");
                     Log.d("xsf", file.length() + "=file ");
-                    Image image = new Image();
-                    image.setType(1);
-                    image.setUrl(path);
-                    images.add(image);
-                    imagesFile.add(file);
-                    point_l.getImages().add(image);
-                    setImageAdapter();
+                    if (file.length() == 0) {
+                        showToat("文件大小为0，请检查");
+                    } else {
+                        Image image = new Image();
+                        image.setType(1);
+                        image.setUrl(path);
+                        images.add(image);
+                        imagesFile.add(file);
+                        if (point_l.getImages() == null) {
+                            List<Image> imageList = new ArrayList<>();
+                            imageList.add(image);
+                            point_l.setImages(imageList);
+                        } else {
+                            point_l.getImages().add(image);
+                        }
+                        setImageAdapter();
+                    }
+
 
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                        handleImageOnKitKat(data);//4.4之后图片解析
@@ -1712,6 +1750,9 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 }
                 break;
             case CHOOSE_FILE:
+                if (data == null) {
+                    return;
+                }
                 Uri uri = data.getData();
                 filePath = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
                 File file = new File(filePath);
@@ -1747,6 +1788,25 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 default:
                     break;
             }
+        }
+
+    }
+
+    /**
+     * 刷新媒体库
+     */
+    private void updataMedia(String filePath) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)//版本号的判断  4.4为分水岭，发送广播更新媒体库
+        {
+            MediaScannerConnection.scanFile(this, new String[]{filePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                public void onScanCompleted(String path, Uri uri) {
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    mediaScanIntent.setData(uri);
+                    sendBroadcast(mediaScanIntent);
+                }
+            });
+        } else {
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.fromFile(new File(filePath))));
         }
 
     }

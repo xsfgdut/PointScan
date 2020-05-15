@@ -11,6 +11,12 @@ android {
             keyAlias = 'point'
             keyPassword '123456'
         }
+        release {
+            storeFile file('D:\\nexwise_project\\PointScan\\point')
+            storePassword '123456'
+            keyAlias = 'point'
+            keyPassword '123456'
+        }
 
     }
 
@@ -26,7 +32,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -64,4 +70,5 @@ dependencies {
     implementation 'com.hz.android.fileselectorview:library:1.3'
     // 引入multidex库
     implementation 'com.android.support:multidex:1.0.1'
+    implementation'com.zhihu.android:matisse:0.5.0-alpha4'
 }

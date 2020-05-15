@@ -30,10 +30,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/psw_deep"></ImageView>
 
             <EditText
@@ -73,10 +73,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/psw_deep"></ImageView>
 
             <EditText
@@ -117,10 +117,10 @@
 
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/verify_code"></ImageView>
 
             <EditText

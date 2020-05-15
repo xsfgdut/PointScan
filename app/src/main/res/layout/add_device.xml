@@ -30,10 +30,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/number_id"></ImageView>
 
             <EditText
@@ -73,11 +73,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/number_id"></ImageView>
+                android:layout_marginTop="5dp"
+                android:src="@drawable/device_type"></ImageView>
 
             <EditText
                 android:id="@+id/device_name"
@@ -116,11 +116,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/number_id"></ImageView>
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ip_image"></ImageView>
 
             <com.nexwise.pointscan.view.IPEditText
                 android:id="@+id/ip_value"
@@ -355,11 +355,17 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/shape_corner"
             android:orientation="horizontal">
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/antena"></ImageView>
             <EditText
                 android:id="@+id/antea_description"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:hint="天线朝向说明"
                 android:paddingLeft="10dp"
