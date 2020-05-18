@@ -368,6 +368,10 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     showToat("检查非空项值");
                     return;
                 }
+                if (TextUtils.isEmpty(((TextView) addPointDialog.findViewById(R.id.addr_select)).getText().toString())) {
+                    showToat("地址选择为空，请点击地址进行选择");
+                    return;
+                }
                 id = ((EditText) addPointDialog.findViewById(R.id.point_number)).getText().toString();
                 name = ((EditText) addPointDialog.findViewById(R.id.point_name)).getText().toString();
                 lng = new Double(((EditText) addPointDialog.findViewById(R.id.lng_value)).getText().toString());
