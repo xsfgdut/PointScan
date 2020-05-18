@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +19,10 @@ import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.base.BaseAct;
 import com.nexwise.pointscan.cloudNet.NetRequest;
 import com.nexwise.pointscan.constant.CloudConstant;
+import com.nexwise.pointscan.constant.DataPool;
+import com.nexwise.pointscan.utils.Share;
+import com.nexwise.pointscan.view.IPEditText;
+import com.nexwise.pointscan.view.ServerConfigDialog;
 
 import org.json.JSONObject;
 
@@ -41,11 +46,23 @@ public class LoginActivity extends BaseAct {
     private String isFirst;
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
+    private TextView serverTextView;
+    private ServerConfigDialog serverConfigDialog;
+    private IPEditText ipEditText;
+    private EditText editText;
+    private String ip;
+    private String port;
+    private String[] ipSource;
+    private String ipAddress;
+    private String[] ipValue;
 
     private void initView() {
         user_name = findViewById(R.id.user_name);
         password = findViewById(R.id.password_tv);
         loginBtn = findViewById(R.id.login);
+        serverTextView = findViewById(R.id.server_set);
+        ipValue = new String[] {"183","3","145","138"};
+        DataPool.setIpValue("http://183.3.145.138:1780/");
     }
 
     @Override
@@ -69,6 +86,52 @@ public class LoginActivity extends BaseAct {
                 doLoginRequest();
             }
         });
+        serverTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showServerConfigDialog();
+            }
+        });
+    }
+    private void showServerConfigDialog() {
+        serverConfigDialog = new ServerConfigDialog(this);
+        serverConfigDialog.setIpPortSource(ipValue,"1780");
+        serverConfigDialog.setOnClickCommitListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ipEditText = serverConfigDialog.findViewById(R.id.ip_edit);
+                editText = serverConfigDialog.findViewById(R.id.port_edit);
+                getIpString();
+                port = editText.getText().toString();
+                ip = ipAddress + ":" + port;
+                Log.d("xsf", ip + "=ip");
+                Share.putString("ip_value",ip,getApplicationContext());
+                DataPool.setIpValue("http://" + ip + "/");
+                serverConfigDialog.dismiss();
+            }
+        });
+        serverConfigDialog.setOnClickCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverConfigDialog.dismiss();
+            }
+        });
+        serverConfigDialog.show();
+    }
+
+    private void getIpString() {
+        ipSource = serverConfigDialog.getIpSource();
+        if (ipSource == null) {
+            showToat("IP错误");
+            return;
+        }
+        if (ipSource.length != 4) {
+            showToat("IP错误");
+            return;
+        }
+        ipAddress = ipSource[0] + "." + ipSource[1] + "." + ipSource[2] + "." + ipSource[3];
+
+        Log.d("xsf", ipAddress + "=ipAddress");
     }
 
     @Override

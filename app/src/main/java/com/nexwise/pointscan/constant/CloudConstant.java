@@ -10,6 +10,7 @@ public interface CloudConstant {
         String Common = "https://alicloud.on-bright.com/consumer/common?";
         String OAUTH = "https://alicloud.on-bright.com/oauth/token";
         String SERVER_IP = "http://192.168.3.234/";
+        String network_IP = "http://183.3.145.138:1780/";
     }
 
 

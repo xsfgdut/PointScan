@@ -83,7 +83,7 @@ public class HorizontalListAdapter extends BaseAdapter {
                 public void onSuccess(Bitmap bitmap) {
                     viewHolder.imageView.setImageBitmap(bitmap);
                 }
-            }).execute(CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
+            }).execute(CloudConstant.Source.network_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
         } else {
             viewHolder.imageView.setImageBitmap(bitmap);
         }

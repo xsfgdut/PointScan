@@ -79,6 +79,7 @@ import com.nexwise.pointscan.bean.Point;
 import com.nexwise.pointscan.bean.ProvinceCodeModel;
 import com.nexwise.pointscan.cloudNet.NetRequest;
 import com.nexwise.pointscan.constant.CloudConstant;
+import com.nexwise.pointscan.constant.DataPool;
 import com.nexwise.pointscan.utils.FileChooseUtil;
 import com.nexwise.pointscan.utils.FileHelper;
 import com.nexwise.pointscan.utils.GCJ2WGS;
@@ -1354,8 +1355,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private void doUpdatePointRequest() {
         Map<String, String> map = new HashMap<>();
         map.put(CloudConstant.ParameterKey.DETAIL, detailJsonStr);
-        String url = CloudConstant.Source.SERVER + "/point/detail/update";
-
+        String url = DataPool.getIpValue() + "survey" + "/point/detail/update";
+        Log.d("xsf","url detail=" + url);
         NetRequest.imageFileRequest(this, url, map, "images", imagesFile, "cells", cellsFile, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
@@ -1686,17 +1687,16 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
 //                    Log.d("xsf", a.size() + "=a ");
                     String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(mImageUri);
                     FileHelper.updateGallery(getApplicationContext(),path);
-                    scanFileAsync(path);
-                    scanDirAsync(path);
+//                    scanFileAsync(path);
+//                    scanDirAsync(path);
                     Log.d("xsf", path + "=path ");
-                    if (imageFile.length() == 0) {
+                    if (imageFile.length() == 0 || path == null) {
                         openAlbum();
                     } else {
                         Image image = new Image();
                         image.setType(1);
                         image.setUrl(path);
                         images.add(image);
-                        setImageAdapter();
                         File file = new File(path);
                         Log.d("xsf", file.getName() + "=file1 name");
                         Log.d("xsf", file.length() + "=file1 ");
@@ -1708,6 +1708,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                         } else {
                             point_l.getImages().add(image);
                         }
+                        setImageAdapter();
                     }
 
                 }

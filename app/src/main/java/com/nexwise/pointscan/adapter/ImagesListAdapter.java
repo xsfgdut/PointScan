@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nexwise.pointscan.R;
 import com.nexwise.pointscan.bean.Image;
 import com.nexwise.pointscan.constant.CloudConstant;
+import com.nexwise.pointscan.constant.DataPool;
 import com.nexwise.pointscan.utils.ImageDownload;
+import com.nexwise.pointscan.utils.Share;
 
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class ImagesListAdapter extends RecyclerView.Adapter<ImagesListAdapter.Vi
                     public void onSuccess(Bitmap bitmap) {
                         holder.imageView.setImageBitmap(bitmap);
                     }
-                }).execute(CloudConstant.Source.SERVER_IP + image.getUrl(), "ChatRecyclerAdapter" + position);
+                }).execute(DataPool.getIpValue() + image.getUrl(), "ChatRecyclerAdapter" + position);
             } else {
                 holder.imageView.setImageBitmap(bitmap);
             }

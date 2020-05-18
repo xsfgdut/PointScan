@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.nexwise.pointscan.constant.CloudConstant;
+import com.nexwise.pointscan.constant.DataPool;
+import com.nexwise.pointscan.utils.Share;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,44 +76,47 @@ public class NetRequest {
     //建立网络框架，获取网络数据，异步post请求（json）
     public static void postJsonRequest(Context context, String action, Map<String, String> params, DataCallBack callBack) {
         String url = "";
+        String IP_VALUE = "http://"+Share.getString("ip_value",context) + "/";
+        Log.d("xsf","ip_value=" + IP_VALUE);
         switch (action) {
             case CloudConstant.CmdValue.CAPTCHA:
-                url = CloudConstant.Source.SERVER + "/captcha";
+                url = DataPool.getIpValue() +"survey" + "/captcha";
                 break;
             case CloudConstant.CmdValue.LOGIN:
-                url = CloudConstant.Source.SERVER + "/account/login";
+                url = DataPool.getIpValue() +"survey" + "/account/login";
                 break;
             case CloudConstant.CmdValue.LOGOUT:
-                url = CloudConstant.Source.SERVER + "/account/logout";
+                url = DataPool.getIpValue() +"survey" + "/account/logout";
                 break;
             case CloudConstant.CmdValue.PWD:
-                url = CloudConstant.Source.SERVER + "/account/pwd";
+                url = DataPool.getIpValue() +"survey" + "/account/pwd";
                 break;
             case CloudConstant.CmdValue.POINT_LIST:
-                url = CloudConstant.Source.SERVER + "/point/list";
+                url = DataPool.getIpValue() +"survey" + "/point/list";
                 break;
             case CloudConstant.CmdValue.DETAIL_INFO:
-                url = CloudConstant.Source.SERVER + "/point/detail/info";
+                url = DataPool.getIpValue() +"survey" + "/point/detail/info";
                 break;
             case CloudConstant.CmdValue.ADD_POINT:
-                url = CloudConstant.Source.SERVER + "/point/add";
+                url = DataPool.getIpValue() +"survey" + "/point/add";
                 break;
             case CloudConstant.CmdValue.UPDATE_INFO:
-                url = CloudConstant.Source.SERVER + "/point/detail/update";
+                url = DataPool.getIpValue() +"survey" + "/point/detail/update";
                 break;
             case CloudConstant.CmdValue.ADD_USER:
-                url = CloudConstant.Source.SERVER + "/manage/user/add";
+                url = DataPool.getIpValue() +"survey" + "/manage/user/add";
                 break;
             case CloudConstant.CmdValue.MODIFY_USER_PWD:
-                url = CloudConstant.Source.SERVER + "/manage/user/pwd";
+                url = DataPool.getIpValue() +"survey" + "/manage/user/pwd";
                 break;
             case CloudConstant.CmdValue.QUERY_USER:
-                url = CloudConstant.Source.SERVER + "/manage/user/list";
+                url = DataPool.getIpValue() +"survey" + "/manage/user/list";
                 break;
             case CloudConstant.CmdValue.MODIFY_USER_INFO:
-                url = CloudConstant.Source.SERVER + "/manage/user/info";
+                url = DataPool.getIpValue() +"survey" + "/manage/user/info";
                 break;
         }
+        Log.d("xsf","url=" + url);
         getInstance().inner_postJsonAsync(context, url, params, callBack);
     }
 
