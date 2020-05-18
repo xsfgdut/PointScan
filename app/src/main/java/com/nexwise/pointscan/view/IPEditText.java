@@ -212,6 +212,7 @@ public class IPEditText extends LinearLayout implements TextWatcher {
         for (int i = 0; i < s.length; i++) {
             data.get(i).setText(s[i]);
         }
+        data.get(s.length -1).requestFocus();//复制后focus聚焦到最后一个
     }
 
     public boolean getSuperCompile() {
