@@ -30,7 +30,6 @@
             ></activity>
         <activity
             android:name=".activity.DialogActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/dialog_style1" />
         <activity
             android:name=".activity.LoginActivity"
