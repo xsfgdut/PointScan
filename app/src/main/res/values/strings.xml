@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PointScan</string>
+    <string name="app_name">堪点系统</string>
     <string name="error_code_9999">系统错误</string>
     <string name="error_code_1001">参数错误</string>
     <string name="error_code_4004">用户未登录</string>
