@@ -70,6 +70,7 @@ public class LoginActivity extends BaseAct {
         Log.d("xsf",default_ip + "=default_ip");
         if (TextUtils.isEmpty(default_ip)) {
             ipValue = new String[] {"183","3","145","138"};
+            port = "1780";
             DataPool.setIpValue("http://183.3.145.138:1780/");
         } else {
             String[] ip_port = default_ip.split(":");
