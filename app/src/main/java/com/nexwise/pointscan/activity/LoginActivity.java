@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -61,14 +62,30 @@ public class LoginActivity extends BaseAct {
         password = findViewById(R.id.password_tv);
         loginBtn = findViewById(R.id.login);
         serverTextView = findViewById(R.id.server_set);
-        ipValue = new String[] {"183","3","145","138"};
-        DataPool.setIpValue("http://183.3.145.138:1780/");
+
+
+    }
+    private void getIPPort() {
+        String default_ip = Share.getString(getApplicationContext(),"ip_value","");
+        Log.d("xsf",default_ip + "=default_ip");
+        if (TextUtils.isEmpty(default_ip)) {
+            ipValue = new String[] {"183","3","145","138"};
+            DataPool.setIpValue("http://183.3.145.138:1780/");
+        } else {
+            String[] ip_port = default_ip.split(":");
+            port = ip_port[1];
+            String ip_string = ip_port[0];
+            Log.d("xsf",ip_string + "=ip_string");
+            ipValue = ip_string.split("\\.");
+            Log.d("xsf",port + "=port");
+            Log.d("xsf",ipValue.length + "=ip_value");
+        }
     }
 
     @Override
     public void onResume() {
-        user_name.setText("test");
-        password.setText("123456");
+//        user_name.setText("test");
+//        password.setText("123456");
         user_name.setSelection(user_name.getText().length());
         password.setSelection(password.getText().length());
         super.onResume();
@@ -94,8 +111,9 @@ public class LoginActivity extends BaseAct {
         });
     }
     private void showServerConfigDialog() {
+        getIPPort();
         serverConfigDialog = new ServerConfigDialog(this);
-        serverConfigDialog.setIpPortSource(ipValue,"1780");
+        serverConfigDialog.setIpPortSource(ipValue,port);
         serverConfigDialog.setOnClickCommitListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +124,7 @@ public class LoginActivity extends BaseAct {
                 ip = ipAddress + ":" + port;
                 Log.d("xsf", ip + "=ip");
                 Share.putString("ip_value",ip,getApplicationContext());
+                Share.putString("port_value",port,getApplicationContext());
                 DataPool.setIpValue("http://" + ip + "/");
                 serverConfigDialog.dismiss();
             }
