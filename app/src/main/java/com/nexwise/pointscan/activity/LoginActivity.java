@@ -2,6 +2,7 @@ package com.nexwise.pointscan.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -62,9 +63,16 @@ public class LoginActivity extends BaseAct {
         password = findViewById(R.id.password_tv);
         loginBtn = findViewById(R.id.login);
         serverTextView = findViewById(R.id.server_set);
-
-
     }
+    private void firstRun() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
+        Boolean first_run = sharedPreferences.getBoolean("First", true);
+        if (first_run) {
+            sharedPreferences.edit().putBoolean("First", false).commit();
+        } else {
+        }
+    }
+
     private void getIPPort() {
         String default_ip = Share.getString(getApplicationContext(),"ip_value","");
         Log.d("xsf",default_ip + "=default_ip");
@@ -80,6 +88,8 @@ public class LoginActivity extends BaseAct {
             ipValue = ip_string.split("\\.");
             Log.d("xsf",port + "=port");
             Log.d("xsf",ipValue.length + "=ip_value");
+            String ip_set = "http://" +ip_string + ":" + port + "/";
+            DataPool.setIpValue(ip_set);
         }
     }
 
@@ -96,6 +106,7 @@ public class LoginActivity extends BaseAct {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getIPPort();
                 if (user_name.getText().toString().equals("") || password.getText().toString().equals("")) {
                     showToat("用户名或者密码为空");
                     return;
