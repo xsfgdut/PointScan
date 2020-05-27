@@ -285,10 +285,17 @@ public class NetRequest {
         Log.d("xsf", GetParameter.COOKIE + "=GetParameter.COOKIE");
         if (GetParameter.COOKIE != null) {
             Map<String, String> cookie = new HashMap<>();
-            cookie.put("JSESSIONID", GetParameter.COOKIE.substring(11));
-            String cookieToJson = new Gson().toJson(cookie);
-            Log.d("xsf", cookieToJson + "=cookieToJson");
-            Log.d("xsf", GetParameter.COOKIE.substring(11) + "=GetParameter.COOKIE11");
+            String[] cookie_array = GetParameter.COOKIE.split("=");
+            if (cookie_array.length > 1) {
+                cookie.put("JSESSIONID", cookie_array[1]);
+                String cookieToJson = new Gson().toJson(cookie);
+                Log.d("xsf", cookieToJson + "=cookieToJson");
+                Log.d("xsf", GetParameter.COOKIE.substring(11) + "=GetParameter.COOKIE11");
+            }
+//            cookie.put("JSESSIONID", GetParameter.COOKIE.substring(11));
+//            String cookieToJson = new Gson().toJson(cookie);
+//            Log.d("xsf", cookieToJson + "=cookieToJson");
+//            Log.d("xsf", GetParameter.COOKIE.substring(11) + "=GetParameter.COOKIE11");
             return new Request.Builder().addHeader("cookie", GetParameter.COOKIE).url(url).post(requestBody).build();
         } else {
             return new Request.Builder().url(url).post(requestBody).build();
