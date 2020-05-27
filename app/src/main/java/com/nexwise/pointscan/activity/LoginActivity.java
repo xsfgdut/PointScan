@@ -75,6 +75,7 @@ public class LoginActivity extends BaseAct {
 
     private void getIPPort() {
         String default_ip = Share.getString(getApplicationContext(),"ip_value","");
+        String ip_set = "";
         Log.d("xsf",default_ip + "=default_ip");
         if (TextUtils.isEmpty(default_ip)) {
             ipValue = new String[] {"183","3","145","138"};
@@ -82,13 +83,21 @@ public class LoginActivity extends BaseAct {
             DataPool.setIpValue("http://183.3.145.138:1780/");
         } else {
             String[] ip_port = default_ip.split(":");
-            port = ip_port[1];
+            if (ip_port.length > 1) {
+                port = ip_port[1];
+            } else {
+                port = "";
+            }
             String ip_string = ip_port[0];
             Log.d("xsf",ip_string + "=ip_string");
             ipValue = ip_string.split("\\.");
             Log.d("xsf",port + "=port");
             Log.d("xsf",ipValue.length + "=ip_value");
-            String ip_set = "http://" +ip_string + ":" + port + "/";
+            if (TextUtils.isEmpty(port)) {
+                ip_set = "http://" +ip_string + "/";
+            } else {
+                ip_set = "http://" +ip_string + ":" + port + "/";
+            }
             DataPool.setIpValue(ip_set);
         }
     }
