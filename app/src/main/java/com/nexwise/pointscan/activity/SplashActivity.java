@@ -2,6 +2,7 @@ package com.nexwise.pointscan.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,6 +66,15 @@ public class SplashActivity extends BaseAct {
         }
 
 
+    }
+
+    private void firstRun() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
+        Boolean first_run = sharedPreferences.getBoolean("First", true);
+        if (first_run) {
+            sharedPreferences.edit().putBoolean("First", false).commit();
+        } else {
+        }
     }
 
     private void setDelayProcess() {

@@ -1508,6 +1508,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 if (code.equals("0000")) {
                     showToat("登出成功");
                     finish();
+                    jumpToLoginActivity();
+
                 }
                 disMissProgressDialog();
                 Log.d("xsf", "log out success====" + result);
@@ -1524,6 +1526,12 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             }
         });
 
+    }
+
+    private void jumpToLoginActivity() {
+        Intent intent = new Intent();
+        intent.setClass(MapActivity.this,LoginActivity.class);
+        startActivity(intent);
     }
 
     /**

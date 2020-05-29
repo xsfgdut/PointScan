@@ -187,6 +187,7 @@ public class LoginActivity extends BaseAct {
         intent.setClass(LoginActivity.this, MapActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);//防止快速点击按钮回造成跳转多次
         startActivity(intent);
+        finish();
     }
 
 
