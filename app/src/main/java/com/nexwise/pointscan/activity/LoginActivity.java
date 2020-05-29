@@ -93,9 +93,6 @@ public class LoginActivity extends BaseAct {
         password.setText(pass_word);
         user_name.setSelection(user_name.getText().length());
         password.setSelection(password.getText().length());
-//        if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pass_word)) {
-//            doLoginRequest();
-//        }
         super.onResume();
     }
 
