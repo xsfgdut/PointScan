@@ -39,11 +39,11 @@ import okhttp3.Request;
 import static com.nexwise.pointscan.utils.StringUtil.md5Decode32;
 
 public class LoginActivity extends BaseAct {
-    private static final int REQUEST_CODE_PERMISSION_LOCATION = 2;
     private EditText user_name;
     private EditText password;
     private Button loginBtn;
     private String userName;
+    private String pass_word;
     private String passwordString;
     private String isFirst;
     // 用来计算返回键的点击间隔时间
@@ -63,14 +63,6 @@ public class LoginActivity extends BaseAct {
         password = findViewById(R.id.password_tv);
         loginBtn = findViewById(R.id.login);
         serverTextView = findViewById(R.id.server_set);
-    }
-    private void firstRun() {
-        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
-        Boolean first_run = sharedPreferences.getBoolean("First", true);
-        if (first_run) {
-            sharedPreferences.edit().putBoolean("First", false).commit();
-        } else {
-        }
     }
 
     private void getIPPort() {
@@ -104,10 +96,15 @@ public class LoginActivity extends BaseAct {
 
     @Override
     public void onResume() {
-//        user_name.setText("test");
-//        password.setText("123456");
+        userName= Share.getString("user_name",getApplicationContext());
+        pass_word = Share.getString("pass_word",getApplicationContext());
+        user_name.setText(userName);
+        password.setText(pass_word);
         user_name.setSelection(user_name.getText().length());
         password.setSelection(password.getText().length());
+//        if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pass_word)) {
+//            doLoginRequest();
+//        }
         super.onResume();
     }
 
@@ -120,7 +117,11 @@ public class LoginActivity extends BaseAct {
                     showToat("用户名或者密码为空");
                     return;
                 }
+                Share.putString("user_name",user_name.getText().toString(),getApplicationContext());
+                Share.putString("pass_word",password.getText().toString(),getApplicationContext());
 //                startIntent();
+                userName = user_name.getText().toString();
+                pass_word = password.getText().toString();
                 doLoginRequest();
             }
         });
@@ -178,7 +179,6 @@ public class LoginActivity extends BaseAct {
     protected void findView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         initView();
-        checkPermissions();
         initListener();
     }
 
@@ -191,8 +191,8 @@ public class LoginActivity extends BaseAct {
 
 
     private void doLoginRequest() {
-        userName = user_name.getText().toString();
-        passwordString = md5Decode32(password.getText().toString());
+//        userName = user_name.getText().toString();
+        passwordString = md5Decode32(pass_word);
         Map<String, String> map = new HashMap<>();
         map.put(CloudConstant.ParameterKey.USER_NAME, userName);
         map.put(CloudConstant.ParameterKey.PWD, passwordString);
@@ -226,57 +226,6 @@ public class LoginActivity extends BaseAct {
                 showToat("网络错误");
             }
         });
-    }
-
-
-    @Override
-    public final void onRequestPermissionsResult(int requestCode,
-                                                 @NonNull String[] permissions,
-                                                 @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CODE_PERMISSION_LOCATION:
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                            onPermissionGranted(permissions[i]);
-                        }
-                    }
-
-                } else {
-
-                    break;
-                }
-        }
-    }
-
-    private void checkPermissions() {
-        String[] permissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-        };
-        List<String> permissionDeniedList = new ArrayList<>();
-        for (String permission : permissions) {
-            int permissionCheck = ContextCompat.checkSelfPermission(this, permission);
-            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                onPermissionGranted(permission);
-            } else {
-                permissionDeniedList.add(permission);
-            }
-        }
-        if (!permissionDeniedList.isEmpty()) {
-            String[] deniedPermissions = permissionDeniedList.toArray(new String[permissionDeniedList.size()]);
-            ActivityCompat.requestPermissions(this, deniedPermissions, REQUEST_CODE_PERMISSION_LOCATION);
-        }
-    }
-
-    private void onPermissionGranted(String permission) {
-        switch (permission) {
-            case Manifest.permission.ACCESS_FINE_LOCATION:
-                break;
-        }
     }
 
 

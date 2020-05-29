@@ -53,6 +53,26 @@
         <!--点击 dialog Activity 周围是否关闭弹窗 true 关闭（默认为true） false 为不关闭-->
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Full" parent="AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+    <style name="AppTheme.Splash" parent="AppTheme.Full">
+        <!--
+        <item name="android:windowBackground">@android:color/transparent</item>
+        -->
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowBackground">@drawable/splash</item>
+
+    </style>
 
 
 </resources>
