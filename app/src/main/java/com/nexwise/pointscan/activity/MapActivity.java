@@ -590,6 +590,7 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
             @Override
             public void onClick(View view) {
                 pointDetailPop.dismiss();
+                doQueryPointListRequest();
             }
         });
         pointDetailPop.show();
@@ -1738,6 +1739,13 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     Log.d("xsf", file.length() + "=file ");
                     if (file.length() == 0) {
                         showToat("文件大小为0，请检查");
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                openAlbum();
+                            }
+                        },1000);
+
                     } else {
                         Image image = new Image();
                         image.setType(1);
