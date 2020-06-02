@@ -272,6 +272,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                     if (users.size() > 0) {
                         users.clear();
                     }
+                    showToat("查询成功");
                     int total = dataJson.getInt("totalCount");
                     Log.d("xsf", "total====" + total);
                     JSONArray jsonArray = dataJson.getJSONArray("users");
@@ -313,6 +314,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                 JSONObject response = dataJson.getJSONObject("result");
                 String code = response.getString("code");
                 if (code.equals("0000")) {
+                    showToat("新增成功");
                     doQueryUserRequest();
                 }
             }
@@ -345,6 +347,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                 JSONObject response = dataJson.getJSONObject("result");
                 String code = response.getString("code");
                 if (code.equals("0000")) {
+                    showToat("修改成功");
                     doQueryUserRequest();
                 }
             }
@@ -374,6 +377,7 @@ public class UserManageActivity extends BaseAct implements RefreshSwipeMenuListV
                 JSONObject response = dataJson.getJSONObject("result");
                 String code = response.getString("code");
                 if (code.equals("0000")) {
+                    showToat("修改密码成功");
                     doQueryUserRequest();
                 }
             }

@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class ImageDownload {
+public class ImageFullDownload {
     public static final class CacheHelper {
         public static LruCache<String, Bitmap> sLruCache;
 
@@ -44,11 +44,9 @@ public class ImageDownload {
                 URLConnection connection = url1.openConnection();
                 stream = new BufferedInputStream(connection.getInputStream());
                 bitmap = BitmapFactory.decodeStream(stream);
-                newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 180,
-                        180);
-                if (bitmap != null) {
-                    bitmap.recycle();
-                }
+//                newBitmap = ThumbnailUtils.extractThumbnail(bitmap, 180,
+//                        180);
+//                bitmap.recycle();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -63,7 +61,7 @@ public class ImageDownload {
                     }
                 }
             }
-            return newBitmap;
+            return bitmap;
         }
 
         @Override

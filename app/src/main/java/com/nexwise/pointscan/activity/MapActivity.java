@@ -3,14 +3,11 @@ package com.nexwise.pointscan.activity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -85,20 +82,20 @@ import com.nexwise.pointscan.utils.FileHelper;
 import com.nexwise.pointscan.utils.GCJ2WGS;
 import com.nexwise.pointscan.utils.GetJsonDataUtil;
 import com.nexwise.pointscan.utils.HorizontalItemDecoration;
-import com.nexwise.pointscan.utils.SingleMediaScanner;
+import com.nexwise.pointscan.utils.ImageFullDownload;
 import com.nexwise.pointscan.view.AddDeviceDialog;
 import com.nexwise.pointscan.view.AddPointDialog;
 import com.nexwise.pointscan.view.IPEditText;
 import com.nexwise.pointscan.view.MarkerPop;
 import com.nexwise.pointscan.view.ModifyPswDialog;
 import com.nexwise.pointscan.view.PointDetailPop;
-import com.zhihu.matisse.Matisse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,6 +119,8 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
     private static final int CHOOSE_FILE = 285;
     private static final int CITY_SELECT = 286;
     private static final String FILE_PROVIDER_AUTHORITY = "com.nexwise.pointscan.fileprovider";
+    public static final String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory().getAbsolutePath() : "/mnt/sdcard";//保存到SD卡
+
     private static boolean isLoaded = false;
     LocationManager locationManager;
     Location location;
@@ -548,6 +547,11 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                 Log.d("xsf", detailJsonStr + "=detailJsonStr");
 
                 Log.d("xsf", imagesFile.size() + "files size");
+                for(int i = 0;i< imagesFile.size();i++) {
+                    Log.d("xsf", imagesFile.get(i).length() + "files length");
+                    Log.d("xsf", imagesFile.get(i).getName() + "files name");
+                    Log.d("xsf", imagesFile.get(i).getAbsolutePath() + "files path");
+                }
                 doUpdatePointRequest();
                 showProgressDialog("", "正在请求服务器", true);
                 pointDetailPop.dismiss();
@@ -1259,6 +1263,61 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
         Log.d("xsf", districtName + "=district");
     }
 
+    private void saveImg(String url) {
+        Log.d("xsf",DataPool.getIpValue() + "= ip value");
+        Log.d("xsf",url + "= url");
+        new ImageFullDownload.ImageTask(new ImageFullDownload.ImageTask.Listener() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                saveToSystemGallery(bitmap);
+            }
+        }).execute(DataPool.getIpValue() + url, "ChatRecyclerAdapter");
+    }
+
+    private void saveToSystemGallery(Bitmap bmp) {
+        if (bmp == null) {
+            return;
+        }
+        // 首先保存图片
+        File fileDir = createImageFile();
+        if (!fileDir.exists()) {
+            fileDir.mkdir();
+        }
+//        String fileName = System.currentTimeMillis() + ".jpg";
+//        File file = new File(fileDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(fileDir);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(getContentResolver(),
+                    fileDir.getAbsolutePath(), fileDir.getName(), null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        //sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(fileDir);
+        intent.setData(uri);
+        sendBroadcast(intent);
+        imagesFile.add(fileDir);
+        Log.d("xsf",imagesFile.size() + "=imagesFile");
+        Log.d("xsf",fileDir.length()+"=file length");
+        Log.d("xsf",fileDir.getName()+"=file name");
+        Log.d("xsf",fileDir.getAbsolutePath()+"=file path");
+        //图片保存成功，图片路径：
+        Toast.makeText(this,
+                "图片保存路径：" + fileDir.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+    }
+
     private void doAddPointRequest() {
         Map<String, String> map = new HashMap<>();
         map.put(CloudConstant.ParameterKey.ID, String.valueOf(id));
@@ -1451,6 +1510,19 @@ public class MapActivity extends BaseAct implements LocationSource, AMapLocation
                     pointDetailPop.setvalue(point_l);
                     setImageAdapter();
                     setDeviceAdapter();
+//                    if (point_l.getImages() != null) {//将服务器请求下来的图片继续上传
+//                        for (int i = 0; i < point_l.getImages().size(); i++) {
+//                            Image image = new Image();
+//                            image.setType(1);
+//                            image.setUrl(point_l.getImages().get(i).getUrl());
+//                            images.add(image);
+//                            saveImg(point_l.getImages().get(i).getUrl());
+////                            File file = new File(path);
+////                            Log.d("xsf", file.getName() + "=file1 name");
+////                            Log.d("xsf", file.length() + "=file1 ");
+////                            imagesFile.add(file);
+//                        }
+//                    }
 
                 }
             }
