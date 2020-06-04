@@ -19,4 +19,5 @@
     <color name="text_color">#615547</color>
     <color name="status_color">#b6b6b6</color>
     <color name="black">#000000</color>
+    <color name="gray_color">#333333</color>
 </resources>
