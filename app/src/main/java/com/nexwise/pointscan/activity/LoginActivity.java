@@ -111,6 +111,7 @@ public class LoginActivity extends BaseAct {
                 userName = user_name.getText().toString();
                 pass_word = password.getText().toString();
                 doLoginRequest();
+                showProgressDialog("","正在登录",false);
             }
         });
         serverTextView.setOnClickListener(new View.OnClickListener() {
@@ -208,11 +209,13 @@ public class LoginActivity extends BaseAct {
             @Override
             public void requestFailure(Request request, IOException e) {
                 showToat(e.getMessage());
+                disMissProgressDialog();
             }
 
             @Override
             public void requestNetWorkError() {
                 showToat("网络错误");
+                disMissProgressDialog();
             }
         });
     }
