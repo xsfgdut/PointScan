@@ -39,7 +39,7 @@ public class LoginActivity extends BaseAct {
     private String isFirst;
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
-    private TextView serverTextView;
+    private Button serverTextView;
     private ServerConfigDialog serverConfigDialog;
     private IPEditText ipEditText;
     private EditText editText;
